@@ -1,0 +1,30 @@
+Package: aspectImportance
+Title: Instance-level
+explainer for the groups of features
+Version: 0.1.0
+Authors@R:
+    c(person("Katarzyna", "Pekala", role = c("aut", "cre")),
+      person("Przemyslaw", "Biecek", role = c("aut"), 
+             comment = c(ORCID = "0000-0001-8423-1823")))
+Description: Aspect importance’s aim is to increase the interpretability of the 
+    black box model by providing instance-level explainer for the groups of 
+    explanatory variables. It enables grouping predictors into entities called 
+    aspects. Afterwards, it can calculate the contribution of those aspects to 
+    the prediction.
+Depends: R (>= 3.5)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+Imports: 
+  ggplot2,
+  glmnet,
+  ggdendro,
+  gridExtra
+Suggests:
+  DALEX (>= 1.0),
+  testthat,
+  randomForest
+URL: https://github.com/kasiapekala/aspectImportance
+BugReports: https://github.com/kasiapekala/aspectImportance/issues
+VignetteBuilder: knitr
