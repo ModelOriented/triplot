@@ -227,6 +227,7 @@ aspect_importance.default <- function(x, data, predict_function = predict,
 #'                   aspects = aspects))
 #'
 #' @import ggplot2
+#' @importFrom DALEX theme_drwhy_vertical
 #'
 #' @export
 
@@ -464,6 +465,7 @@ get_sample <- function(n, p, sample_method = c("default", "binom"), f = 2) {
 #'
 #' @importFrom stats hclust
 #' @importFrom stats cor
+#' @importFrom graphics plot
 #'
 #' @examples
 #' library("DALEX")
@@ -512,6 +514,7 @@ group_variables <- function(x, p = 0.5, clust_method = "complete",
 #' @importFrom ggdendro segment
 #' @importFrom ggdendro label
 #' @importFrom ggplot2 .pt
+#' @importFrom DALEX theme_drwhy
 #'
 #' @examples
 #' library("DALEX")
@@ -634,6 +637,7 @@ custom_tree_cutting <- function(x, h) {
 #' @importFrom ggdendro dendro_data
 #' @importFrom ggdendro segment
 #' @importFrom ggdendro label
+#' @importFrom DALEX theme_drwhy
 #'
 #' @examples
 #' library(DALEX)
@@ -825,6 +829,7 @@ plot_aspects_importance_grouping <- function(x, data,
 #' @import stats
 #' @import ggplot2
 #' @importFrom gridExtra grid.arrange
+#' @importFrom graphics plot
 #'
 #' @examples
 #' library(DALEX)

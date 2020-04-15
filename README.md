@@ -16,12 +16,11 @@ The `aspectImportance` package is a part of [DrWhy.AI](http://DrWhy.AI) universe
 
 ## Installation
 
-```{r}
+```r
 # the easiest way to get aspectImportance is to install it from CRAN:
 install.packages("aspectImportance")
 
 # Or the the development version from GitHub:
-# install.packages("devtools")
 devtools::install_github(".../ingredients")
 ```
 

@@ -1,3 +1,5 @@
+library(DALEX)
+
 # titanic
 titanic_data <- titanic_imputed
 
