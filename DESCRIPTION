@@ -1,6 +1,5 @@
 Package: aspectImportance
-Title: Instance-level
-explainer for the groups of features
+Title: Instance-level explainer for the groups of features
 Version: 0.1.0
 Authors@R:
     c(person("Katarzyna", "Pekala", role = c("aut", "cre")),
