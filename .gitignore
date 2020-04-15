@@ -3,3 +3,8 @@
 .RData
 .Ruserdata
 aspectImportance.Rproj
+doc
+vignettes/*.html
+vignettes/*.R
+vignettes/*.md
+

@@ -7,8 +7,7 @@ vignette: >
   %\VignetteIndexEntry{Aspect importance function examples}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
+
 ---
 
 ```{r setup, include = FALSE}
