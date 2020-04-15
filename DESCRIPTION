@@ -23,9 +23,10 @@ Imports:
   gridExtra,
   ingredients
 Suggests:
-  testthat,
-  knitr,
-  randomForest
+    testthat,
+    knitr,
+    randomForest,
+    covr
 URL: https://github.com/kasiapekala/aspectImportance
 BugReports: https://github.com/kasiapekala/aspectImportance/issues
 VignetteBuilder: knitr

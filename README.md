@@ -1,8 +1,12 @@
-  <!-- badges: start -->
-  [![Travis build status](https://travis-ci.com/kasiapekala/aspectImportance.svg?branch=master)](https://travis-ci.com/kasiapekala/aspectImportance)
-  <!-- badges: end -->
+<!-- badges: start -->
+[![Travis build status](https://travis-ci.com/kasiapekala/aspectImportance.svg?branch=master)](https://travis-ci.com/kasiapekala/aspectImportance)
+<!-- badges: end -->
+
+<!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/kasiapekala/aspectImportance/branch/master/graph/badge.svg)](https://codecov.io/gh/kasiapekala/aspectImportance?branch=master)
+<!-- badges: end -->
   
-  # Aspect Importance
+# Aspect Importance
 
 ## Overview
 
