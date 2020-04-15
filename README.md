@@ -1,4 +1,8 @@
-# Aspect Importance
+  <!-- badges: start -->
+  [![Travis build status](https://travis-ci.com/kasiapekala/aspectImportance.svg?branch=master)](https://travis-ci.com/kasiapekala/aspectImportance)
+  <!-- badges: end -->
+  
+  # Aspect Importance
 
 ## Overview
 
