@@ -26,6 +26,7 @@ Suggests:
     testthat,
     knitr,
     randomForest,
+    mlbench,
     covr
 URL: https://github.com/kasiapekala/aspectImportance
 BugReports: https://github.com/kasiapekala/aspectImportance/issues

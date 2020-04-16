@@ -105,7 +105,7 @@ aspect_importance(explain_titanic_glm,
                   new_observation = titanic_imputed[1,],
                   aspects = aspects)
 
-\donttest{
+\dontrun{
 library("randomForest")
 model_titanic_rf <- randomForest(survived ~ class + gender + age + sibsp +
                                  parch + fare + embarked,
