@@ -93,7 +93,8 @@ triplot.default <- function(x, data, predict_function = predict, new_observation
 
   stopifnot(all(sapply(data, is.numeric)))
 
-  # Build plot 2
+# Build second plot -------------------------------------------------------
+  browser()
   p2 <- plot_aspects_importance_grouping(x, data, predict_function,
                                          new_observation, N, clust_method,
                                          absolute_value,
@@ -102,10 +103,11 @@ triplot.default <- function(x, data, predict_function = predict, new_observation
                                          axis_lab_size = axis_lab_size,
                                          text_size = text_size)
   p2$labels$y <- "Hierarchical aspect importance"
-
   p2 <- p2 + theme(axis.title = element_text(size = axis_lab_size))
 
-  # Build plot 3
+
+# Build third plot -------------------------------------------------------
+
   x_hc <- hclust(as.dist(1 - abs(cor(data, method = "spearman"))),
                  method = clust_method)
   p3 <- plot_group_variables(x_hc, 0, show_labels = show_axis_y_duplicated_labels,
@@ -113,7 +115,9 @@ triplot.default <- function(x, data, predict_function = predict, new_observation
                              axis_lab_size = axis_lab_size)
   p3 <- p3 + theme(axis.title = element_text(size = axis_lab_size))
 
-  # Build plot 1
+
+# Build first plot --------------------------------------------------------
+
   aspect_importance_leaves <- aspect_importance_single(x, data,
                                                        predict_function,
                                                        new_observation, N,
@@ -195,7 +199,8 @@ plot_aspects_importance_grouping <- function(x, data,
                                              axis_lab_size = 10,
                                              text_size = 3) {
 
-  #building additional objects
+# Building helper objects ---------------------------------------------
+
   y <- xend <- yend <- yend_val <- NULL
 
   aspect_importance_leaves <- aspect_importance_single(x, data,
@@ -207,7 +212,9 @@ plot_aspects_importance_grouping <- function(x, data,
   aspects_list_previous <-  custom_tree_cutting(x_hc, 1)
   int_node_importance <- as.data.frame(NULL)
 
-  #calculating aspect importance
+
+# Calculating aspect importance -------------------------------------------
+
   for (i in c(1:(length(cutting_heights) - 1))) {
 
     aspects_list_current <- custom_tree_cutting(x_hc, 1 - cutting_heights[i])
@@ -231,10 +238,16 @@ plot_aspects_importance_grouping <- function(x, data,
 
   int_node_importance[length(cutting_heights), 1] <- NA
 
-  #inserting importance values into x_hc tree
+
+# Inserting importance values into x_hc tree ------------------------------
+
   x_hc$height <- int_node_importance$V1
 
-  #modifing importance if cumulative_max/absolute_value are true
+
+# Modifing importance -----------------------------------------------------
+
+  #if cumulative_max/absolute_value are true
+
   if (cumulative_max == TRUE) {
     for (i in seq_along(x_hc$height)) {
       if (x_hc$merge[i, 1] < 0) {
@@ -258,30 +271,42 @@ plot_aspects_importance_grouping <- function(x, data,
       }
     }}
 
-  #buidling dendogram
+
+# Building dendogram ------------------------------------------------------
+
   dend_mod <- NULL
   dend_mod <- as.dendrogram(x_hc, hang = -1)
   ddata <- dendro_data(dend_mod, type = "rectangle")
 
-  #preparing labels for aspect_importance values
+
+
+# Preparing labels --------------------------------------------------------
+
   ai_labels <-  na.omit(segment(ddata))
   ai_labels <- ai_labels[ai_labels$yend != 0, ]
   ai_labels$yend_val <- ai_labels$yend
 
-  #removing values of aspect_importance for single aspects
+
+# Removing values of aspect_importance for single aspects -----------------
+
   cc_vector <- !complete.cases(ddata$segments)
   ddata$segments[cc_vector, ] <- 1
   ddata$segments[min(which(cc_vector == TRUE)), c(1, 3)] <- min(ddata$labels$x)
   ddata$segments[min(which(cc_vector == TRUE)) + 1, c(1, 3)] <- max(ddata$labels$x)
 
-  #modifing importance if absolute_value is true
+# Modifing importance -----------------------------------------------------
+
+  #if absolute_value is true
+
   if (absolute_value == TRUE) {
     ddata$segments$y <- abs(ddata$segments$y)
     ddata$segments$yend <- abs(ddata$segments$yend)
     ai_labels$yend_val <- abs(ai_labels$yend)
   }
 
-  #adding new observation values to labels
+
+# Adding new observation values to labels ---------------------------------
+
   ddata$labels[, 3] <- as.character(ddata$labels[, 3])
   for (i in seq_along(ddata$labels[, 3])) {
     ddata$labels[i, 3] <- paste0(ddata$labels[i, 3], " = ",
@@ -289,11 +314,15 @@ plot_aspects_importance_grouping <- function(x, data,
                                        digits = 2))
   }
 
-  #moving labels
+
+# Moving labels -----------------------------------------------------------
+
   nudge_value <- ifelse(min(ddata$segments$yend) == 0, -0.2,
                         min(ddata$segments$yend) * 1.35)
 
-  #building plot
+
+# Building plot -----------------------------------------------------------
+
   p <- ggplot(segment(ddata)) +
     geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
     geom_text(data = ai_labels, aes(x = x, y = yend_val,

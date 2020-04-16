@@ -7,8 +7,6 @@ vignette: >
   %\VignetteIndexEntry{Description of aspect importance method}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -89,7 +87,7 @@ library(aspectImportance)
 library(mlbench)
 library(randomForest)
 set.seed(123)
-data("BostonHousing2")
+data("BostonHousing2")   
 Boston <- BostonHousing2[,-c(1:5, 10)]
 Boston_no_target <- BostonHousing2[,-c(1:6, 10)]
 new_observation <- Boston_no_target[4,]
