@@ -94,7 +94,7 @@ triplot.default <- function(x, data, predict_function = predict, new_observation
   stopifnot(all(sapply(data, is.numeric)))
 
 # Build second plot -------------------------------------------------------
-  browser()
+
   p2 <- plot_aspects_importance_grouping(x, data, predict_function,
                                          new_observation, N, clust_method,
                                          absolute_value,
