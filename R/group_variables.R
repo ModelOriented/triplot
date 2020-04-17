@@ -85,8 +85,12 @@ plot_group_variables <- function(x, p, show_labels = TRUE, draw_abline = TRUE,
   ddata <- dendro_data(dhc, type = "rectangle")
 
   #get correlation values
-  xy <- ddata$segments[ddata$segments$x == ddata$segments$xend, ][, c(1, 4)]
-  xy <- xy[xy$yend != 0, ]
+  xy_horizontal <- ddata$segments[ddata$segments$x == ddata$segments$xend, ]
+  additional_x <- mean(xy_horizontal[xy_horizontal$y == max(xy_horizontal$y), ]$x)
+  additional_y <- max(xy_horizontal$y)
+  last_cor_value <- data.frame("x" = additional_x, "yend" = additional_y)
+  xy <- xy_horizontal[xy_horizontal$yend != 0, ][, c(1, 4)]
+  xy <- rbind(xy, last_cor_value)
   xy <- cbind(xy, 1 - xy[, 2])
   colnames(xy) <- c("x", "y", "h")
 
