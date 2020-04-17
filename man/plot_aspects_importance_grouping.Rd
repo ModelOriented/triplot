@@ -7,8 +7,9 @@
 plot_aspects_importance_grouping(
   x,
   data,
+  y = NULL,
   predict_function = predict,
-  new_observation,
+  new_observation = NULL,
   N = 100,
   clust_method = "complete",
   absolute_value = FALSE,
@@ -22,6 +23,8 @@ plot_aspects_importance_grouping(
 \item{x}{a model to be explained}
 
 \item{data}{dataset, should be without target variable}
+
+\item{y}{true labels for \code{data}, will be extracted from \code{x} if it's an explainer}
 
 \item{predict_function}{predict function}
 

@@ -10,7 +10,7 @@ triplot(x, ...)
 
 \method{triplot}{explainer}(
   x,
-  new_observation,
+  new_observation = NULL,
   N = 500,
   clust_method = "complete",
   absolute_value = FALSE,
@@ -25,8 +25,9 @@ triplot(x, ...)
 \method{triplot}{default}(
   x,
   data,
+  y = NULL,
   predict_function = predict,
-  new_observation,
+  new_observation = NULL,
   N = 500,
   clust_method = "complete",
   absolute_value = FALSE,
@@ -73,6 +74,8 @@ correlations}
 \item{data}{dataset, it will be extracted from \code{x} if it's an explainer
 NOTE: Target variable shouldn't be present in the \code{data}}
 
+\item{y}{true labels for \code{data}, will be extracted from \code{x} if it's an explainer}
+
 \item{predict_function}{predict function, it will be extracted from \code{x}
 if it's an explainer}
 
@@ -95,6 +98,11 @@ triplot(x = apartments_num_lm_model,
   data = apartments_num_mod,
   new_observation = apartments_num_new_observation,
   add_importance_labels = FALSE)
+
+triplot(x = apartments_num_lm_model,
+  data = apartments_num_mod,
+  y = apartments_num[,1],
+  show_axis_y_duplicated_labels = TRUE)
 
 
 }

@@ -9,6 +9,7 @@
 #' or a model to be explained.
 #' @param data dataset, it will be extracted from \code{x} if it's an explainer
 #' NOTE: Target variable shouldn't be present in the \code{data}
+#' @param y true labels for \code{data}, will be extracted from \code{x} if it's an explainer
 #' @param predict_function predict function, it will be extracted from \code{x}
 #'   if it's an explainer
 #' @param new_observation selected observation with columns that corresponds to
@@ -35,6 +36,7 @@
 #' @import ggplot2
 #' @importFrom gridExtra grid.arrange
 #' @importFrom graphics plot
+#' @importFrom ingredients feature_importance
 #'
 #' @examples
 #' library(DALEX)
@@ -47,6 +49,11 @@
 #'   new_observation = apartments_num_new_observation,
 #'   add_importance_labels = FALSE)
 #'
+#' triplot(x = apartments_num_lm_model,
+#'   data = apartments_num_mod,
+#'   y = apartments_num[,1],
+#'   show_axis_y_duplicated_labels = TRUE)
+#'
 #'
 #' @export
 
@@ -56,7 +63,7 @@ triplot <- function(x, ...)
 #' @export
 #' @rdname triplot
 
-triplot.explainer <- function(x, new_observation, N = 500,
+triplot.explainer <- function(x, new_observation = NULL, N = 500,
                               clust_method = "complete",
                               absolute_value = FALSE, cumulative_max = FALSE,
                               add_importance_labels = TRUE,
@@ -70,8 +77,14 @@ triplot.explainer <- function(x, new_observation, N = 500,
   model <- x$model
   predict_function <- x$predict_function
 
+  if (is.null(new_observation)) {
+    y = x$y
+  } else {
+    y = NULL
+  }
+
   # calls target function
-  triplot.default(model, data, predict_function, new_observation, N,
+  triplot.default(model, data, y, predict_function, new_observation, N,
                   clust_method, absolute_value = FALSE, cumulative_max = FALSE,
                   add_importance_labels, show_axis_y_duplicated_labels,
                   axis_lab_size = axis_lab_size, text_size = text_size)
@@ -81,7 +94,8 @@ triplot.explainer <- function(x, new_observation, N = 500,
 #' @rdname triplot
 
 
-triplot.default <- function(x, data, predict_function = predict, new_observation,
+triplot.default <- function(x, data, y = NULL, predict_function = predict,
+                            new_observation = NULL,
                             N = 500, clust_method = "complete",
                             absolute_value = FALSE, cumulative_max = FALSE,
                             add_importance_labels = TRUE,
@@ -95,16 +109,24 @@ triplot.default <- function(x, data, predict_function = predict, new_observation
 
 # Build second plot -------------------------------------------------------
 
-  p2 <- plot_aspects_importance_grouping(x, data, predict_function,
+
+  p2 <- plot_aspects_importance_grouping(x, data, y, predict_function,
                                          new_observation, N, clust_method,
                                          absolute_value,
                                          cumulative_max,
                                          show_labels = show_axis_y_duplicated_labels,
                                          axis_lab_size = axis_lab_size,
                                          text_size = text_size)
-  p2$labels$y <- "Hierarchical aspect importance"
+
+  if (is.null(new_observation)) {
+    p2$labels$y <- "Hierarchical feature importance"
+  } else {
+    p2$labels$y <- "Hierarchical aspect importance"
+  }
+
   p2 <- p2 + theme(axis.title = element_text(size = axis_lab_size))
 
+  p2
 
 # Build third plot -------------------------------------------------------
 
@@ -115,33 +137,59 @@ triplot.default <- function(x, data, predict_function = predict, new_observation
                              axis_lab_size = axis_lab_size)
   p3 <- p3 + theme(axis.title = element_text(size = axis_lab_size))
 
-
 # Build first plot --------------------------------------------------------
 
-  aspect_importance_leaves <- aspect_importance_single(x, data,
-                                                       predict_function,
-                                                       new_observation, N,
-                                                       label = "")
-  p1 <- plot(aspect_importance_leaves, add_importance = add_importance_labels,
-             text_size = text_size)
-  p1$labels$y <- "Single aspects importance"
-  if (abbrev_labels > 0) {
-    p1$data$`new observation` <- abbreviate(p1$data$`new observation`,
-                                            minlength = abbrev_labels)
-  }
-  order_mod <- attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
-  order_mod <-  match(order_mod, p1$data$aspects)
-  lev_mod <- p1$data$`new observation`[order_mod]
-  p1$data$`new observation` <- factor(p1$data$`new observation`,
-                                      levels = lev_mod)
-  p1$data$aspects <- p1$data$`new observation`
-  p1 <- p1 + theme(axis.text = element_text(size = axis_lab_size),
-                   axis.title = element_text(size = axis_lab_size)) +
-    scale_x_discrete(expand = expand_scale(mult = .01))
+  if (is.null(new_observation)) {
+    importance_leaves <- feature_importance(x = x, data = data, y = y)
+    p1 <- plot(importance_leaves, show_boxplots = FALSE, subtitle = "",
+               title = "")
+    p1$theme$text$size <- text_size
 
-  # Plot
+    p1$labels$y <- "Feature importance"
+    p1 <- p1 + theme(axis.text = element_text(size = axis_lab_size),
+                     axis.title = element_text(size = axis_lab_size),
+                     strip.background = element_blank(),
+                     strip.text.x = element_blank(),
+                     panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(),
+                     plot.title = element_blank()) +
+      scale_x_discrete(expand = expand_scale(mult = .01))
+
+    order_mod <- attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
+    order_mod <-  match(order_mod, p1$data$variable)
+    lev_mod <- p1$data$variable[order_mod]
+    p1$data$variable <- factor(p1$data$variable,
+                                     levels = lev_mod)
+    } else {
+
+    importance_leaves <- aspect_importance_single(x, data,
+                                                         predict_function,
+                                                         new_observation, N,
+                                                         label = "")
+    p1 <- plot(importance_leaves, add_importance = add_importance_labels,
+               text_size = text_size)
+    p1$labels$y <- "Single aspects importance"
+    if (abbrev_labels > 0) {
+      p1$data$`new observation` <- abbreviate(p1$data$`new observation`,
+                                              minlength = abbrev_labels)
+    }
+
+    order_mod <- attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
+    order_mod <-  match(order_mod, p1$data$aspects)
+    lev_mod <- p1$data$`new observation`[order_mod]
+    p1$data$`new observation` <- factor(p1$data$`new observation`,
+                                        levels = lev_mod)
+    p1$data$aspects <- p1$data$`new observation`
+    p1 <- p1 + theme(axis.text = element_text(size = axis_lab_size),
+                     axis.title = element_text(size = axis_lab_size)) +
+      scale_x_discrete(expand = expand_scale(mult = .01))
+  }
+
+
+  # # Plot
   plot_list <- list(p1, p2, p3)
   do.call("grid.arrange", c(plot_list, nrow = 1, top = "Triplot"))
+
 
 }
 
@@ -152,6 +200,7 @@ triplot.default <- function(x, data, predict_function = predict, new_observation
 #'
 #' @param x a model to be explained
 #' @param data dataset, should be without target variable
+#' @param y true labels for \code{data}, will be extracted from \code{x} if it's an explainer
 #' @param predict_function predict function
 #' @param new_observation selected observation with columns that corresponds to
 #'   variables used in the model, should be without target variable
@@ -174,6 +223,7 @@ triplot.default <- function(x, data, predict_function = predict, new_observation
 #' @importFrom ggdendro segment
 #' @importFrom ggdendro label
 #' @importFrom DALEX theme_drwhy
+#' @importFrom ingredients feature_importance
 #'
 #' @examples
 #' library(DALEX)
@@ -189,9 +239,9 @@ triplot.default <- function(x, data, predict_function = predict, new_observation
 #'
 
 
-plot_aspects_importance_grouping <- function(x, data,
+plot_aspects_importance_grouping <- function(x, data, y = NULL,
                                              predict_function = predict,
-                                             new_observation, N = 100,
+                                             new_observation = NULL, N = 100,
                                              clust_method = "complete",
                                              absolute_value = FALSE,
                                              cumulative_max = FALSE,
@@ -201,11 +251,17 @@ plot_aspects_importance_grouping <- function(x, data,
 
 # Building helper objects ---------------------------------------------
 
+  predicted <- y
   y <- xend <- yend <- yend_val <- NULL
 
-  aspect_importance_leaves <- aspect_importance_single(x, data,
-                                                       predict_function,
-                                                       new_observation, N)
+  if (is.null(new_observation)) {
+    importance_leaves <- feature_importance(x = x, data = data, y = predicted)
+    } else {
+      importance_leaves <- aspect_importance_single(x, data,
+                                                  predict_function,
+                                                  new_observation, N)
+  }
+
   x_hc <- hclust(as.dist(1 - abs(cor(data, method = "spearman"))),
                  method = clust_method)
   cutting_heights <- x_hc$height
@@ -225,12 +281,21 @@ plot_aspects_importance_grouping <- function(x, data,
     t3 <- aspects_list_current[t2]
     group_name <- names(t3)
 
-    res_ai <- aspect_importance(x = x, data = data,
-                                predict_function = predict_function,
-                                new_observation = new_observation,
-                                aspects = aspects_list_current, N = N)
+    if (is.null(new_observation)) {
+      res_ai <- feature_importance(x = x, data = data, y = predicted,
+                       variable_groups = aspects_list_current)
+      res_ai <- res_ai[!(substr(res_ai$variable,1,1) == "_"),]
+      res_ai <- res_ai[res_ai$permutation == "0", ]
 
-    int_node_importance[i, 1] <- res_ai[res_ai$aspects == group_name, ]$importance
+      int_node_importance[i, 1] <- res_ai[res_ai$variable == group_name, ]$dropout_loss
+    } else {
+      res_ai <- aspect_importance(x = x, data = data,
+                                  predict_function = predict_function,
+                                  new_observation = new_observation,
+                                  aspects = aspects_list_current, N = N)
+      int_node_importance[i, 1] <- res_ai[res_ai$aspects == group_name, ]$importance
+    }
+
     int_node_importance[i, 2] <- group_name
     int_node_importance[i, 3] <- cutting_heights[i]
     aspects_list_previous <- aspects_list_current
@@ -251,14 +316,14 @@ plot_aspects_importance_grouping <- function(x, data,
   if (cumulative_max == TRUE) {
     for (i in seq_along(x_hc$height)) {
       if (x_hc$merge[i, 1] < 0) {
-        a1 <- aspect_importance_leaves[
-          aspect_importance_leaves[, 1] == x_hc$labels[-x_hc$merge[i, 1]], ]$importance
+        a1 <- importance_leaves[
+          importance_leaves[, 1] == x_hc$labels[-x_hc$merge[i, 1]], ]$importance
       } else {
         a1 <- x_hc$height[x_hc$merge[i, 1]]
       }
       if (x_hc$merge[i, 2] < 0) {
-        a2 <- aspect_importance_leaves[
-          aspect_importance_leaves[, 1] == x_hc$labels[-x_hc$merge[i, 2]], ]$importance
+        a2 <- importance_leaves[
+          importance_leaves[, 1] == x_hc$labels[-x_hc$merge[i, 2]], ]$importance
       } else {
         a2 <- x_hc$height[x_hc$merge[i, 2]]
       }
@@ -307,11 +372,13 @@ plot_aspects_importance_grouping <- function(x, data,
 
 # Adding new observation values to labels ---------------------------------
 
-  ddata$labels[, 3] <- as.character(ddata$labels[, 3])
-  for (i in seq_along(ddata$labels[, 3])) {
-    ddata$labels[i, 3] <- paste0(ddata$labels[i, 3], " = ",
+  if (!is.null(new_observation)) {
+    ddata$labels[, 3] <- as.character(ddata$labels[, 3])
+    for (i in seq_along(ddata$labels[, 3])) {
+      ddata$labels[i, 3] <- paste0(ddata$labels[i, 3], " = ",
                                  round(new_observation[ddata$labels[i, 3]],
                                        digits = 2))
+    }
   }
 
 

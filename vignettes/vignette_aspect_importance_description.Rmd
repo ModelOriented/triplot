@@ -172,10 +172,10 @@ It should be noted that similarly to `group_variables()`, `triplot()` works for 
 
 ```{r triplot}
 triplot(Boston_lm, Boston_no_target, predict_function = predict, 
-        new_observation, N = 10000, add_importance_labels = TRUE, 
+        new_observation = new_observation, N = 10000, add_importance_labels = TRUE, 
         axis_lab_size = 8, text_size = 3)
 triplot(Boston_rf, Boston_no_target, predict_function = predict, 
-        new_observation, N = 10000, add_importance_labels = TRUE, 
+        new_observation = new_observation, N = 10000, add_importance_labels = TRUE, 
         axis_lab_size = 8, text_size = 3)
 
 ```
