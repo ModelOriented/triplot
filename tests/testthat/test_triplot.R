@@ -41,3 +41,30 @@ test_that("check triplot.explainer function",{
 
   expect_true("gtable" %in% class(p))
 })
+
+test_that("check triplot function for FI",{
+  library("DALEX")
+  library("triplot")
+  library("ingredients")
+
+  p <- triplot(x = apartments_num_lm_model,
+               data = apartments_num_mod,
+               y = apartments[,1])
+
+  expect_true("gtable" %in% class(p))
+})
+
+test_that("check triplot.explainer function for FI",{
+  library("DALEX")
+  library("triplot")
+  library("ingredients")
+
+  apartments_explainer <- explain(model = apartments_num_lm_model,
+                                  data = apartments_num_mod,
+                                  y = apartments[,1],
+                                  verbose = FALSE)
+
+  p <- triplot(x = apartments_explainer)
+
+  expect_true("gtable" %in% class(p))
+})
