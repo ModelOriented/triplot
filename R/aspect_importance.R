@@ -167,12 +167,13 @@ aspect_importance.default <- function(x, data, predict_function = predict,
   for (i in seq_along(aspects)) {
     res$features[i] <- aspects[as.character(res[i, 1])]
     vars <- unlist(res$features[i])
-    if (all(sapply(data[, vars], is.numeric)) & length(vars) > 1 & show_cor == T) {
+    if (all(sapply(data[, vars], is.numeric)) & length(vars) > 1 &
+        show_cor == TRUE) {
       cor_matrix <- cor(data[, vars], method = "spearman")
       res$min_cor[i] <- min(abs(cor_matrix))
       res$sign[i] <- ifelse(max(cor_matrix) > 0 & min(cor_matrix) < 0,
                             "neg", "pos")
-    } else if (show_cor == T) {
+    } else if (show_cor == TRUE) {
       res$min_cor[i] <- NA
       res$sign[i] <- ""
     }
@@ -343,5 +344,3 @@ get_sample <- function(n, p, sample_method = c("default", "binom"), f = 2) {
   }
   return(x)
 }
-
-

@@ -78,9 +78,9 @@ triplot.explainer <- function(x, new_observation = NULL, N = 500,
   predict_function <- x$predict_function
 
   if (is.null(new_observation)) {
-    y = x$y
+    y <- x$y
   } else {
-    y = NULL
+    y <- NULL
   }
 
   # calls target function
