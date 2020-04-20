@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instance-level explainer for the groups of features • aspectImportance</title>
+<title>Instance-level explainer for the groups of features • triplot</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -37,7 +37,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="index.html">aspectImportance</a>
+        <a class="navbar-brand" href="index.html">triplot</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
@@ -75,7 +75,7 @@
   <a href="news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/kasiapekala/aspectImportance/">
+  <a href="https://github.com/kasiapekala/triplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -94,13 +94,13 @@
   <div class="contents col-md-9">
 
 
-<div id="aspect-importance" class="section level1">
+<div id="triplot" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#aspect-importance" class="anchor"></a>Aspect Importance</h1></div>
+<a href="#triplot" class="anchor"></a>triplot</h1></div>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>The <code>aspectImportance</code> package provides instance-level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.</p>
+<p>The <code>triplot</code> package provides instance-level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.</p>
 <p>Key functions:</p>
 <ul>
 <li>
@@ -111,16 +111,16 @@
 <code><a href="reference/group_variables.html">group_variables()</a></code> for grouping numeric features into aspects,</li>
 <li>generic <code><a href="https://rdrr.io/r/graphics/plot.html">plot()</a></code> for better usability of explainer.</li>
 </ul>
-<p>The <code>aspectImportance</code> package is a part of <a href="http://DrWhy.AI">DrWhy.AI</a> universe.</p>
+<p>The <code>triplot</code> package is a part of <a href="http://DrWhy.AI">DrWhy.AI</a> universe.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co"># the easiest way to get aspectImportance is to install it from CRAN:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"aspectImportance"</span>)
+<div class="sourceCode" id="cb1"><pre class="r"><span class="co"># the easiest way to get triplot is to install it from CRAN:</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"triplot"</span>)
 
 <span class="co"># Or the the development version from GitHub:</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">".../ingredients"</span>)</pre></div>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">".../triplot"</span>)</pre></div>
 </div>
 <div id="acknowledgments" class="section level2">
 <h2 class="hasAnchor">
@@ -135,9 +135,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/kasiapekala/aspectImportance/">https://​github.com/​kasiapekala/​aspectImportance/​</a>
+<li>Browse source code at <br><a href="https://github.com/kasiapekala/triplot/">https://​github.com/​kasiapekala/​triplot/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/kasiapekala/aspectImportance/issues">https://​github.com/​kasiapekala/​aspectImportance/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/kasiapekala/triplot/issues">https://​github.com/​kasiapekala/​triplot/​issues</a>
 </li>
 </ul>
 </div>
@@ -158,9 +158,9 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=aspectImportance"><img src="https://www.r-pkg.org/badges/version/aspectImportance" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://travis-ci.com/kasiapekala/aspectImportance"><img src="https://travis-ci.com/kasiapekala/aspectImportance.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://codecov.io/gh/kasiapekala/aspectImportance?branch=master"><img src="https://codecov.io/gh/kasiapekala/aspectImportance/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://cran.r-project.org/package=triplot"><img src="https://www.r-pkg.org/badges/version/triplot" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://github.com/ModelOriented/triplot/actions?query=workflow%3AR-CMD-check"><img src="https://github.com/ModelOriented/triplot/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://codecov.io/gh/ModelOriented/triplot?branch=master"><img src="https://codecov.io/gh/ModelOriented/triplot/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 </div>

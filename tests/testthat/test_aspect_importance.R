@@ -2,7 +2,7 @@ context("Check aspect_importance() functions")
 
 test_that("check output for aspects importance (glm, default)",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   aspect_importance_titanic_glm <- aspect_importance(titanic_glm_model, titanic_data,
                                                      new_observation = titanic_new_observation,
@@ -15,7 +15,7 @@ test_that("check output for aspects importance (glm, default)",{
 
 test_that("check output for aspects importance (lm, binom)",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   if (getRversion() >= "3.6")
   {
@@ -33,7 +33,7 @@ test_that("check output for aspects importance (lm, binom)",{
 
 test_that("check output for aspects importance (additional parameters)",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   if (getRversion() >= "3.6")
   {
@@ -60,7 +60,7 @@ test_that("check output for aspects importance (additional parameters)",{
 
 test_that("check aspects_importance for explainer",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   titanic_without_target <- titanic_data[,colnames(titanic_data)!="survived"]
 
@@ -78,7 +78,7 @@ test_that("check aspects_importance for explainer",{
 
 test_that("check plot for aspects importance",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   aspect_importance_apartments <- aspect_importance(apartments_lm_model, apartments,
                                                     new_observation = apartments_new_observation,
@@ -89,7 +89,7 @@ test_that("check plot for aspects importance",{
 
 test_that("check plot (facets) for aspects importance",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   aspect_importance_apartments1 <- aspect_importance(apartments_lm_model, apartments,
                                                      new_observation = apartments_new_observation,
@@ -112,7 +112,7 @@ test_that("check plot (facets) for aspects importance",{
 
 test_that("check alias for aspect_importance",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
 
   aspect_importance_apartments <- lime(apartments_lm_model, apartments,
@@ -124,7 +124,7 @@ test_that("check alias for aspect_importance",{
 
 test_that("plot for aspect_importance works",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   aspect_importance_apartments <- aspect_importance(apartments_lm_model, apartments,
                                                     new_observation = apartments_new_observation,
@@ -137,7 +137,7 @@ test_that("plot for aspect_importance works",{
 
 test_that("check for aspect_importance with lasso",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   aspect_importance_apartments <- aspect_importance(apartments_lm_model, apartments,
                                                     new_observation = apartments_new_observation,
@@ -155,7 +155,7 @@ test_that("check for aspect_importance with lasso",{
 
 test_that("check for aspect_importance with show_cor",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   aspect_list_apartments_num <- group_variables(
     apartments_num[,!colnames(apartments_num) == "m2.price"], 0.5)
@@ -173,7 +173,7 @@ test_that("check for aspect_importance with show_cor",{
 
 test_that("check get_sample function with binom",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   x <- get_sample(100,4,"binom")
   expect_true(ncol(x) == 4)
@@ -185,7 +185,7 @@ test_that("check get_sample function with binom",{
 
 test_that("check get_sample function with default sampling",{
   library("DALEX")
-  library("aspectImportance")
+  library("triplot")
 
   x <- get_sample(50,10,"default")
   expect_true(ncol(x) == 10)
@@ -194,6 +194,7 @@ test_that("check get_sample function with default sampling",{
   expect_true(min(x) == 0)
 })
 
+<<<<<<< HEAD
 test_that("check group_variables function",{
   library("DALEX")
   library("aspectImportance")
@@ -333,3 +334,5 @@ test_that("check triplot.explainer function for FI",{
   expect_true("gtable" %in% class(p))
 })
 
+=======
+>>>>>>> master

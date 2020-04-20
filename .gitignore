@@ -2,7 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-aspectImportance.Rproj
+triplot.Rproj
 doc
 vignettes/*.html
 vignettes/*.R

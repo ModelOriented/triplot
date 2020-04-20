@@ -1,4 +1,4 @@
 library(testthat)
-library(aspectImportance)
+library(triplot)
 
-test_check("aspectImportance")
+test_check("triplot")

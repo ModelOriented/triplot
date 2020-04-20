@@ -17,7 +17,7 @@
 #'   if it's an explainer
 #' @param new_observation selected observation with columns that corresponds to
 #'   variables used in the model
-#' @param aspects list containting grouping of features into aspects
+#' @param aspects list containing grouping of features into aspects
 #' @param N number of observations to be sampled (with replacement) from data
 #' @param label name of the model. By default it's extracted from the 'class'
 #'   attribute of the model.
@@ -25,7 +25,7 @@
 #' @param n_var maximum number of non-zero coefficients after lasso fitting,
 #'   if zero than linear regression is used
 #' @param f frequency in \code{\link{get_sample}}
-#' @param show_cor show if all features in aspect are pairwise positivly
+#' @param show_cor show if all features in aspect are pairwise positively
 #'   correlated, works only if dataset contains solely numeric values
 #' @param ... other parameters
 #'
@@ -193,7 +193,7 @@ aspect_importance.default <- function(x, data, predict_function = predict,
 #'
 #' @param x object of aspect_importance class
 #' @param bar_width bar width
-#' @param aspects_on_axis if TRUE, labels on axis Y show aspect names, oherwise
+#' @param aspects_on_axis if TRUE, labels on axis Y show aspect names, positively
 #'   they show features names
 #' @param add_importance if TRUE, plot is annotated with values of aspects
 #'   importance
@@ -308,7 +308,7 @@ lime <- function(x, ...) {
 #' Function creates binary matrix, to be used in aspect_importance method. It
 #' starts with a zero matrix. Then it replaces some zeros with ones. It either
 #' randomly replaces one or two zeros per row. Or replace random number of zeros
-#' per row - average number of replaced zeros can be controled by parameter f.
+#' per row - average number of replaced zeros can be controlled by parameter f.
 #' Function doesn't allow the returned matrix to have rows with only zeros.
 #'
 #' @param n number of rows

@@ -83,7 +83,7 @@ To illustrate how the method works, we will use `Boston Housing` dataset from `m
 We are going to build two models: linear regression model and random forest. Those models will be built only on numerical variables. Then we will check the predictions for the observation called `new_observation`. 
 
 ```{r import BostonHousing2 and build models}
-library(aspectImportance)
+library(triplot)
 library(mlbench)
 library(randomForest)
 set.seed(123)

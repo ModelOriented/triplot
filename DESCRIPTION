@@ -1,4 +1,4 @@
-Package: aspectImportance
+Package: triplot
 Title: Instance-level explainer for the groups of features
 Version: 0.1.0
 Authors@R:
@@ -10,7 +10,7 @@ Description: Aspect importance’s aim is to increase the interpretability of th
     explanatory variables. It enables grouping predictors into entities called 
     aspects. Afterwards, it can calculate the contribution of those aspects to 
     the prediction.
-Depends: R (>= 3.5)
+Depends: R (>= 3.6)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -23,11 +23,13 @@ Imports:
   gridExtra,
   ingredients
 Suggests:
+    spelling,
     testthat,
     knitr,
     randomForest,
     mlbench,
     covr
-URL: https://github.com/kasiapekala/aspectImportance
-BugReports: https://github.com/kasiapekala/aspectImportance/issues
+URL: https://github.com/kasiapekala/triplot
+BugReports: https://github.com/kasiapekala/triplot/issues
 VignetteBuilder: knitr
+Language: en-US
