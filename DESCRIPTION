@@ -23,7 +23,6 @@ Imports:
   gridExtra,
   ingredients
 Suggests:
-    spelling,
     testthat,
     knitr,
     randomForest,
