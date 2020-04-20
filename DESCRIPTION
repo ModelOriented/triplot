@@ -10,7 +10,7 @@ Description: Aspect importance’s aim is to increase the interpretability of th
     explanatory variables. It enables grouping predictors into entities called 
     aspects. Afterwards, it can calculate the contribution of those aspects to 
     the prediction.
-Depends: R (>= 3.5)
+Depends: R (>= 3.6)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
