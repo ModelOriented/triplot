@@ -48,7 +48,7 @@ or a model to be explained.}
 \item{new_observation}{selected observation with columns that corresponds to
 variables used in the model}
 
-\item{aspects}{list containting grouping of features into aspects}
+\item{aspects}{list containing grouping of features into aspects}
 
 \item{N}{number of observations to be sampled (with replacement) from data}
 
@@ -59,7 +59,7 @@ if zero than linear regression is used}
 
 \item{f}{frequency in \code{\link{get_sample}}}
 
-\item{show_cor}{show if all features in aspect are pairwise positivly
+\item{show_cor}{show if all features in aspect are pairwise positively
 correlated, works only if dataset contains solely numeric values}
 
 \item{data}{dataset, it will be extracted from \code{x} if it's an explainer

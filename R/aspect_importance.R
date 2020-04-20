@@ -193,7 +193,7 @@ aspect_importance.default <- function(x, data, predict_function = predict,
 #'
 #' @param x object of aspect_importance class
 #' @param bar_width bar width
-#' @param aspects_on_axis if TRUE, labels on axis Y show aspect names, positively
+#' @param aspects_on_axis if TRUE, labels on axis Y show aspect names, otherwise
 #'   they show features names
 #' @param add_importance if TRUE, plot is annotated with values of aspects
 #'   importance

@@ -22,7 +22,7 @@ a binary matrix
 Function creates binary matrix, to be used in aspect_importance method. It
 starts with a zero matrix. Then it replaces some zeros with ones. It either
 randomly replaces one or two zeros per row. Or replace random number of zeros
-per row - average number of replaced zeros can be controled by parameter f.
+per row - average number of replaced zeros can be controlled by parameter f.
 Function doesn't allow the returned matrix to have rows with only zeros.
 }
 \examples{

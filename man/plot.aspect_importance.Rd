@@ -21,7 +21,7 @@
 
 \item{bar_width}{bar width}
 
-\item{aspects_on_axis}{if TRUE, labels on axis Y show aspect names, oherwise
+\item{aspects_on_axis}{if TRUE, labels on axis Y show aspect names, otherwise
 they show features names}
 
 \item{add_importance}{if TRUE, plot is annotated with values of aspects
