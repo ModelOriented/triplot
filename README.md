@@ -28,7 +28,7 @@ The `triplot` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 install.packages("triplot")
 
 # Or the the development version from GitHub:
-devtools::install_github(".../ingredients")
+devtools::install_github(".../triplot")
 ```
 
 ## Acknowledgments
