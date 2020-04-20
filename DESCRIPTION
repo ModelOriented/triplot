@@ -23,6 +23,7 @@ Imports:
   gridExtra,
   ingredients
 Suggests:
+    spelling,
     testthat,
     knitr,
     randomForest,
@@ -31,3 +32,4 @@ Suggests:
 URL: https://github.com/kasiapekala/triplot
 BugReports: https://github.com/kasiapekala/triplot/issues
 VignetteBuilder: knitr
+Language: en-US

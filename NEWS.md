@@ -1,4 +1,4 @@
-tripolot 0.2
+triplot 0.2
 ----------------------------------------------------------------
 * aspectImportance is renamed to triplot 
 * added second vignette
