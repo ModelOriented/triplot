@@ -1,7 +1,7 @@
 <!-- badges: start -->
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/aspectImportance)](https://cran.r-project.org/package=aspectImportance)
-[![Travis build status](https://travis-ci.com/kasiapekala/aspectImportance.svg?branch=master)](https://travis-ci.com/kasiapekala/aspectImportance)
-[![Codecov test coverage](https://codecov.io/gh/kasiapekala/aspectImportance/branch/master/graph/badge.svg)](https://codecov.io/gh/kasiapekala/aspectImportance?branch=master)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/triplot)](https://cran.r-project.org/package=triplot)
+[![Travis build status](https://travis-ci.com/kasiapekala/triplot.svg?branch=master)](https://travis-ci.com/kasiapekala/triplot)
+[![Codecov test coverage](https://codecov.io/gh/kasiapekala/triplot/branch/master/graph/badge.svg)](https://codecov.io/gh/kasiapekala/triplot?branch=master)
 <!-- badges: end -->
 
   
@@ -9,7 +9,7 @@
 
 ## Overview
 
-The `aspectImportance` package provides instance-level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.
+The `triplot` package provides instance-level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.
 
 Key functions: 
 
@@ -18,14 +18,14 @@ Key functions:
 * `group_variables()` for grouping numeric features into aspects,
 * generic `plot()` for better usability of explainer.
 
-The `aspectImportance` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
+The `triplot` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. 
 
 
 ## Installation
 
 ```r
-# the easiest way to get aspectImportance is to install it from CRAN:
-install.packages("aspectImportance")
+# the easiest way to get triplot is to install it from CRAN:
+install.packages("triplot")
 
 # Or the the development version from GitHub:
 devtools::install_github(".../ingredients")
