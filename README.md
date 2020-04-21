@@ -24,11 +24,7 @@ The `triplot` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 ## Installation
 
 ```r
-# the easiest way to get triplot is to install it from CRAN:
-install.packages("triplot")
-
-# Or the the development version from GitHub:
-devtools::install_github(".../triplot")
+devtools::install_github("ModelOriented/triplot")
 ```
 
 ## Acknowledgments

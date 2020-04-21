@@ -110,7 +110,7 @@ plot_group_variables <- function(x, p, show_labels = TRUE, draw_abline = TRUE,
           axis.title.x = theme_drwhy()$axis.title,
           panel.background = element_rect(fill = "white"),
           panel.grid = element_blank()) +
-    labs(y = "Spearman correlations")
+    labs(y = "Hierarchical clustering")
 
   if (show_labels) {
     cor_plot <- cor_plot +
