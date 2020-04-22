@@ -162,7 +162,7 @@ expanded aspect</p></li>
 <span class='co'># S3 method for explainer</span>
 <span class='fu'>triplot</span>(
   <span class='no'>x</span>,
-  <span class='no'>new_observation</span>,
+  <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>500</span>,
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
   <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -178,8 +178,9 @@ expanded aspect</p></li>
 <span class='fu'>triplot</span>(
   <span class='no'>x</span>,
   <span class='no'>data</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>,
-  <span class='no'>new_observation</span>,
+  <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>500</span>,
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
   <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -253,6 +254,10 @@ correlations</p></td>
 NOTE: Target variable shouldn't be present in the <code>data</code></p></td>
     </tr>
     <tr>
+      <th>y</th>
+      <td><p>true labels for <code>data</code>, will be extracted from <code>x</code> if it's an explainer</p></td>
+    </tr>
+    <tr>
       <th>predict_function</th>
       <td><p>predict function, it will be extracted from <code>x</code>
 if it's an explainer</p></td>
@@ -275,6 +280,10 @@ importance plot will be abbreviated according to this parameter</p></td>
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num_mod</span>,
   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>apartments_num_new_observation</span>,
   <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='triplot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>triplot</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num_mod</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[,<span class='fl'>1</span>],
+  <span class='kw'>show_axis_y_duplicated_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='triplot-2.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>

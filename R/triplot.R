@@ -1,6 +1,6 @@
-#' Three plots that sum up automatic aspect importance grouping
+#' Three plots that sum up automatic aspect/feature importance grouping
 #'
-#' This function shows: \itemize{ \item plot for aspect_importance with
+#' This function shows: \itemize{ \item plot for aspect_importance or feature_importance with
 #' single aspect \item tree that shows aspect_importance for every newly
 #' expanded aspect
 #' \item clustering tree. }
@@ -193,17 +193,18 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
 
 }
 
-#' Function plots tree with aspect importance values
+#' Function plots tree with aspect/feature importance values
 #'
 #' This function plots tree that shows order of feature grouping and aspect
-#' importance values of every newly created aspect.
+#' importance or feature importance values of every newly created aspect.
 #'
 #' @param x a model to be explained
 #' @param data dataset, should be without target variable
-#' @param y true labels for \code{data}, will be extracted from \code{x} if it's an explainer
+#' @param y true labels for \code{data}, will be extracted from \code{x} if it's an explainer,
+#'   need to be provided if feature importance is to be calculated
 #' @param predict_function predict function
 #' @param new_observation selected observation with columns that corresponds to
-#'   variables used in the model, should be without target variable
+#'   variables used in the model, should be without target variable, if NULL feature_importance will be calculated
 #' @param N number of observations to be sampled (with replacement) from data
 #' @param clust_method the agglomeration method to be used, see
 #'   \code{\link[stats]{hclust}} methods

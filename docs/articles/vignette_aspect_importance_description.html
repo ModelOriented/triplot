@@ -92,7 +92,7 @@
       <h1 data-toc-skip>Description of aspect importance method</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-04-20</h4>
+            <h4 class="date">2020-04-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kasiapekala/triplot/blob/master/vignettes/vignette_aspect_importance_description.Rmd"><code>vignettes/vignette_aspect_importance_description.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance_description.Rmd</code></div>
@@ -263,11 +263,11 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <p>Hierarchical aspects importance allows us to check the values of aspects importance for the different levels of variables grouping. Method starts with looking at the aspect importance where every aspect has one, single variable. Afterwards, it iteratively creates bigger aspects by merging the ones with the highest level of absolute correlation into one aspect and calculating it’s contribution to the prediction.</p>
 <p>It should be noted that similarly to <code><a href="../reference/group_variables.html">group_variables()</a></code>, <code><a href="../reference/triplot.html">triplot()</a></code> works for the datasets with only numerical variables.</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../reference/triplot.html">triplot</a></span>(<span class="no">Boston_lm</span>, <span class="no">Boston_no_target</span>, <span class="kw">predict_function</span> <span class="kw">=</span> <span class="no">predict</span>,
-        <span class="no">new_observation</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">10000</span>, <span class="kw">add_importance_labels</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+        <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">10000</span>, <span class="kw">add_importance_labels</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
         <span class="kw">axis_lab_size</span> <span class="kw">=</span> <span class="fl">8</span>, <span class="kw">text_size</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
 <p><img src="vignette_aspect_importance_description_files/figure-html/triplot-1.png" width="700"></p>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/triplot.html">triplot</a></span>(<span class="no">Boston_rf</span>, <span class="no">Boston_no_target</span>, <span class="kw">predict_function</span> <span class="kw">=</span> <span class="no">predict</span>,
-        <span class="no">new_observation</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">10000</span>, <span class="kw">add_importance_labels</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+        <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">10000</span>, <span class="kw">add_importance_labels</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
         <span class="kw">axis_lab_size</span> <span class="kw">=</span> <span class="fl">8</span>, <span class="kw">text_size</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
 <p><img src="vignette_aspect_importance_description_files/figure-html/triplot-2.png" width="700"></p>
 </div>
@@ -316,20 +316,20 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; [1] randomForest_4.6-14 mlbench_2.1-1       triplot_0.1.0      
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.4.6     compiler_3.6.3   pillar_1.4.3     ingredients_1.1 
-#&gt;  [5] iterators_1.0.12 tools_3.6.3      digest_0.6.25    lattice_0.20-38 
-#&gt;  [9] evaluate_0.14    memoise_1.1.0    lifecycle_0.2.0  tibble_3.0.1    
-#&gt; [13] gtable_0.3.0     pkgconfig_2.0.3  rlang_0.4.5      foreach_1.5.0   
-#&gt; [17] Matrix_1.2-18    rstudioapi_0.11  yaml_2.2.1       pkgdown_1.5.1   
-#&gt; [21] xfun_0.13        ggdendro_0.1-20  gridExtra_2.3    stringr_1.4.0   
-#&gt; [25] dplyr_0.8.5      knitr_1.28       desc_1.2.0       fs_1.4.1        
-#&gt; [29] vctrs_0.2.4      glmnet_3.0-2     rprojroot_1.3-2  grid_3.6.3      
-#&gt; [33] tidyselect_1.0.0 glue_1.4.0       R6_2.4.1         DALEX_1.0.1     
-#&gt; [37] rmarkdown_2.1    farver_2.0.3     ggplot2_3.3.0    purrr_0.3.4     
-#&gt; [41] magrittr_1.5     codetools_0.2-16 backports_1.1.6  scales_1.1.0    
-#&gt; [45] htmltools_0.4.0  ellipsis_0.3.0   MASS_7.3-51.5    assertthat_0.2.1
-#&gt; [49] shape_1.4.4      colorspace_1.4-1 labeling_0.3     stringi_1.4.6   
-#&gt; [53] munsell_0.5.0    crayon_1.3.4</code></pre>
+#&gt;  [1] Rcpp_1.0.4.6      compiler_3.6.3    pillar_1.4.3      ingredients_1.2.0
+#&gt;  [5] iterators_1.0.12  tools_3.6.3       digest_0.6.25     lattice_0.20-38  
+#&gt;  [9] evaluate_0.14     memoise_1.1.0     lifecycle_0.2.0   tibble_3.0.1     
+#&gt; [13] gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.5       foreach_1.5.0    
+#&gt; [17] Matrix_1.2-18     rstudioapi_0.11   yaml_2.2.1        pkgdown_1.5.1    
+#&gt; [21] xfun_0.13         ggdendro_0.1-20   gridExtra_2.3     stringr_1.4.0    
+#&gt; [25] dplyr_0.8.5       knitr_1.28        desc_1.2.0        fs_1.4.1         
+#&gt; [29] vctrs_0.2.4       glmnet_3.0-2      rprojroot_1.3-2   grid_3.6.3       
+#&gt; [33] tidyselect_1.0.0  glue_1.4.0        R6_2.4.1          DALEX_1.0.1      
+#&gt; [37] rmarkdown_2.1     farver_2.0.3      ggplot2_3.3.0     purrr_0.3.4      
+#&gt; [41] magrittr_1.5      codetools_0.2-16  backports_1.1.6   scales_1.1.0     
+#&gt; [45] htmltools_0.4.0   ellipsis_0.3.0    MASS_7.3-51.5     assertthat_0.2.1 
+#&gt; [49] shape_1.4.4       colorspace_1.4-1  labeling_0.3      stringi_1.4.6    
+#&gt; [53] munsell_0.5.0     crayon_1.3.4</code></pre>
 </div>
   </div>
 
