@@ -36,6 +36,8 @@
 #' @importFrom stats coef
 #' @importFrom stats model.matrix
 #' @importFrom glmnet glmnet
+#' @importFrom ingredients select_sample
+#'
 #'
 #' @examples
 #' library("DALEX")
@@ -127,7 +129,7 @@ aspect_importance.default <- function(x, data, predict_function = predict,
   stopifnot(n_var >= 0)
 
   # create empty matrix and data frames
-  n_sample <- ingredients::select_sample(data, n = N)
+  n_sample <- select_sample(data, n = N)
   n_sample_changed <- n_sample
 
   # sample which aspects will be replaced
