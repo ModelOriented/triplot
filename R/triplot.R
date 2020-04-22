@@ -27,6 +27,7 @@
 #'   axis Y
 #' @param abbrev_labels if greater than 0, labels for axis Y in single aspect
 #'   importance plot will be abbreviated according to this parameter
+#' @param add_last_group if TRUE, second plot will draw connecting line between last two groups
 #' @param axis_lab_size size of labels on axis
 #' @param text_size size of labels annotating values of aspects importance and
 #'   correlations
@@ -40,6 +41,7 @@
 #'
 #' @examples
 #' library(DALEX)
+#' library(ingredients)
 #' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 #' apartments_num_new_observation <- apartments_num[30,-1]
@@ -49,10 +51,11 @@
 #'   new_observation = apartments_num_new_observation,
 #'   add_importance_labels = FALSE)
 #'
+#' set.seed(123)
 #' triplot(x = apartments_num_lm_model,
 #'   data = apartments_num_mod,
 #'   y = apartments_num[,1],
-#'   show_axis_y_duplicated_labels = TRUE)
+#'   show_axis_y_duplicated_labels = TRUE, add_last_group = TRUE)
 #'
 #'
 #' @export
@@ -68,6 +71,7 @@ triplot.explainer <- function(x, new_observation = NULL, N = 500,
                               absolute_value = FALSE, cumulative_max = FALSE,
                               add_importance_labels = TRUE,
                               show_axis_y_duplicated_labels = FALSE,
+                              add_last_group = FALSE,
                               axis_lab_size = 10,
                               text_size = 3,
                               ...) {
@@ -87,7 +91,8 @@ triplot.explainer <- function(x, new_observation = NULL, N = 500,
   triplot.default(model, data, y, predict_function, new_observation, N,
                   clust_method, absolute_value = FALSE, cumulative_max = FALSE,
                   add_importance_labels, show_axis_y_duplicated_labels,
-                  axis_lab_size = axis_lab_size, text_size = text_size)
+                  add_last_group, axis_lab_size = axis_lab_size,
+                  text_size = text_size)
 }
 
 #' @export
@@ -101,13 +106,14 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
                             add_importance_labels = TRUE,
                             show_axis_y_duplicated_labels = FALSE,
                             abbrev_labels = 0,
+                            add_last_group = FALSE,
                             axis_lab_size = 10,
                             text_size = 3,
                             ...) {
 
   stopifnot(all(sapply(data, is.numeric)))
 
-# Build second plot -------------------------------------------------------
+  # Build second plot -------------------------------------------------------
 
 
   p2 <- plot_aspects_importance_grouping(x, data, y, predict_function,
@@ -115,6 +121,7 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
                                          absolute_value,
                                          cumulative_max,
                                          show_labels = show_axis_y_duplicated_labels,
+                                         add_last_group = add_last_group,
                                          axis_lab_size = axis_lab_size,
                                          text_size = text_size)
 
@@ -128,7 +135,7 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
 
   p2
 
-# Build third plot -------------------------------------------------------
+  # Build third plot -------------------------------------------------------
 
   x_hc <- hclust(as.dist(1 - abs(cor(data, method = "spearman"))),
                  method = clust_method)
@@ -137,7 +144,7 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
                              axis_lab_size = axis_lab_size)
   p3 <- p3 + theme(axis.title = element_text(size = axis_lab_size))
 
-# Build first plot --------------------------------------------------------
+  # Build first plot --------------------------------------------------------
 
   if (is.null(new_observation)) {
     importance_leaves <- feature_importance(x = x, data = data, y = y)
@@ -159,13 +166,13 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
     order_mod <-  match(order_mod, p1$data$variable)
     lev_mod <- p1$data$variable[order_mod]
     p1$data$variable <- factor(p1$data$variable,
-                                     levels = lev_mod)
-    } else {
+                               levels = lev_mod)
+  } else {
 
     importance_leaves <- aspect_importance_single(x, data,
-                                                         predict_function,
-                                                         new_observation, N,
-                                                         label = "")
+                                                  predict_function,
+                                                  new_observation, N,
+                                                  label = "")
     p1 <- plot(importance_leaves, add_importance = add_importance_labels,
                text_size = text_size)
     p1$labels$y <- "Single aspects importance"
@@ -213,6 +220,7 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
 #' @param cumulative_max if TRUE, aspect importance shown on tree will be max
 #'   value of children and node aspect importance values
 #' @param show_labels if TRUE, plot will have annotated axis Y
+#' @param add_last_group if TRUE, plot will draw connecting line between last two groups
 #' @param axis_lab_size size of labels on axis Y, if applicable
 #' @param text_size size of labels annotating values of aspects importance
 #'
@@ -228,12 +236,15 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
 #'
 #' @examples
 #' library(DALEX)
+#' library(ingredients)
 #' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 #' apartments_num_new_observation <- apartments_num[2,-1]
 #' apartments_num_mod <- apartments_num[,-1]
 #' plot_aspects_importance_grouping(x = apartments_num_lm_model,
-#' data = apartments_num_mod, new_observation = apartments_num_new_observation)
+#'     data = apartments_num_mod, add_last_group = TRUE,
+#'     new_observation = apartments_num_new_observation)
+#'
 #'
 #'
 #' @export
@@ -247,18 +258,19 @@ plot_aspects_importance_grouping <- function(x, data, y = NULL,
                                              absolute_value = FALSE,
                                              cumulative_max = FALSE,
                                              show_labels = TRUE,
+                                             add_last_group = FALSE,
                                              axis_lab_size = 10,
                                              text_size = 3) {
 
-# Building helper objects ---------------------------------------------
+  # Building helper objects ---------------------------------------------
 
   predicted <- y
   y <- xend <- yend <- yend_val <- NULL
 
   if (is.null(new_observation)) {
     importance_leaves <- feature_importance(x = x, data = data, y = predicted)
-    } else {
-      importance_leaves <- aspect_importance_single(x, data,
+  } else {
+    importance_leaves <- aspect_importance_single(x, data,
                                                   predict_function,
                                                   new_observation, N)
   }
@@ -270,7 +282,7 @@ plot_aspects_importance_grouping <- function(x, data, y = NULL,
   int_node_importance <- as.data.frame(NULL)
 
 
-# Calculating aspect importance -------------------------------------------
+  # Calculating aspect importance -------------------------------------------
 
   for (i in c(1:(length(cutting_heights) - 1))) {
 
@@ -284,7 +296,7 @@ plot_aspects_importance_grouping <- function(x, data, y = NULL,
 
     if (is.null(new_observation)) {
       res_ai <- feature_importance(x = x, data = data, y = predicted,
-                       variable_groups = aspects_list_current)
+                                   variable_groups = aspects_list_current)
       res_ai <- res_ai[!(substr(res_ai$variable,1,1) == "_"),]
       res_ai <- res_ai[res_ai$permutation == "0", ]
 
@@ -305,12 +317,12 @@ plot_aspects_importance_grouping <- function(x, data, y = NULL,
   int_node_importance[length(cutting_heights), 1] <- NA
 
 
-# Inserting importance values into x_hc tree ------------------------------
+  # Inserting importance values into x_hc tree ------------------------------
 
   x_hc$height <- int_node_importance$V1
 
 
-# Modifing importance -----------------------------------------------------
+  # Modifing importance -----------------------------------------------------
 
   #if cumulative_max/absolute_value are true
 
@@ -338,7 +350,7 @@ plot_aspects_importance_grouping <- function(x, data, y = NULL,
     }}
 
 
-# Building dendogram ------------------------------------------------------
+  # Building dendogram ------------------------------------------------------
 
   dend_mod <- NULL
   dend_mod <- as.dendrogram(x_hc, hang = -1)
@@ -346,19 +358,25 @@ plot_aspects_importance_grouping <- function(x, data, y = NULL,
 
 
 
-# Preparing labels --------------------------------------------------------
+  # Preparing labels --------------------------------------------------------
 
   ai_labels <-  na.omit(segment(ddata))
   ai_labels <- ai_labels[ai_labels$yend != 0, ]
   ai_labels$yend_val <- ai_labels$yend
 
+  # replace NAs      --------------------------------------------------------
 
-# Removing values of aspect_importance for single aspects -----------------
-
-  cc_vector <- !complete.cases(ddata$segments)
-  ddata$segments[cc_vector, ] <- 1
-  ddata$segments[min(which(cc_vector == TRUE)), c(1, 3)] <- min(ddata$labels$x)
-  ddata$segments[min(which(cc_vector == TRUE)) + 1, c(1, 3)] <- max(ddata$labels$x)
+  if (add_last_group) {
+    ifelse(max(abs(ai_labels$yend)) > max(ai_labels$yend),
+           last_val <- -max(abs(ai_labels$yend))*1.05,
+           last_val <- max(ai_labels$yend)*1.05)
+    ddata$segments[is.na(ddata$segments)] <- last_val
+  } else {
+    cc_vector <- !complete.cases(ddata$segments)
+    ddata$segments[cc_vector, ] <- 1
+    ddata$segments[min(which(cc_vector == TRUE)), c(1, 3)] <- min(ddata$labels$x)
+    ddata$segments[min(which(cc_vector == TRUE)) + 1, c(1, 3)] <- max(ddata$labels$x)
+  }
 
 # Modifing importance -----------------------------------------------------
 

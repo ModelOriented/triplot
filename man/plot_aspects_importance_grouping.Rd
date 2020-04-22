@@ -2,7 +2,7 @@
 % Please edit documentation in R/triplot.R
 \name{plot_aspects_importance_grouping}
 \alias{plot_aspects_importance_grouping}
-\title{Function plots tree with aspect importance values}
+\title{Function plots tree with aspect/feature importance values}
 \usage{
 plot_aspects_importance_grouping(
   x,
@@ -15,6 +15,7 @@ plot_aspects_importance_grouping(
   absolute_value = FALSE,
   cumulative_max = FALSE,
   show_labels = TRUE,
+  add_last_group = FALSE,
   axis_lab_size = 10,
   text_size = 3
 )
@@ -24,12 +25,13 @@ plot_aspects_importance_grouping(
 
 \item{data}{dataset, should be without target variable}
 
-\item{y}{true labels for \code{data}, will be extracted from \code{x} if it's an explainer}
+\item{y}{true labels for \code{data}, will be extracted from \code{x} if it's an explainer,
+need to be provided if feature importance is to be calculated}
 
 \item{predict_function}{predict function}
 
 \item{new_observation}{selected observation with columns that corresponds to
-variables used in the model, should be without target variable}
+variables used in the model, should be without target variable, if NULL feature_importance will be calculated}
 
 \item{N}{number of observations to be sampled (with replacement) from data}
 
@@ -44,6 +46,8 @@ value of children and node aspect importance values}
 
 \item{show_labels}{if TRUE, plot will have annotated axis Y}
 
+\item{add_last_group}{if TRUE, plot will draw connecting line between last two groups}
+
 \item{axis_lab_size}{size of labels on axis Y, if applicable}
 
 \item{text_size}{size of labels annotating values of aspects importance}
@@ -53,16 +57,19 @@ ggplot
 }
 \description{
 This function plots tree that shows order of feature grouping and aspect
-importance values of every newly created aspect.
+importance or feature importance values of every newly created aspect.
 }
 \examples{
 library(DALEX)
+library(ingredients)
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 apartments_num_new_observation <- apartments_num[2,-1]
 apartments_num_mod <- apartments_num[,-1]
 plot_aspects_importance_grouping(x = apartments_num_lm_model,
-data = apartments_num_mod, new_observation = apartments_num_new_observation)
+    data = apartments_num_mod, add_last_group = TRUE,
+    new_observation = apartments_num_new_observation)
+
 
 
 }

@@ -4,7 +4,7 @@
 \alias{triplot}
 \alias{triplot.explainer}
 \alias{triplot.default}
-\title{Three plots that sum up automatic aspect importance grouping}
+\title{Three plots that sum up automatic aspect/feature importance grouping}
 \usage{
 triplot(x, ...)
 
@@ -17,6 +17,7 @@ triplot(x, ...)
   cumulative_max = FALSE,
   add_importance_labels = TRUE,
   show_axis_y_duplicated_labels = FALSE,
+  add_last_group = FALSE,
   axis_lab_size = 10,
   text_size = 3,
   ...
@@ -35,6 +36,7 @@ triplot(x, ...)
   add_importance_labels = TRUE,
   show_axis_y_duplicated_labels = FALSE,
   abbrev_labels = 0,
+  add_last_group = FALSE,
   axis_lab_size = 10,
   text_size = 3,
   ...
@@ -66,6 +68,8 @@ importance}
 \item{show_axis_y_duplicated_labels}{if TRUE, every plot will have annotated
 axis Y}
 
+\item{add_last_group}{if TRUE, second plot will draw connecting line between last two groups}
+
 \item{axis_lab_size}{size of labels on axis}
 
 \item{text_size}{size of labels annotating values of aspects importance and
@@ -83,13 +87,14 @@ if it's an explainer}
 importance plot will be abbreviated according to this parameter}
 }
 \description{
-This function shows: \itemize{ \item plot for aspect_importance with
+This function shows: \itemize{ \item plot for aspect_importance or feature_importance with
 single aspect \item tree that shows aspect_importance for every newly
 expanded aspect
 \item clustering tree. }
 }
 \examples{
 library(DALEX)
+library(ingredients)
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 apartments_num_new_observation <- apartments_num[30,-1]
@@ -99,10 +104,11 @@ triplot(x = apartments_num_lm_model,
   new_observation = apartments_num_new_observation,
   add_importance_labels = FALSE)
 
+set.seed(123)
 triplot(x = apartments_num_lm_model,
   data = apartments_num_mod,
   y = apartments_num[,1],
-  show_axis_y_duplicated_labels = TRUE)
+  show_axis_y_duplicated_labels = TRUE, add_last_group = TRUE)
 
 
 }
