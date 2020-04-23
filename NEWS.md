@@ -1,3 +1,9 @@
+triplot 0.3.1
+----------------------------------------------------------------
+* updated plot_aspects_importance_grouping so it can draw last clusters 
+connection
+
+
 triplot 0.3
 ----------------------------------------------------------------
 * new feature: triplot can present both: automatic aspect and feature importance 
