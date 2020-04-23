@@ -301,7 +301,15 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 
 #' @export
 #' @rdname aspect_importance
+
 lime <- function(x, ...) {
+  aspect_importance(x, ...)
+}
+
+#' @export
+#' @rdname aspect_importance
+
+prediction_aspect <- function(x, ...) {
   aspect_importance(x, ...)
 }
 
