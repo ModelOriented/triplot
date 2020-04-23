@@ -103,10 +103,10 @@ triplot(x = apartments_num_lm_model,
   add_importance_labels = FALSE)
 
 set.seed(123)
-triplot(x = apartments_num_lm_model,
+plot(triplot(x = apartments_num_lm_model,
   data = apartments_num_mod,
   y = apartments_num[,1],
-  show_axis_y_duplicated_labels = TRUE, add_last_group = TRUE)
+  show_axis_y_duplicated_labels = TRUE, add_last_group = TRUE))
 
 
 }

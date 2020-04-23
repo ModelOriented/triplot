@@ -20,6 +20,7 @@
 #' @param add_last_group if TRUE, plot will draw connecting line between last two groups
 #' @param axis_lab_size size of labels on axis Y, if applicable
 #' @param text_size size of labels annotating values of aspects importance
+#' @param ... other parameters
 #'
 #' @return ggplot
 #'
