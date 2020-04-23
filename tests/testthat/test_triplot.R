@@ -25,7 +25,7 @@ test_that("check triplot function",{
   p <- triplot(x = apartments_num_lm_model,
                data = apartments_num_mod, new_observation = apartments_num_new_observation)
 
-  expect_true("gtable" %in% class(p))
+  expect_true("list" %in% class(p))
 })
 
 test_that("check triplot.explainer function",{
@@ -39,7 +39,7 @@ test_that("check triplot.explainer function",{
   p <- triplot(x = apartments_explainer,
                new_observation = apartments_num_new_observation)
 
-  expect_true("gtable" %in% class(p))
+  expect_true("list" %in% class(p))
 })
 
 test_that("check triplot function for FI",{
@@ -51,7 +51,7 @@ test_that("check triplot function for FI",{
                data = apartments_num_mod,
                y = apartments[,1])
 
-  expect_true("gtable" %in% class(p))
+  expect_true("list" %in% class(p))
 })
 
 test_that("check triplot.explainer function for FI",{
@@ -66,5 +66,20 @@ test_that("check triplot.explainer function for FI",{
 
   p <- triplot(x = apartments_explainer)
 
+  expect_true("list" %in% class(p))
+})
+
+
+test_that("check plot.triplot function",{
+  library("DALEX")
+  library("triplot")
+  library("ingredients")
+
+  tri <- triplot(x = apartments_num_lm_model,
+               data = apartments_num_mod,
+               y = apartments[,1])
+  p <- plot(tri)
+
   expect_true("gtable" %in% class(p))
 })
+

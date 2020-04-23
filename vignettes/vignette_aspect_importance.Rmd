@@ -185,11 +185,13 @@ Hierarchical aspects importance allows us to check the values of aspects importa
 It should be noted that similarly to `group_variables()`, `triplot()` works for the datasets with only numerical variables. 
 
 ```{r}
-triplot(model_apartments, apartments_no_target, 
+tri <- triplot(model_apartments, apartments_no_target, 
         new_observation = new_observation_apartments, N = 500, 
         clust_method = "complete", absolute_value = FALSE, 
         cumulative_max = FALSE, add_importance_labels = FALSE, 
         abbrev_labels = 15)
+plot(tri)
+
 ```
 
 
