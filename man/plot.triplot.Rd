@@ -4,10 +4,10 @@
 \alias{plot.triplot}
 \title{Plots triplot with correlation values}
 \usage{
-\method{plot}{triplot}(plot_list, ...)
+\method{plot}{triplot}(x, ...)
 }
 \arguments{
-\item{plot_list}{triplot object}
+\item{x}{triplot object}
 
 \item{...}{other parameters}
 }

@@ -14,7 +14,6 @@ triplot(x, ...)
   N = 500,
   clust_method = "complete",
   absolute_value = FALSE,
-  cumulative_max = FALSE,
   add_importance_labels = FALSE,
   show_axis_y_duplicated_labels = FALSE,
   add_last_group = FALSE,
@@ -32,7 +31,6 @@ triplot(x, ...)
   N = 500,
   clust_method = "complete",
   absolute_value = FALSE,
-  cumulative_max = FALSE,
   add_importance_labels = FALSE,
   show_axis_y_duplicated_labels = FALSE,
   abbrev_labels = 0,
@@ -58,9 +56,6 @@ variables used in the model, should be without target variable}
 
 \item{absolute_value}{if TRUE, aspect importance values will be drawn as
 absolute values}
-
-\item{cumulative_max}{if TRUE, aspect importance shown on tree will be max
-value of children and node aspect importance values}
 
 \item{add_importance_labels}{if TRUE, first plot is annotated with values of aspects
 importance}
