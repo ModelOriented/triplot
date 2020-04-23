@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • triplot</title>
+<title>Plots triplot with correlation values — plot.triplot • triplot</title>
 
 
 <!-- jquery -->
@@ -45,7 +45,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Plots triplot with correlation values — plot.triplot" />
+<meta property="og:description" content="Plots triplot that sum up automatic aspect/feature importance grouping" />
 
 
 
@@ -72,7 +73,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -141,48 +142,54 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/kasiapekala/triplot/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Plots triplot with correlation values</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kasiapekala/triplot/blob/master/R/triplot.R'><code>R/triplot.R</code></a></small>
+    <div class="hidden name"><code>plot.triplot.Rd</code></div>
     </div>
 
-    <div id="triplot-031" class="section level2">
-<h2 class="hasAnchor">
-<a href="#triplot-031" class="anchor"></a>triplot 0.3.1</h2>
-<ul>
-<li>updated plot_aspects_importance_grouping so it can draw last clusters connection</li>
-<li>add_importance_labels parameter set to FALSE by default</li>
-</ul>
-</div>
-    <div id="triplot-03" class="section level2">
-<h2 class="hasAnchor">
-<a href="#triplot-03" class="anchor"></a>triplot 0.3</h2>
-<ul>
-<li>new feature: triplot can present both: automatic aspect and feature importance grouping (by using ingredients::feature_importance())</li>
-</ul>
-</div>
-    <div id="triplot-02" class="section level2">
-<h2 class="hasAnchor">
-<a href="#triplot-02" class="anchor"></a>triplot 0.2</h2>
-<ul>
-<li>aspectImportance is renamed to triplot</li>
-<li>added second vignette</li>
-</ul>
-</div>
-    <div id="aspectimportance-01" class="section level2">
-<h2 class="hasAnchor">
-<a href="#aspectimportance-01" class="anchor"></a>aspectImportance 0.1</h2>
-<ul>
-<li>aspect_importance is moved out of <code>DALEXtra</code> into standalone package</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Plots triplot that sum up automatic aspect/feature importance grouping</p>
+    </div>
 
+    <pre class="usage"><span class='co'># S3 method for triplot</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>triplot object</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>other parameters</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>plot</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ingredients</span>)
+<span class='no'>apartments_num</span> <span class='kw'>&lt;-</span> <span class='no'>apartments</span>[,<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>apartments</span>, <span class='no'>is.numeric</span>))]
+<span class='no'>apartments_num_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>)
+<span class='no'>apartments_num_new_observation</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[<span class='fl'>30</span>,-<span class='fl'>1</span>]
+<span class='no'>apartments_num_mod</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[,-<span class='fl'>1</span>]
+<span class='no'>tri</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='triplot.html'>triplot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num_mod</span>,
+  <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>apartments_num_new_observation</span>,
+  <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='input'>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>tri</span>)</div><div class='img'><img src='plot.triplot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

@@ -1,8 +1,8 @@
 pandoc: 2.7.3
 pkgdown: 1.5.1.9000
-pkgdown_sha: aea6864792d681f64a9e1b8c52fe24668b2e4f55
+pkgdown_sha: 26fcbff65ead8eea5097374115d063680c584cd6
 articles:
   vignette_aspect_importance: vignette_aspect_importance.html
   vignette_aspect_importance_description: vignette_aspect_importance_description.html
-last_built: 2020-04-22T13:55Z
+last_built: 2020-04-23T15:47Z
 

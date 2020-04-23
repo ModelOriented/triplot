@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Groups numeric features into aspects — group_variables • triplot</title>
+<title>Helper function that combines clustering variables and creating aspect list — group_variables • triplot</title>
 
 
 <!-- jquery -->
@@ -45,9 +45,9 @@
 
 
 
-<meta property="og:title" content="Groups numeric features into aspects — group_variables" />
-<meta property="og:description" content="Divides correlated features into groups, called aspects. Division is based on
-correlation cutoff level." />
+<meta property="og:title" content="Helper function that combines clustering variables and creating aspect list — group_variables" />
+<meta property="og:description" content="This function creates aspect list after creating and cutting a tree at a
+  given height." />
 
 
 
@@ -143,58 +143,44 @@ correlation cutoff level." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Groups numeric features into aspects</h1>
+    <h1>Helper function that combines clustering variables and creating aspect list</h1>
     <small class="dont-index">Source: <a href='https://github.com/kasiapekala/triplot/blob/master/R/group_variables.R'><code>R/group_variables.R</code></a></small>
     <div class="hidden name"><code>group_variables.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Divides correlated features into groups, called aspects. Division is based on
-correlation cutoff level.</p>
+    <p>This function creates aspect list after creating and cutting a tree at a
+  given height.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_variables</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
-  <span class='kw'>draw_tree</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>draw_abline</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>group_variables</span>(<span class='no'>x</span>, <span class='no'>h</span>, <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>dataframe with only numeric columns</p></td>
+      <td><p>hclust object</p></td>
     </tr>
     <tr>
-      <th>p</th>
-      <td><p>correlation value for cut-off level</p></td>
+      <th>h</th>
+      <td><p>correlation value for tree cutting</p></td>
     </tr>
     <tr>
       <th>clust_method</th>
-      <td><p>the agglomeration method to be used,
+      <td><p>the agglomeration method to be used
 see <code><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></code> methods</p></td>
-    </tr>
-    <tr>
-      <th>draw_tree</th>
-      <td><p>if TRUE, function plots tree that illustrates grouping</p></td>
-    </tr>
-    <tr>
-      <th>draw_abline</th>
-      <td><p>if TRUE, function plots vertical line at cut-off level</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of aspects</p>
+    <p>list with aspect</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DALEX"</span>)
 <span class='no'>dragons_data</span> <span class='kw'>&lt;-</span> <span class='no'>dragons</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>7</span>,<span class='fl'>8</span>)]
-<span class='fu'>group_variables</span>(<span class='no'>dragons_data</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>)</div><div class='output co'>#&gt; $aspect.group1
+<span class='fu'>group_variables</span>(<span class='no'>dragons_data</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>)</div><div class='output co'>#&gt; $aspect.group1
 #&gt; [1] "height" "weight"
 #&gt; 
 #&gt; $aspect.group2
