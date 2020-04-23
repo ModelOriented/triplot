@@ -39,6 +39,8 @@
 #' @importFrom graphics plot
 #' @importFrom ingredients feature_importance
 #'
+#' @return triplot object
+#'
 #' @examples
 #' library(DALEX)
 #' library(ingredients)
@@ -137,11 +139,10 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
 
   # Build third plot -------------------------------------------------------
 
-  x_hc <- hclust(as.dist(1 - abs(cor(data, method = "spearman"))),
-                 method = clust_method)
-  p3 <- plot_group_variables(x_hc, 0, show_labels = show_axis_y_duplicated_labels,
-                             draw_abline = FALSE, text_size = text_size,
-                             axis_lab_size = axis_lab_size)
+  cv <- cluster_variables(data, clust_method)
+  p3 <- plot(cv, show_labels = show_axis_y_duplicated_labels,
+                             axis_lab_size = axis_lab_size,
+                             text_size = text_size)
   p3 <- p3 + theme(axis.title = element_text(size = axis_lab_size))
 
   # Build first plot --------------------------------------------------------
@@ -195,8 +196,46 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
 
   # # Plot
   plot_list <- list(p1, p2, p3)
-  do.call("grid.arrange", c(plot_list, nrow = 1, top = "Triplot"))
+  class(plot_list) <- c("triplot", "list")
 
+  return(plot_list)
+
+}
+
+
+
+#' Plots triplot with correlation values
+#'
+#' Plots triplot that sum up automatic aspect/feature importance grouping
+#'
+#' @param x triplot object
+#' @param ... other parameters
+#'
+#' @return plot
+#'
+#' @import ggplot2
+#' @importFrom gridExtra grid.arrange
+#'
+#' @examples
+#' library(DALEX)
+#' library(ingredients)
+#' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
+#' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
+#' apartments_num_new_observation <- apartments_num[30,-1]
+#' apartments_num_mod <- apartments_num[,-1]
+#' tri <- triplot(x = apartments_num_lm_model,
+#'   data = apartments_num_mod,
+#'   new_observation = apartments_num_new_observation,
+#'   add_importance_labels = FALSE)
+#'
+#'  plot(tri)
+#'
+#' @export
+#'
+
+plot.triplot <- function(x, ...) {
+
+  do.call("grid.arrange", c(x, nrow = 1, top = "Triplot"))
 
 }
 
@@ -278,15 +317,14 @@ plot_aspects_importance_grouping <- function(x, data, y = NULL,
   x_hc <- hclust(as.dist(1 - abs(cor(data, method = "spearman"))),
                  method = clust_method)
   cutting_heights <- x_hc$height
-  aspects_list_previous <-  custom_tree_cutting(x_hc, 1)
+  aspects_list_previous <-  list_variables(x_hc, 1)
   int_node_importance <- as.data.frame(NULL)
-
 
   # Calculating aspect importance -------------------------------------------
 
   for (i in c(1:(length(cutting_heights) - 1))) {
 
-    aspects_list_current <- custom_tree_cutting(x_hc, 1 - cutting_heights[i])
+    aspects_list_current <- list_variables(x_hc, 1 - cutting_heights[i])
 
     t1 <- match(aspects_list_current, setdiff(aspects_list_current,
                                               aspects_list_previous))

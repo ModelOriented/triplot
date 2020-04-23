@@ -86,6 +86,9 @@ if it's an explainer}
 \item{abbrev_labels}{if greater than 0, labels for axis Y in single aspect
 importance plot will be abbreviated according to this parameter}
 }
+\value{
+triplot object
+}
 \description{
 This function shows: \itemize{ \item plot for aspect_importance or feature_importance with
 single aspect \item tree that shows aspect_importance for every newly

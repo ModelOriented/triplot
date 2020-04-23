@@ -2,38 +2,28 @@
 % Please edit documentation in R/group_variables.R
 \name{group_variables}
 \alias{group_variables}
-\title{Groups numeric features into aspects}
+\title{Helper function that combines clustering variables and creating aspect list}
 \usage{
-group_variables(
-  x,
-  p = 0.5,
-  clust_method = "complete",
-  draw_tree = FALSE,
-  draw_abline = TRUE
-)
+group_variables(x, h, clust_method = "complete")
 }
 \arguments{
-\item{x}{dataframe with only numeric columns}
+\item{x}{hclust object}
 
-\item{p}{correlation value for cut-off level}
+\item{h}{correlation value for tree cutting}
 
-\item{clust_method}{the agglomeration method to be used,
+\item{clust_method}{the agglomeration method to be used
 see \code{\link[stats]{hclust}} methods}
-
-\item{draw_tree}{if TRUE, function plots tree that illustrates grouping}
-
-\item{draw_abline}{if TRUE, function plots vertical line at cut-off level}
 }
 \value{
-list of aspects
+list with aspect
 }
 \description{
-Divides correlated features into groups, called aspects. Division is based on
-correlation cutoff level.
+This function creates aspect list after creating and cutting a tree at a
+  given height.
 }
 \examples{
 library("DALEX")
 dragons_data <- dragons[,c(2,3,4,7,8)]
-group_variables(dragons_data, p = 0.7, clust_method = "complete")
+group_variables(dragons_data, h = 0.5, clust_method = "complete")
 
 }

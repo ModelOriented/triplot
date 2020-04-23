@@ -4,44 +4,40 @@
 #' correlation cutoff level.
 #'
 #' @param x dataframe with only numeric columns
-#' @param p correlation value for cut-off level
-#' @param clust_method the agglomeration method to be used,
+#' @param clust_method the agglomeration method to be used
 #' see \code{\link[stats]{hclust}} methods
-#' @param draw_tree if TRUE, function plots tree that illustrates grouping
-#' @param draw_abline if TRUE, function plots vertical line at cut-off level
 #'
 #' @return list of aspects
 #'
 #' @importFrom stats hclust
 #' @importFrom stats cor
 #' @importFrom graphics plot
+#' @param ... other parameters
 #'
 #' @examples
 #' library("DALEX")
 #' dragons_data <- dragons[,c(2,3,4,7,8)]
-#' group_variables(dragons_data, p = 0.7, clust_method = "complete")
+#' cluster_variables(dragons_data, clust_method = "complete")
 #'
 #' @export
-#'
-#' @rdname group_variables
 
-group_variables <- function(x, p = 0.5, clust_method = "complete",
-                            draw_tree = FALSE, draw_abline = TRUE) {
+cluster_variables <- function(x, ...)
+  UseMethod("cluster_variables")
+
+#' @export
+#' @rdname cluster_variables
+
+cluster_variables.default <- function(x, clust_method = "complete", ...) {
+
   stopifnot(all(sapply(x, is.numeric)))
-  stopifnot(p >= 0, p <= 1)
 
-  # build and cut a tree
+# build clustering tree ---------------------------------------------------
+
   x_hc <- hclust(as.dist(1 - abs(cor(x, method = "spearman"))),
                  method = clust_method)
 
-  res <- custom_tree_cutting(x_hc, p)
-
-  # plot a tree
-  if (draw_tree == TRUE) {
-    plot(plot_group_variables(x_hc, p, draw_abline))
-  }
-
-  return(res)
+  class(x_hc) <- c("cluster_variables", "hclust")
+  return(x_hc)
 }
 
 
@@ -49,14 +45,15 @@ group_variables <- function(x, p = 0.5, clust_method = "complete",
 #'
 #' Plots tree that illustrates the results of group_variables function.
 #'
-#' @param x hclust object
-#' @param p correlation value for cutoff level
+#' @param x cluster_variables or hclust object
+#' @param p correlation value for cutoff level, if not NULL, cutoff line will
+#'   be drawn
 #' @param show_labels if TRUE, plot will have annotated axis Y
-#' @param draw_abline if TRUE, cutoff line will be drawn
 #' @param axis_lab_size size of labels on axis Y, if applicable
 #' @param text_size size of labels annotating values of correlations
+#' @param ... other parameters
 #'
-#' @return tree plot
+#' @return plot
 #'
 #' @importFrom stats hclust
 #' @importFrom ggdendro dendro_data
@@ -68,15 +65,15 @@ group_variables <- function(x, p = 0.5, clust_method = "complete",
 #' @examples
 #' library("DALEX")
 #' dragons_data <- dragons[,c(2,3,4,7,8)]
-#' group_variables(dragons_data, p = 0.7, clust_method = "complete",
-#'                 draw_tree = TRUE)
+#' cv <- cluster_variables(dragons_data, clust_method = "complete")
+#' plot(cv, p = 0.7)
 #'
 #' @export
 
-plot_group_variables <- function(x, p, show_labels = TRUE, draw_abline = TRUE,
-                                 axis_lab_size = 10, text_size = 3) {
+plot.cluster_variables <- function(x, p = NULL, show_labels = TRUE,
+                                 axis_lab_size = 10, text_size = 3, ...) {
   stopifnot(p >= 0, p <= 1)
-  stopifnot(class(x) == "hclust")
+  stopifnot("hclust" %in% class(x))
 
   y <- xend <- yend <- h <- NULL
 
@@ -121,7 +118,7 @@ plot_group_variables <- function(x, p, show_labels = TRUE, draw_abline = TRUE,
   }
 
   #add line that shows correlation cut off level
-  if (draw_abline == TRUE) {
+  if (!is.null(p)) {
     cor_plot <- cor_plot + geom_hline(yintercept = 1 - p, linetype = "dashed")
   }
 
@@ -132,24 +129,33 @@ plot_group_variables <- function(x, p, show_labels = TRUE, draw_abline = TRUE,
 }
 
 
-#' Custom tree cutting
+#' Cuts tree at custom height and returns a list
 #'
 #' This function creates aspect list after cutting a tree at a given height.
 #'
 #' @param x hclust object
 #' @param h correlation value for tree cutting
 #'
-#' @return dataframe with aspect
+#' @return list with aspect
 #'
+#' @examples
+#' library("DALEX")
+#' dragons_data <- dragons[,c(2,3,4,7,8)]
+#' cv <- cluster_variables(dragons_data, clust_method = "complete")
+#' list_variables(cv, h = 0.5)
+#'
+#' @export
 #' @importFrom stats cutree
-#'
-#' @noRd
 
-custom_tree_cutting <- function(x, h) {
+
+list_variables <- function(x, h) {
+
   val <- NULL
   clust_list <- cutree(x, h = 1 - h)
+  stopifnot(h >= 0, h <= 1)
 
-  #prepare a list with aspects grouping
+# prepare a list with aspects grouping ------------------------------------
+
   df <- data.frame(names(clust_list), unname(clust_list))
   colnames(df) <- c("name", "val")
   res <- vector("list", max(clust_list))
@@ -158,6 +164,34 @@ custom_tree_cutting <- function(x, h) {
   for (i in seq_along(res)) {
     res[i] <- list(as.character(subset(df, val == i)$name))
   }
+
+  return(res)
+}
+
+#' Helper function that combines clustering variables and creating aspect list
+#'
+#' This function creates aspect list after creating and cutting a tree at a
+#'   given height.
+#'
+#' @param x hclust object
+#' @param h correlation value for tree cutting
+#' @param clust_method the agglomeration method to be used
+#' see \code{\link[stats]{hclust}} methods
+#'
+#' @examples
+#' library("DALEX")
+#' dragons_data <- dragons[,c(2,3,4,7,8)]
+#' group_variables(dragons_data, h = 0.5, clust_method = "complete")
+#'
+#' @return list with aspect
+#' @export
+
+group_variables <- function(x, h, clust_method = "complete") {
+
+# make a tree and prepare a list with aspects grouping --------------------
+
+  cv <- cluster_variables(x, clust_method = clust_method)
+  res <- list_variables(cv, h)
 
   return(res)
 }
