@@ -57,6 +57,8 @@ if NULL feature_importance will be calculated}
 \item{clust_method}{the agglomeration method to be used, see
 \code{\link[stats]{hclust}} methods}
 
+\item{...}{other parameters}
+
 \item{absolute_value}{if TRUE, aspect importance values will be drawn as
 absolute values}
 
