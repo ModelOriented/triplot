@@ -2,6 +2,7 @@ triplot 0.3.1
 ----------------------------------------------------------------
 * updated plot_aspects_importance_grouping so it can draw last clusters 
 connection
+* add_importance_labels parameter set to FALSE by default
 
 
 triplot 0.3

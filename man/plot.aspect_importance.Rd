@@ -59,6 +59,6 @@ aspects <- list(wealth = c("class", "fare"),
 
 plot(aspect_importance(explain_titanic_glm,
                   new_observation = titanic_imputed[1,],
-                  aspects = aspects))
+                  variable_groups = aspects))
 
 }

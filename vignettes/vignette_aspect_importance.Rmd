@@ -168,7 +168,7 @@ Afterwards, we call aspect_importance() function with parameter `show_cor = TRUE
 
 ```{r}
 aspects_apartments <- group_variables(apartments_no_target, 0.6)
-apartments_ai <- aspect_importance(x = model_apartments, data = apartments_no_target, new_observation = new_observation_apartments, aspects = aspects_apartments, N = 500, show_cor = TRUE)
+apartments_ai <- aspect_importance(x = model_apartments, data = apartments_no_target, new_observation = new_observation_apartments, variable_groups = aspects_apartments, N = 500, show_cor = TRUE)
 apartments_ai
 ```
 

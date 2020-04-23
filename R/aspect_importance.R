@@ -1,4 +1,4 @@
-#' Calculates the feature groups importance (called aspects importance) for a
+#' Calculates importance of variable groups (called aspects importance) for a
 #' selected observation
 #'
 #' Aspect Importance function takes a sample from a given dataset and modifies
@@ -17,7 +17,7 @@
 #'   if it's an explainer
 #' @param new_observation selected observation with columns that corresponds to
 #'   variables used in the model
-#' @param aspects list containing grouping of features into aspects
+#' @param variable_groups list containing grouping of features into aspects
 #' @param N number of observations to be sampled (with replacement) from data
 #' @param label name of the model. By default it's extracted from the 'class'
 #'   attribute of the model.
@@ -59,7 +59,7 @@
 #'
 #' aspect_importance(explain_titanic_glm,
 #'                   new_observation = titanic_imputed[1,],
-#'                   aspects = aspects)
+#'                   variable_groups = aspects)
 #'
 #' \dontrun{
 #' library("randomForest")
@@ -74,7 +74,7 @@
 #'
 #' aspect_importance(explain_titanic_rf,
 #'                   new_observation = titanic_imputed[1,],
-#'                   aspects = aspects)
+#'                   variable_groups = aspects)
 #'
 #' }
 #'
@@ -86,7 +86,7 @@ aspect_importance <- function(x, ...)
 #' @export
 #' @rdname aspect_importance
 
-aspect_importance.explainer <- function(x, new_observation, aspects,
+aspect_importance.explainer <- function(x, new_observation, variable_groups,
                                         N = 100, sample_method = "default",
                                         n_var = 0, f = 2,
                                         show_cor = FALSE, ...) {
@@ -99,7 +99,7 @@ aspect_importance.explainer <- function(x, new_observation, aspects,
 
   # calls target function
   aspect_importance.default(model, data, predict_function,
-                            new_observation, aspects, N, label, sample_method,
+                            new_observation, variable_groups, N, label, sample_method,
                             n_var, f, show_cor)
 }
 
@@ -108,7 +108,7 @@ aspect_importance.explainer <- function(x, new_observation, aspects,
 
 aspect_importance.default <- function(x, data, predict_function = predict,
                                       new_observation,
-                                      aspects, N = 100,
+                                      variable_groups, N = 100,
                                       label = class(x)[1],
                                       sample_method = "default", n_var = 0,
                                       f = 2, show_cor = FALSE, ...) {
@@ -122,7 +122,7 @@ aspect_importance.default <- function(x, data, predict_function = predict,
 
   # stop if no common variables are found
   stopifnot(length(common_variables) > 0,
-            length(setdiff(unlist(aspects),
+            length(setdiff(unlist(variable_groups),
                            colnames(new_observation))) == 0)
 
   #number of expected coefficients cannot be negative
@@ -133,11 +133,11 @@ aspect_importance.default <- function(x, data, predict_function = predict,
   n_sample_changed <- n_sample
 
   # sample which aspects will be replaced
-  new_X <- get_sample(N, length(aspects), sample_method, f)
+  new_X <- get_sample(N, length(variable_groups), sample_method, f)
 
   # replace aspects
   for (i in seq_len(nrow(n_sample))) {
-    vars <- unlist(aspects[new_X[i, ] == 1])
+    vars <- unlist(variable_groups[new_X[i, ] == 1])
     n_sample_changed[i, vars] <- new_observation[vars]
   }
 
@@ -146,7 +146,7 @@ aspect_importance.default <- function(x, data, predict_function = predict,
     predict_function(x, n_sample)
 
   # fit linear model/lasso to estimate aspects importance
-  colnames(new_X) <- names(aspects)
+  colnames(new_X) <- names(variable_groups)
   new_df <- data.frame(y_changed, new_X)
 
   if (n_var == 0) {
@@ -162,12 +162,12 @@ aspect_importance.default <- function(x, data, predict_function = predict,
 
   #prepare dataframe with results
   res <- data.frame(names(model_coef), unname(model_coef))
-  colnames(res) <- c("aspects", "importance")
-  res <- res[!res$aspects == "(Intercept)", ]
+  colnames(res) <- c("variable_groups", "importance")
+  res <- res[!res$variable_groups == "(Intercept)", ]
   res <- res[order(-abs(res$importance)), ]
 
-  for (i in seq_along(aspects)) {
-    res$features[i] <- aspects[as.character(res[i, 1])]
+  for (i in seq_along(variable_groups)) {
+    res$features[i] <- variable_groups[as.character(res[i, 1])]
     vars <- unlist(res$features[i])
     if (all(sapply(data[, vars], is.numeric)) & length(vars) > 1 &
         show_cor == TRUE) {
@@ -227,7 +227,7 @@ aspect_importance.default <- function(x, data, predict_function = predict,
 #'
 #' plot(aspect_importance(explain_titanic_glm,
 #'                   new_observation = titanic_imputed[1,],
-#'                   aspects = aspects))
+#'                   variable_groups = aspects))
 #'
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy_vertical
@@ -243,10 +243,10 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 
   stopifnot("aspect_importance" %in% class(x))
 
-  importance <- a_sign <- aspects <- features <- hjust <- NULL
+  importance <- a_sign <- variable_groups <- features <- hjust <- NULL
 
   # order bars
-  x$aspects <- reorder(x$aspects, abs(x[, 2]), na.rm = TRUE)
+  x$variable_groups <- reorder(x$variable_groups, abs(x[, 2]), na.rm = TRUE)
   features_ordered <- sapply(x$features, paste0, collapse = ", ")
 
   # bind aspect_importance data frames
@@ -267,7 +267,7 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 
   # prep plot
   if (aspects_on_axis) {
-    p <- ggplot(x, aes(aspects, ymin = 0, ymax = importance, color = a_sign)) +
+    p <- ggplot(x, aes(variable_groups, ymin = 0, ymax = importance, color = a_sign)) +
       geom_linerange(size = bar_width) +
       facet_wrap(~label, scales = "free_y", nrow = 1)
   } else {
@@ -278,7 +278,7 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
   }
 
   if (add_importance & aspects_on_axis) {
-    p <- p + geom_text(aes(x = aspects, y = importance,
+    p <- p + geom_text(aes(x = variable_groups, y = importance,
                            label = round(importance, digits_to_round),
                            hjust = hjust), vjust = 0.5, color = "#371ea3",
                        size = text_size)

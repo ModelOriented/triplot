@@ -182,11 +182,11 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
     }
 
     order_mod <- attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
-    order_mod <-  match(order_mod, p1$data$aspects)
+    order_mod <-  match(order_mod, p1$data$variable_groups)
     lev_mod <- p1$data$`new observation`[order_mod]
     p1$data$`new observation` <- factor(p1$data$`new observation`,
                                         levels = lev_mod)
-    p1$data$aspects <- p1$data$`new observation`
+    p1$data$variable_groups <- p1$data$`new observation`
     p1 <- p1 + theme(axis.text = element_text(size = axis_lab_size),
                      axis.title = element_text(size = axis_lab_size)) +
       scale_x_discrete(expand = expand_scale(mult = .01))
@@ -305,8 +305,8 @@ plot_aspects_importance_grouping <- function(x, data, y = NULL,
       res_ai <- aspect_importance(x = x, data = data,
                                   predict_function = predict_function,
                                   new_observation = new_observation,
-                                  aspects = aspects_list_current, N = N)
-      int_node_importance[i, 1] <- res_ai[res_ai$aspects == group_name, ]$importance
+                                  variable_groups = aspects_list_current, N = N)
+      int_node_importance[i, 1] <- res_ai[res_ai$variable_groups == group_name, ]$importance
     }
 
     int_node_importance[i, 2] <- group_name

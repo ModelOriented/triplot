@@ -6,7 +6,7 @@ test_that("check output for aspects importance (glm, default)",{
 
   aspect_importance_titanic_glm <- aspect_importance(titanic_glm_model, titanic_data,
                                                      new_observation = titanic_new_observation,
-                                                     aspects = titanic_aspects)
+                                                     variable_groups = titanic_aspects)
 
   expect_true("data.frame" %in% class(aspect_importance_titanic_glm))
   expect_true(dim(aspect_importance_titanic_glm)[1] == 4)
@@ -26,9 +26,9 @@ test_that("check output for aspects importance (lm, binom)",{
 
   aspect_importance_apartments <- aspect_importance(apartments_lm_model, apartments,
                                                     new_observation = apartments_new_observation,
-                                                    aspects =  apartments_aspects, sample_method = "binom")
+                                                    variable_groups =  apartments_aspects, sample_method = "binom")
   expect_true("aspect_importance" %in% class(aspect_importance_apartments))
-  expect_true(floor(aspect_importance_apartments[aspect_importance_apartments$aspects == "district",]$importance) == 279)
+  expect_true(floor(aspect_importance_apartments[aspect_importance_apartments$variable_groups == "district",]$importance) == 279)
 })
 
 test_that("check output for aspects importance (additional parameters)",{
@@ -45,14 +45,14 @@ test_that("check output for aspects importance (additional parameters)",{
   aspect_importance_apartments_1000 <-
     aspect_importance(apartments_lm_model, apartments,
                       new_observation = apartments_new_observation,
-                      aspects =  apartments_aspects, N = 1000, f = 3)
+                      variable_groups =  apartments_aspects, N = 1000, f = 3)
   aspect_importance_apartments_500 <-
     aspect_importance(apartments_lm_model, apartments,
                       new_observation = apartments_new_observation,
-                      aspects =  apartments_aspects, N = 500, f = 3)
+                      variable_groups =  apartments_aspects, N = 500, f = 3)
 
-  res_1 <- aspect_importance_apartments_1000[aspect_importance_apartments_1000$aspects == "district",]$importance
-  res_2 <- aspect_importance_apartments_500[aspect_importance_apartments_500$aspects == "district",]$importance
+  res_1 <- aspect_importance_apartments_1000[aspect_importance_apartments_1000$variable_groups == "district",]$importance
+  res_2 <- aspect_importance_apartments_500[aspect_importance_apartments_500$variable_groups == "district",]$importance
 
   expect_true(res_1 != res_2)
 })
@@ -70,7 +70,7 @@ test_that("check aspects_importance for explainer",{
 
   aspect_importance_titanic_glm <- aspect_importance(titanic_explainer,
                                                      new_observation = titanic_new_observation,
-                                                     aspects = titanic_aspects)
+                                                     variable_groups = titanic_aspects)
 
   expect_true("data.frame" %in% class(aspect_importance_titanic_glm))
 })
@@ -82,7 +82,7 @@ test_that("check plot for aspects importance",{
 
   aspect_importance_apartments <- aspect_importance(apartments_lm_model, apartments,
                                                     new_observation = apartments_new_observation,
-                                                    aspects =  apartments_aspects, method = "binom")
+                                                    variable_groups =  apartments_aspects, method = "binom")
 
   expect_is(plot(aspect_importance_apartments), "gg")
 })
@@ -93,16 +93,16 @@ test_that("check plot (facets) for aspects importance",{
 
   aspect_importance_apartments1 <- aspect_importance(apartments_lm_model, apartments,
                                                      new_observation = apartments_new_observation,
-                                                     aspects =  apartments_aspects, method = "binom",
+                                                     variable_groups =  apartments_aspects, method = "binom",
                                                      label = "model 1")
 
   aspect_importance_apartments2 <- aspect_importance(apartments_lm_model, apartments,
                                                      new_observation = apartments_new_observation,
-                                                     aspects =  apartments_aspects, label = "model 2")
+                                                     variable_groups =  apartments_aspects, label = "model 2")
 
   aspect_importance_apartments3 <- aspect_importance(apartments_lm_model, apartments,
                                                      new_observation = apartments_new_observation,
-                                                     aspects =  apartments_aspects, label = "model 3")
+                                                     variable_groups =  apartments_aspects, label = "model 3")
 
   expect_is(plot(aspect_importance_apartments1, aspect_importance_apartments2,
                  aspect_importance_apartments3, add_importance = TRUE,
@@ -117,7 +117,7 @@ test_that("check alias for aspect_importance",{
 
   aspect_importance_apartments <- lime(apartments_lm_model, apartments,
                                        new_observation = apartments_new_observation,
-                                       aspects =  apartments_aspects, method = "binom")
+                                       variable_groups =  apartments_aspects, method = "binom")
   expect_true("aspect_importance" %in% class(aspect_importance_apartments))
 
 })
@@ -128,7 +128,7 @@ test_that("plot for aspect_importance works",{
 
   aspect_importance_apartments <- aspect_importance(apartments_lm_model, apartments,
                                                     new_observation = apartments_new_observation,
-                                                    aspects =  apartments_aspects, method = "binom")
+                                                    variable_groups =  apartments_aspects, method = "binom")
   p <- plot(aspect_importance_apartments)
   expect_true(is.ggplot(p))
   expect_identical(p$labels$y, "Aspects importance")
@@ -141,10 +141,10 @@ test_that("check for aspect_importance with lasso",{
 
   aspect_importance_apartments <- aspect_importance(apartments_lm_model, apartments,
                                                     new_observation = apartments_new_observation,
-                                                    aspects =  apartments_aspects, n_var = 3)
+                                                    variable_groups =  apartments_aspects, n_var = 3)
   aspect_importance_apartments_0 <- aspect_importance(apartments_lm_model, apartments,
                                                       new_observation = apartments_new_observation,
-                                                      aspects =  apartments_aspects, n_var = 1)
+                                                      variable_groups =  apartments_aspects, n_var = 1)
 
 
   expect_true("aspect_importance" %in% class(aspect_importance_apartments))
@@ -163,7 +163,7 @@ test_that("check for aspect_importance with show_cor",{
   aspect_importance_apartments_num <- aspect_importance(
     apartments_num_lm_model, apartments_num,
     new_observation = apartments_num_new_observation,
-    aspects =  aspect_list_apartments_num, show_cor = TRUE)
+    variable_groups =  aspect_list_apartments_num, show_cor = TRUE)
 
   expect_true("aspect_importance" %in% class(aspect_importance_apartments_num))
   expect_true(dim(aspect_importance_apartments_num)[2] == 5)

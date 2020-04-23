@@ -5,7 +5,7 @@
 \alias{aspect_importance.explainer}
 \alias{aspect_importance.default}
 \alias{lime}
-\title{Calculates the feature groups importance (called aspects importance) for a
+\title{Calculates importance of variable groups (called aspects importance) for a
 selected observation}
 \usage{
 aspect_importance(x, ...)
@@ -13,7 +13,7 @@ aspect_importance(x, ...)
 \method{aspect_importance}{explainer}(
   x,
   new_observation,
-  aspects,
+  variable_groups,
   N = 100,
   sample_method = "default",
   n_var = 0,
@@ -27,7 +27,7 @@ aspect_importance(x, ...)
   data,
   predict_function = predict,
   new_observation,
-  aspects,
+  variable_groups,
   N = 100,
   label = class(x)[1],
   sample_method = "default",
@@ -48,7 +48,7 @@ or a model to be explained.}
 \item{new_observation}{selected observation with columns that corresponds to
 variables used in the model}
 
-\item{aspects}{list containing grouping of features into aspects}
+\item{variable_groups}{list containing grouping of features into aspects}
 
 \item{N}{number of observations to be sampled (with replacement) from data}
 
@@ -103,7 +103,7 @@ aspects <- list(wealth = c("class", "fare"),
 
 aspect_importance(explain_titanic_glm,
                   new_observation = titanic_imputed[1,],
-                  aspects = aspects)
+                  variable_groups = aspects)
 
 \dontrun{
 library("randomForest")
@@ -118,7 +118,7 @@ explain_titanic_rf <- explain(model_titanic_rf,
 
 aspect_importance(explain_titanic_rf,
                   new_observation = titanic_imputed[1,],
-                  aspects = aspects)
+                  variable_groups = aspects)
 
 }
 
