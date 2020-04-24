@@ -110,15 +110,21 @@ test_that("check plot (facets) for aspects importance",{
 })
 
 
-test_that("check alias for aspect_importance",{
+test_that("check aliases for aspect_importance",{
   library("DALEX")
   library("triplot")
 
 
-  aspect_importance_apartments <- lime(apartments_lm_model, apartments,
+  lime_apartments <- lime(apartments_lm_model, apartments,
                                        new_observation = apartments_new_observation,
                                        variable_groups =  apartments_aspects, method = "binom")
-  expect_true("aspect_importance" %in% class(aspect_importance_apartments))
+  prediction_aspect_apartments <- prediction_aspect(apartments_lm_model, apartments,
+                                       new_observation = apartments_new_observation,
+                                       variable_groups =  apartments_aspects, method = "binom")
+
+  expect_true("aspect_importance" %in% class(lime_apartments))
+  expect_true("aspect_importance" %in% class(prediction_aspect_apartments))
+
 
 })
 
@@ -129,11 +135,15 @@ test_that("plot for aspect_importance works",{
   aspect_importance_apartments <- aspect_importance(apartments_lm_model, apartments,
                                                     new_observation = apartments_new_observation,
                                                     variable_groups =  apartments_aspects, method = "binom")
-  p <- plot(aspect_importance_apartments)
-  expect_true(is.ggplot(p))
-  expect_identical(p$labels$y, "Aspects importance")
+  p1 <- plot(aspect_importance_apartments)
+  p2 <- plot(aspect_importance_apartments, add_importance = TRUE)
+  expect_true(is.ggplot(p1))
+  expect_true(is.ggplot(p2))
+  expect_identical(p1$labels$y, "Aspects importance")
   expect_error(plot.aspect_importance(apartments))
 })
+
+
 
 test_that("check for aspect_importance with lasso",{
   library("DALEX")

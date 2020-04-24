@@ -11,7 +11,7 @@ triplot(x, ...)
 \method{triplot}{explainer}(
   x,
   new_observation = NULL,
-  N = 500,
+  N = 1000,
   clust_method = "complete",
   absolute_value = FALSE,
   add_importance_labels = FALSE,
@@ -28,7 +28,7 @@ triplot(x, ...)
   y = NULL,
   predict_function = predict,
   new_observation = NULL,
-  N = 500,
+  N = 1000,
   clust_method = "complete",
   absolute_value = FALSE,
   add_importance_labels = FALSE,

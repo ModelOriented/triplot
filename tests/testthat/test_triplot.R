@@ -59,7 +59,8 @@ test_that("check plot.triplot function",{
 
   tri <- triplot(x = apartments_num_lm_model,
                data = apartments_num_mod,
-               y = apartments[,1])
+               y = apartments[,1],
+               abbrev_labels = 10)
   p <- plot(tri)
 
   expect_true("gtable" %in% class(p))

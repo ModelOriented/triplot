@@ -92,7 +92,7 @@
       <h1 data-toc-skip>Aspect importance function examples</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-04-22</h4>
+            <h4 class="date">2020-04-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kasiapekala/triplot/blob/master/vignettes/vignette_aspect_importance.Rmd"><code>vignettes/vignette_aspect_importance.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance.Rmd</code></div>
@@ -168,11 +168,11 @@
 <span class="no">titanic_glm_ai</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">aspect_importance</a></span>(<span class="no">model_titanic_glm</span>, <span class="no">titanic</span>, <span class="no">predict</span>, <span class="no">passenger</span>, <span class="no">aspects_titanic</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">1000</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"logistic regression"</span>)
 
 <span class="no">titanic_glm_ai</span></pre></body></html></div>
-<pre><code>#&gt;    aspects importance     features
-#&gt; 2   wealth    -0.6916  class, fare
-#&gt; 3   family     0.1648 sibsp, parch
-#&gt; 5 embarked    -0.1353     embarked
-#&gt; 4 personal     0.1109  age, gender</code></pre>
+<pre><code>#&gt;   variable_groups importance     features
+#&gt; 2          wealth    -0.6916  class, fare
+#&gt; 3          family     0.1648 sibsp, parch
+#&gt; 5        embarked    -0.1353     embarked
+#&gt; 4        personal     0.1109  age, gender</code></pre>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">titanic_glm_ai</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Aspect importance for the selected passenger"</span>)</pre></body></html></div>
 <p><img src="vignette_aspect_importance_files/figure-html/Calculating%20aspect%20importance%20(logistic%20regression)-1.png" width="700"></p>
 </div>
@@ -189,11 +189,11 @@
 
 <span class="no">titanic_glm_ai</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">aspect_importance</a></span>(<span class="no">explain_titanic_glm</span>, <span class="no">passenger</span>, <span class="no">aspects_titanic</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">1000</span>)
 <span class="no">titanic_glm_ai</span></pre></body></html></div>
-<pre><code>#&gt;    aspects importance     features
-#&gt; 2   wealth    -0.6916  class, fare
-#&gt; 3   family     0.1648 sibsp, parch
-#&gt; 5 embarked    -0.1353     embarked
-#&gt; 4 personal     0.1109  age, gender</code></pre>
+<pre><code>#&gt;   variable_groups importance     features
+#&gt; 2          wealth    -0.6916  class, fare
+#&gt; 3          family     0.1648 sibsp, parch
+#&gt; 5        embarked    -0.1353     embarked
+#&gt; 4        personal     0.1109  age, gender</code></pre>
 </div>
 <div id="random-forest-model-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -213,11 +213,11 @@
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">titanic_rf_ai</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">aspect_importance</a></span>(<span class="no">model_titanic_rf</span>, <span class="no">titanic</span>, <span class="no">predict</span>, <span class="no">passenger</span>, <span class="no">aspects_titanic</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">1000</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"random forest"</span>)
 
 <span class="no">titanic_rf_ai</span></pre></body></html></div>
-<pre><code>#&gt;    aspects importance     features
-#&gt; 4 personal    0.16787  age, gender
-#&gt; 2   wealth   -0.03100  class, fare
-#&gt; 5 embarked   -0.02956     embarked
-#&gt; 3   family    0.00882 sibsp, parch</code></pre>
+<pre><code>#&gt;   variable_groups importance     features
+#&gt; 4        personal    0.16787  age, gender
+#&gt; 2          wealth   -0.03100  class, fare
+#&gt; 5        embarked   -0.02956     embarked
+#&gt; 3          family    0.00882 sibsp, parch</code></pre>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">titanic_rf_ai</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Aspect importance for the selected passenger"</span>)</pre></body></html></div>
 <p><img src="vignette_aspect_importance_files/figure-html/Calculating%20aspect%20importance%20(random%20forest)-1.png" width="700"></p>
 </div>
@@ -252,12 +252,12 @@
 <p>We run group_variables() function with cut off level set on 0.6. As a result, we get a list of variables groups (aspects) where absolute value of features’ pairwise correlation is at least at 0.6.</p>
 <p>Afterwards, we call aspect_importance() function with parameter <code>show_cor = TRUE</code>, to check how features are grouped into aspects, what is minimal value of pairwise correlation in each group and to check whether any pair of features is negatively correlated (<code>neg</code>) or not (<code>pos</code>).</p>
 <div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">aspects_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_variables.html">group_variables</a></span>(<span class="no">apartments_no_target</span>, <span class="fl">0.6</span>)
-<span class="no">apartments_ai</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">aspect_importance</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">model_apartments</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">apartments_no_target</span>, <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>, <span class="kw">aspects</span> <span class="kw">=</span> <span class="no">aspects_apartments</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">500</span>, <span class="kw">show_cor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="no">apartments_ai</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">aspect_importance</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">model_apartments</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">apartments_no_target</span>, <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>, <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">aspects_apartments</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">500</span>, <span class="kw">show_cor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="no">apartments_ai</span></pre></body></html></div>
-<pre><code>#&gt;         aspects importance          features   min_cor sign
-#&gt; 3 aspect.group2    680.668 surface, no.rooms 0.9174349  pos
-#&gt; 4 aspect.group3    235.682             floor        NA     
-#&gt; 2 aspect.group1      2.344 construction.year        NA</code></pre>
+<pre><code>#&gt;   variable_groups importance          features   min_cor sign
+#&gt; 3   aspect.group2    680.668 surface, no.rooms 0.9174349  pos
+#&gt; 4   aspect.group3    235.682             floor        NA     
+#&gt; 2   aspect.group1      2.344 construction.year        NA</code></pre>
 </div>
 <div id="hierarchical-aspects-importance" class="section level1">
 <h1 class="hasAnchor">
@@ -270,11 +270,12 @@
 </ul>
 <p>Hierarchical aspects importance allows us to check the values of aspects importance for the different levels of variables grouping. Method starts with looking at the aspect importance where every aspect has one, single variable. Afterwards, it iteratively creates bigger aspects by merging the ones with the highest level of absolute correlation into one aspect and calculating it’s contribution to the prediction.</p>
 <p>It should be noted that similarly to <code><a href="../reference/group_variables.html">group_variables()</a></code>, <code><a href="../reference/triplot.html">triplot()</a></code> works for the datasets with only numerical variables.</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/triplot.html">triplot</a></span>(<span class="no">model_apartments</span>, <span class="no">apartments_no_target</span>,
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">tri</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/triplot.html">triplot</a></span>(<span class="no">model_apartments</span>, <span class="no">apartments_no_target</span>,
         <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>, <span class="kw">N</span> <span class="kw">=</span> <span class="fl">500</span>,
         <span class="kw">clust_method</span> <span class="kw">=</span> <span class="st">"complete"</span>, <span class="kw">absolute_value</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
         <span class="kw">cumulative_max</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">add_importance_labels</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-        <span class="kw">abbrev_labels</span> <span class="kw">=</span> <span class="fl">15</span>)</pre></body></html></div>
+        <span class="kw">abbrev_labels</span> <span class="kw">=</span> <span class="fl">15</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">tri</span>)</pre></body></html></div>
 <p><img src="vignette_aspect_importance_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 </div>
 <div id="session-info" class="section level1">
@@ -297,7 +298,7 @@
 #&gt; 
 #&gt; other attached packages:
 #&gt; [1] randomForest_4.6-14 triplot_0.1.0       ggplot2_3.3.0      
-#&gt; [4] DALEX_1.0.1        
+#&gt; [4] DALEX_1.2.0        
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.4.6      compiler_3.6.3    pillar_1.4.3      ingredients_1.2.0

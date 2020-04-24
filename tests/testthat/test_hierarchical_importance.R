@@ -34,7 +34,8 @@ test_that("check plot.hierarchical_importance  function",{
   hi <- hierarchical_importance(x = apartments_num_lm_model,
                                 data = apartments_num_mod,
                                 y = apartments[,1])
-  p <- plot(hi, add_last_group = TRUE)
+  p <- plot(hi, add_last_group = TRUE,
+            absolute_value = TRUE)
 
   expect_true("ggplot" %in% class(p))
 })

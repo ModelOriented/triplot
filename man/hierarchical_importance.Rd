@@ -11,7 +11,7 @@ hierarchical_importance(
   y = NULL,
   predict_function = predict,
   new_observation = NULL,
-  N = 100,
+  N = 1000,
   clust_method = "complete",
   ...
 )
@@ -22,7 +22,7 @@ hierarchical_importance(
   y = NULL,
   predict_function = predict,
   new_observation = NULL,
-  N = 100,
+  N = 1000,
   clust_method = "complete",
   ...
 )
