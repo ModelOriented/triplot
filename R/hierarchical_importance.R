@@ -57,7 +57,7 @@ hierarchical_importance <- function(x, ...)
 
 hierarchical_importance <- function(x, data, y = NULL,
                                              predict_function = predict,
-                                             new_observation = NULL, N = 100,
+                                             new_observation = NULL, N = 1000,
                                              clust_method = "complete", ...) {
 
   # Building helper objects ---------------------------------------------
@@ -82,7 +82,9 @@ hierarchical_importance <- function(x, data, y = NULL,
 
     if (is.null(new_observation)) {
       res_ai <- feature_importance(x = x, data = data, y = y,
-                                   variable_groups = aspects_list_current)
+                                   predict_function = predict_function,
+                                   variable_groups = aspects_list_current,
+                                   n_sample = N)
       res_ai <- res_ai[!(substr(res_ai$variable,1,1) == "_"),]
       res_ai <- res_ai[res_ai$permutation == "0", ]
 

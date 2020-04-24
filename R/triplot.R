@@ -66,7 +66,7 @@ triplot <- function(x, ...)
 #' @export
 #' @rdname triplot
 
-triplot.explainer <- function(x, new_observation = NULL, N = 500,
+triplot.explainer <- function(x, new_observation = NULL, N = 1000,
                               clust_method = "complete",
                               absolute_value = FALSE,
                               add_importance_labels = FALSE,
@@ -88,8 +88,10 @@ triplot.explainer <- function(x, new_observation = NULL, N = 500,
   }
 
   # calls target function
-  triplot.default(model, data, y, predict_function, new_observation, N,
-                  clust_method, absolute_value = FALSE,
+  triplot.default(x = model, data = data, y = y,
+                  predict_function = predict_function,
+                  new_observation = new_observation, N = N,
+                  clust_method = clust_method, absolute_value = FALSE,
                   add_importance_labels, show_axis_y_duplicated_labels,
                   add_last_group, axis_lab_size = axis_lab_size,
                   text_size = text_size)
@@ -101,7 +103,7 @@ triplot.explainer <- function(x, new_observation = NULL, N = 500,
 
 triplot.default <- function(x, data, y = NULL, predict_function = predict,
                             new_observation = NULL,
-                            N = 500, clust_method = "complete",
+                            N = 1000, clust_method = "complete",
                             absolute_value = FALSE,
                             add_importance_labels = FALSE,
                             show_axis_y_duplicated_labels = FALSE,
@@ -148,7 +150,9 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
   # Build first plot --------------------------------------------------------
 
   if (is.null(new_observation)) {
-    importance_leaves <- feature_importance(x = x, data = data, y = y)
+    importance_leaves <- feature_importance(x = x, data = data, y = y,
+                                            predict_function = predict_function,
+                                            n_sample = N)
     p1 <- plot(importance_leaves, show_boxplots = FALSE, subtitle = "",
                title = "")
     p1$theme$text$size <- text_size
