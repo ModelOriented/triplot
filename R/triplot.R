@@ -46,13 +46,13 @@
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 #' apartments_num_new_observation <- apartments_num[30,-1]
 #' apartments_num_mod <- apartments_num[,-1]
-#' triplot(x = apartments_num_lm_model,
+#' calculate_triplot(x = apartments_num_lm_model,
 #'   data = apartments_num_mod,
 #'   new_observation = apartments_num_new_observation,
 #'   add_importance_labels = FALSE)
 #'
 #' set.seed(123)
-#' plot(triplot(x = apartments_num_lm_model,
+#' plot(calculate_triplot(x = apartments_num_lm_model,
 #'   data = apartments_num_mod,
 #'   y = apartments_num[,1],
 #'   show_axis_y_duplicated_labels = TRUE, add_last_group = TRUE))
@@ -60,13 +60,13 @@
 #'
 #' @export
 
-triplot <- function(x, ...)
-  UseMethod("triplot")
+calculate_triplot <- function(x, ...)
+  UseMethod("calculate_triplot")
 
 #' @export
-#' @rdname triplot
+#' @rdname calculate_triplot
 
-triplot.explainer <- function(x, new_observation = NULL, N = 1000,
+calculate_triplot.explainer <- function(x, new_observation = NULL, N = 1000,
                               clust_method = "complete",
                               absolute_value = FALSE,
                               add_importance_labels = FALSE,
@@ -88,7 +88,7 @@ triplot.explainer <- function(x, new_observation = NULL, N = 1000,
   }
 
   # calls target function
-  triplot.default(x = model, data = data, y = y,
+  calculate_triplot.default(x = model, data = data, y = y,
                   predict_function = predict_function,
                   new_observation = new_observation, N = N,
                   clust_method = clust_method, absolute_value = FALSE,
@@ -98,10 +98,10 @@ triplot.explainer <- function(x, new_observation = NULL, N = 1000,
 }
 
 #' @export
-#' @rdname triplot
+#' @rdname calculate_triplot
 
 
-triplot.default <- function(x, data, y = NULL, predict_function = predict,
+calculate_triplot.default <- function(x, data, y = NULL, predict_function = predict,
                             new_observation = NULL,
                             N = 1000, clust_method = "complete",
                             absolute_value = FALSE,
@@ -202,7 +202,7 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
   plot_list <- list(p1, p2, p3)
   class(plot_list) <- c("triplot", "list")
 
-  return(plot_list)
+  invisible(plot_list)
 
 }
 
@@ -227,7 +227,7 @@ triplot.default <- function(x, data, y = NULL, predict_function = predict,
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 #' apartments_num_new_observation <- apartments_num[30,-1]
 #' apartments_num_mod <- apartments_num[,-1]
-#' tri <- triplot(x = apartments_num_lm_model,
+#' tri <- calculate_triplot(x = apartments_num_lm_model,
 #'   data = apartments_num_mod,
 #'   new_observation = apartments_num_new_observation,
 #'   add_importance_labels = FALSE)

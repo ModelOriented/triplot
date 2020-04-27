@@ -24,7 +24,7 @@ apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 apartments_num_new_observation <- apartments_num[30,-1]
 apartments_num_mod <- apartments_num[,-1]
-tri <- triplot(x = apartments_num_lm_model,
+tri <- calculate_triplot(x = apartments_num_lm_model,
   data = apartments_num_mod,
   new_observation = apartments_num_new_observation,
   add_importance_labels = FALSE)
