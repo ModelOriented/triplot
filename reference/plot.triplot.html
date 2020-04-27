@@ -178,7 +178,7 @@
 <span class='no'>apartments_num_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>)
 <span class='no'>apartments_num_new_observation</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[<span class='fl'>30</span>,-<span class='fl'>1</span>]
 <span class='no'>apartments_num_mod</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[,-<span class='fl'>1</span>]
-<span class='no'>tri</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='triplot.html'>triplot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
+<span class='no'>tri</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calculate_triplot.html'>calculate_triplot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num_mod</span>,
   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>apartments_num_new_observation</span>,
   <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='input'>
