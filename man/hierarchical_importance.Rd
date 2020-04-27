@@ -43,8 +43,9 @@ hierarchical_importance(
 
 \item{data}{dataset, should be without target variable}
 
-\item{y}{true labels for \code{data}, will be extracted from \code{x} if it's an explainer,
-need to be provided if feature importance is to be calculated}
+\item{y}{true labels for \code{data}, will be extracted from \code{x}
+if it's an explainer,
+  need to be provided if feature importance is to be calculated}
 
 \item{predict_function}{predict function}
 
@@ -64,7 +65,8 @@ absolute values}
 
 \item{show_labels}{if TRUE, plot will have annotated axis Y}
 
-\item{add_last_group}{if TRUE, plot will draw connecting line between last two groups}
+\item{add_last_group}{if TRUE, plot will draw connecting line between last
+two groups}
 
 \item{axis_lab_size}{size of labels on axis Y, if applicable}
 

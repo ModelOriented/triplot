@@ -15,10 +15,9 @@ calculate_triplot(x, ...)
   clust_method = "complete",
   absolute_value = FALSE,
   add_importance_labels = FALSE,
-  show_axis_y_duplicated_labels = FALSE,
+  axis_y_duplicated_labels = FALSE,
   add_last_group = FALSE,
   axis_lab_size = 10,
-  text_size = 3,
   ...
 )
 
@@ -26,8 +25,8 @@ calculate_triplot(x, ...)
   x,
   data,
   y = NULL,
-  predict_function = predict,
   new_observation = NULL,
+  predict_function = predict,
   N = 1000,
   clust_method = "complete",
   absolute_value = FALSE,
@@ -57,35 +56,39 @@ variables used in the model, should be without target variable}
 \item{absolute_value}{if TRUE, aspect importance values will be drawn as
 absolute values}
 
-\item{add_importance_labels}{if TRUE, first plot is annotated with values of aspects
-importance}
+\item{add_importance_labels}{if TRUE, first plot is annotated with values of
+aspects
+  importance}
 
-\item{show_axis_y_duplicated_labels}{if TRUE, every plot will have annotated
-axis Y}
-
-\item{add_last_group}{if TRUE, second plot will draw connecting line between last two groups}
+\item{add_last_group}{if TRUE, second plot will draw connecting line between
+last two groups}
 
 \item{axis_lab_size}{size of labels on axis}
-
-\item{text_size}{size of labels annotating values of aspects importance and
-correlations}
 
 \item{data}{dataset, it will be extracted from \code{x} if it's an explainer
 NOTE: Target variable shouldn't be present in the \code{data}}
 
-\item{y}{true labels for \code{data}, will be extracted from \code{x} if it's an explainer}
+\item{y}{true labels for \code{data}, will be extracted from \code{x}
+if it's an explainer}
 
 \item{predict_function}{predict function, it will be extracted from \code{x}
 if it's an explainer}
 
+\item{show_axis_y_duplicated_labels}{if TRUE, every plot will have annotated
+axis Y}
+
 \item{abbrev_labels}{if greater than 0, labels for axis Y in single aspect
 importance plot will be abbreviated according to this parameter}
+
+\item{text_size}{size of labels annotating values of aspects importance and
+correlations}
 }
 \value{
 triplot object
 }
 \description{
-This function shows: \itemize{ \item plot for aspect_importance or feature_importance with
+This function shows: \itemize{ \item plot for aspect_importance or
+feature_importance with
 single aspect \item tree that shows aspect_importance for every newly
 expanded aspect
 \item clustering tree. }

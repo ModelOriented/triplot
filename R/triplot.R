@@ -107,6 +107,7 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
 #' @rdname calculate_triplot
 
 calculate_triplot.default <- function(x, data, y = NULL,
+                                      new_observation = NULL,
                                       predict_function = predict,
                                       N = 1000,
                                       clust_method = "complete",
