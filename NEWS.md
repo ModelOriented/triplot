@@ -1,3 +1,12 @@
+triplot 0.3.2
+----------------------------------------------------------------
+* restructured group_variables and triplot objects
+* added hierarchical_importance object (instead of 
+plot_aspects_importance_grouping)
+* triplot renamed to calculate_triplot
+* triplot is ploted by calling plot on calculate_triplot results
+
+
 triplot 0.3.1
 ----------------------------------------------------------------
 * updated plot_aspects_importance_grouping so it can draw last clusters 
