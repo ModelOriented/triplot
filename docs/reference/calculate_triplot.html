@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates importance of hierarchically grouped aspects — hierarchical_importance • triplot</title>
+<title>Three plots that sum up automatic aspect/feature importance grouping — calculate_triplot • triplot</title>
 
 
 <!-- jquery -->
@@ -45,9 +45,16 @@
 
 
 
-<meta property="og:title" content="Calculates importance of hierarchically grouped aspects — hierarchical_importance" />
-<meta property="og:description" content="This function plots tree that shows order of feature grouping and aspect
-importance or feature importance values of every newly created aspect." />
+<meta property="og:title" content="Three plots that sum up automatic aspect/feature importance grouping — calculate_triplot" />
+<meta property="og:description" content="This function shows:
+plot for aspect_importance or
+feature_importance with
+single aspect
+tree that shows aspect_importance for every newly
+expanded aspect
+clustering tree.
+
+" />
 
 
 
@@ -135,44 +142,53 @@ importance or feature importance values of every newly created aspect." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates importance of hierarchically grouped aspects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kasiapekala/triplot/blob/master/R/hierarchical_importance.R'><code>R/hierarchical_importance.R</code></a></small>
-    <div class="hidden name"><code>hierarchical_importance.Rd</code></div>
+    <h1>Three plots that sum up automatic aspect/feature importance grouping</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kasiapekala/triplot/blob/master/R/triplot.R'><code>R/triplot.R</code></a></small>
+    <div class="hidden name"><code>calculate_triplot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function plots tree that shows order of feature grouping and aspect
-importance or feature importance values of every newly created aspect.</p>
+    <p>This function shows:</p><ul>
+<li><p>plot for aspect_importance or
+feature_importance with
+single aspect</p></li>
+<li><p>tree that shows aspect_importance for every newly
+expanded aspect</p></li>
+<li><p>clustering tree.</p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>hierarchical_importance</span>(
+    <pre class="usage"><span class='fu'>calculate_triplot</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for explainer</span>
+<span class='fu'>calculate_triplot</span>(
   <span class='no'>x</span>,
-  <span class='no'>data</span>,
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>,
   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
-  <span class='no'>...</span>
-)
-
-<span class='fu'>hierarchical_importance</span>(
-  <span class='no'>x</span>,
-  <span class='no'>data</span>,
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>,
-  <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
-  <span class='no'>...</span>
-)
-
-<span class='co'># S3 method for hierarchical_importance</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(
-  <span class='no'>x</span>,
-  <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show_axis_y_duplicated_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='no'>...</span>
+)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>calculate_triplot</span>(
+  <span class='no'>x</span>,
+  <span class='no'>data</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>,
+  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
+  <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show_axis_y_duplicated_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>abbrev_labels</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
@@ -184,31 +200,21 @@ importance or feature importance values of every newly created aspect.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a model to be explained</p></td>
+      <td><p>an explainer created with the <code><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>DALEX::explain()</a></code> function
+or a model to be explained.</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>dataset, should be without target variable</p></td>
-    </tr>
-    <tr>
-      <th>y</th>
-      <td><p>true labels for <code>data</code>, will be extracted from <code>x</code>
-if it's an explainer,
-  need to be provided if feature importance is to be calculated</p></td>
-    </tr>
-    <tr>
-      <th>predict_function</th>
-      <td><p>predict function</p></td>
+      <th>...</th>
+      <td><p>other parameters</p></td>
     </tr>
     <tr>
       <th>new_observation</th>
       <td><p>selected observation with columns that corresponds to
-variables used in the model (it should be without target variable),
-if NULL feature_importance will be calculated</p></td>
+variables used in the model, should be without target variable</p></td>
     </tr>
     <tr>
       <th>N</th>
-      <td><p>number of observations to be sampled (with replacement) from data</p></td>
+      <td><p>number of rows to be sampled from data</p></td>
     </tr>
     <tr>
       <th>clust_method</th>
@@ -216,48 +222,79 @@ if NULL feature_importance will be calculated</p></td>
 <code><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></code> methods</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>other parameters</p></td>
-    </tr>
-    <tr>
       <th>absolute_value</th>
       <td><p>if TRUE, aspect importance values will be drawn as
 absolute values</p></td>
     </tr>
     <tr>
-      <th>show_labels</th>
-      <td><p>if TRUE, plot will have annotated axis Y</p></td>
+      <th>add_importance_labels</th>
+      <td><p>if TRUE, first plot is annotated with values of
+aspects
+  importance</p></td>
+    </tr>
+    <tr>
+      <th>show_axis_y_duplicated_labels</th>
+      <td><p>if TRUE, every plot will have annotated
+axis Y</p></td>
     </tr>
     <tr>
       <th>add_last_group</th>
-      <td><p>if TRUE, plot will draw connecting line between last
-two groups</p></td>
+      <td><p>if TRUE, second plot will draw connecting line between
+last two groups</p></td>
     </tr>
     <tr>
       <th>axis_lab_size</th>
-      <td><p>size of labels on axis Y, if applicable</p></td>
+      <td><p>size of labels on axis</p></td>
     </tr>
     <tr>
       <th>text_size</th>
-      <td><p>size of labels annotating values of aspects importance</p></td>
+      <td><p>size of labels annotating values of aspects importance and
+correlations</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>dataset, it will be extracted from <code>x</code> if it's an explainer
+NOTE: Target variable shouldn't be present in the <code>data</code></p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>true labels for <code>data</code>, will be extracted from <code>x</code>
+if it's an explainer</p></td>
+    </tr>
+    <tr>
+      <th>predict_function</th>
+      <td><p>predict function, it will be extracted from <code>x</code>
+if it's an explainer</p></td>
+    </tr>
+    <tr>
+      <th>abbrev_labels</th>
+      <td><p>if greater than 0, labels for axis Y in single aspect
+importance plot will be abbreviated according to this parameter</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ggplot</p>
+    <p>triplot object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ingredients</span>)
-<span class='no'>apartments_num</span> <span class='kw'>&lt;-</span> <span class='no'>apartments</span>[,<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>apartments</span>, <span class='no'>is.numeric</span>))]
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ingredients</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Dołączanie pakietu: 'ingredients'</span></div><div class='output co'>#&gt; <span class='message'>Następujący obiekt został zakryty z 'package:DALEX':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    feature_importance</span></div><div class='input'><span class='no'>apartments_num</span> <span class='kw'>&lt;-</span> <span class='no'>apartments</span>[,<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>apartments</span>, <span class='no'>is.numeric</span>))]
 <span class='no'>apartments_num_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>)
-<span class='no'>apartments_num_new_observation</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[<span class='fl'>2</span>,-<span class='fl'>1</span>]
+<span class='no'>apartments_num_new_observation</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[<span class='fl'>30</span>,-<span class='fl'>1</span>]
 <span class='no'>apartments_num_mod</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[,-<span class='fl'>1</span>]
-<span class='no'>hi</span> <span class='kw'>&lt;-</span> <span class='fu'>hierarchical_importance</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
-    <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num_mod</span>,
-    <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>apartments_num_new_observation</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>hi</span>, <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,)</div><div class='img'><img src='hierarchical_importance-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>calculate_triplot</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num_mod</span>,
+  <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>apartments_num_new_observation</span>,
+  <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'>calculate_triplot</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
+  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num_mod</span>,
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[,<span class='fl'>1</span>],
+  <span class='kw'>show_axis_y_duplicated_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='img'><img src='calculate_triplot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>

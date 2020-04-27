@@ -182,10 +182,10 @@ apartments_ai
 
 Hierarchical aspects importance allows us to check the values of aspects importance for the different levels of variables grouping. Method starts with looking at the aspect importance where every aspect has one, single variable. Afterwards, it iteratively creates bigger aspects by merging the ones with the highest level of absolute correlation into one aspect and calculating it's contribution to the prediction. 
 
-It should be noted that similarly to `group_variables()`, `triplot()` works for the datasets with only numerical variables. 
+It should be noted that similarly to `group_variables()`, `calculate_triplot()` works for the datasets with only numerical variables. 
 
 ```{r}
-tri <- triplot(model_apartments, apartments_no_target, 
+tri <- calculate_triplot(model_apartments, apartments_no_target, 
         new_observation = new_observation_apartments, N = 500, 
         clust_method = "complete", absolute_value = FALSE, 
         cumulative_max = FALSE, add_importance_labels = FALSE, 

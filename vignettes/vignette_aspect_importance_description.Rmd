@@ -168,15 +168,15 @@ It illustrates, in one place:
 
 Hierarchical aspects importance allows us to check the values of aspects importance for the different levels of variables grouping. Method starts with looking at the aspect importance where every aspect has one, single variable. Afterwards, it iteratively creates bigger aspects by merging the ones with the highest level of absolute correlation into one aspect and calculating it's contribution to the prediction. 
 
-It should be noted that similarly to `group_variables()`, `triplot()` works for the datasets with only numerical variables. 
+It should be noted that similarly to `group_variables()`, `calculate_triplot()` works for the datasets with only numerical variables. 
 
 ```{r triplot}
-tri_lm <- triplot(Boston_lm, Boston_no_target, predict_function = predict, 
+tri_lm <- calculate_triplot(Boston_lm, Boston_no_target, predict_function = predict, 
         new_observation = new_observation, N = 10000, add_importance_labels = TRUE, 
         axis_lab_size = 8, text_size = 3)
 plot(tri_lm)
 
-tri_rf <- triplot(Boston_rf, Boston_no_target, predict_function = predict, 
+tri_rf <- calculate_triplot(Boston_rf, Boston_no_target, predict_function = predict, 
         new_observation = new_observation, N = 10000, add_importance_labels = TRUE, 
         axis_lab_size = 8, text_size = 3)
 plot(tri_rf)

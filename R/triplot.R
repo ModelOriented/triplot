@@ -75,9 +75,10 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
                                         clust_method = "complete",
                                         absolute_value = FALSE,
                                         add_importance_labels = FALSE,
-                                        axis_y_duplicated_labels = FALSE,
+                                        show_axis_y_duplicated_labels = FALSE,
                                         add_last_group = FALSE,
                                         axis_lab_size = 10,
+                                        text_size = 3,
                                         ...) {
 
 # extracts model, data and predict function from the explainer ------------

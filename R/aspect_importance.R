@@ -122,7 +122,7 @@ aspect_importance.default <- function(x, data,
                                       n_var = 0,
                                       f = 2, show_cor = FALSE, ...) {
 
-# look only for common variables in data and new observation --------------
+  # look only for common variables in data and new observation --------------
 
   if ("data.frame" %in% class(data)) {
     common_variables <- intersect(colnames(new_observation), colnames(data))
@@ -130,22 +130,22 @@ aspect_importance.default <- function(x, data,
     data <- data[, common_variables, drop = FALSE]
   }
 
-# stop if no common variables are found -----------------------------------
+  # stop if no common variables are found -----------------------------------
 
   stopifnot(length(common_variables) > 0,
             length(setdiff(unlist(variable_groups),
                            colnames(new_observation))) == 0)
 
-# number of expected coefficients cannot be negative ----------------------
+  # number of expected coefficients cannot be negative ----------------------
 
   stopifnot(n_var >= 0)
 
-# create empty matrix and data frames -------------------------------------
+  # create empty matrix and data frames -------------------------------------
 
   n_sample <- select_sample(data, n = N)
   n_sample_changed <- n_sample
 
-# sample and replace aspects  ---------------------------------------------
+  # sample and replace aspects  ---------------------------------------------
 
   new_X <- get_sample(N, length(variable_groups), sample_method, f)
 
@@ -154,12 +154,12 @@ aspect_importance.default <- function(x, data,
     n_sample_changed[i, vars] <- new_observation[vars]
   }
 
-# calculate change in predictions -----------------------------------------
+  # calculate change in predictions -----------------------------------------
 
   y_changed <- predict_function(x, n_sample_changed) -
     predict_function(x, n_sample)
 
-# fit linear model/lasso to estimate aspects importance -------------------
+  # fit linear model/lasso to estimate aspects importance -------------------
 
   colnames(new_X) <- names(variable_groups)
   new_df <- data.frame(y_changed, new_X)
@@ -175,7 +175,7 @@ aspect_importance.default <- function(x, data,
     model_coef <- coef(glmnet_model)[, indx]
   }
 
-# prepare dataframe with results ------------------------------------------
+  # prepare dataframe with results ------------------------------------------
 
   res <- data.frame(names(model_coef), unname(model_coef))
   colnames(res) <- c("variable_groups", "importance")
