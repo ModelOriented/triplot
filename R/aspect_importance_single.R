@@ -47,13 +47,16 @@ aspect_importance_single.explainer <- function(x, new_observation,
                                                sample_method = "default",
                                                n_var = 0, f = 2, ...) {
 
-  # extracts model, data and predict function from the explainer
+# extracts model, data and predict function from the explainer ------------
+
   model <- x$model
   data <- x$data
   predict_function <- x$predict_function
   label <- x$label
 
-  # calls target function
+
+# calls aspect_importance_single function ---------------------------------
+
   aspect_importance_single.default(x = model, data = data,
                                    predict_function = predict_function,
                                    new_observation = new_observation, N = N,
@@ -73,7 +76,9 @@ aspect_importance_single.default <- function(x, data,
                                              n_var = 0,
                                              f = 2, ...) {
 
-  #create aspect list
+
+# creates list of single aspects ------------------------------------------
+
   single_aspect_list <- vector("list", length(colnames(data)))
   names(single_aspect_list) <- colnames(data)
 
@@ -81,12 +86,14 @@ aspect_importance_single.default <- function(x, data,
     single_aspect_list[i] <- colnames(data)[i]
   }
 
-  #call aspect importance function
+# calls aspect importance function ----------------------------------------
+
   res_ai <- aspect_importance(x, data, predict_function,
                               new_observation, single_aspect_list, N,
                               label, sample_method, n_var, f)
 
-  #create data frame with results
+# creates data frame with results ------------------------------------------
+
   res_ai[, 3] <- as.character(res_ai[, 1])
   for (i in c(1:dim(res_ai)[1])) {
     tmp_val <- new_observation[as.character(res_ai[i, 1])]

@@ -86,66 +86,81 @@ aspect_importance <- function(x, ...)
 #' @export
 #' @rdname aspect_importance
 
-aspect_importance.explainer <- function(x, new_observation, variable_groups,
-                                        N = 100, sample_method = "default",
-                                        n_var = 0, f = 2,
+aspect_importance.explainer <- function(x, new_observation,
+                                        variable_groups,
+                                        N = 100,
+                                        sample_method = "default",
+                                        n_var = 0,
+                                        f = 2,
                                         show_cor = FALSE, ...) {
 
-  # extracts model, data and predict function from the explainer
+
+# extracts model, data and predict function from the explainer ------------
+
   data <- x$data
   model <- x$model
   predict_function <- x$predict_function
   label <- x$label
 
-  # calls target function
+# calls target function ---------------------------------------------------
+
   aspect_importance.default(model, data, predict_function,
-                            new_observation, variable_groups, N, label, sample_method,
-                            n_var, f, show_cor)
+                            new_observation, variable_groups, N, label,
+                            sample_method, n_var, f, show_cor)
 }
 
 #' @export
 #' @rdname aspect_importance
 
-aspect_importance.default <- function(x, data, predict_function = predict,
+aspect_importance.default <- function(x, data,
+                                      predict_function = predict,
                                       new_observation,
-                                      variable_groups, N = 100,
+                                      variable_groups,
+                                      N = 100,
                                       label = class(x)[1],
-                                      sample_method = "default", n_var = 0,
+                                      sample_method = "default",
+                                      n_var = 0,
                                       f = 2, show_cor = FALSE, ...) {
 
-  # look only for common variables in data and new observation
+# look only for common variables in data and new observation --------------
+
   if ("data.frame" %in% class(data)) {
     common_variables <- intersect(colnames(new_observation), colnames(data))
     new_observation <- new_observation[, common_variables, drop = FALSE]
     data <- data[, common_variables, drop = FALSE]
   }
 
-  # stop if no common variables are found
+# stop if no common variables are found -----------------------------------
+
   stopifnot(length(common_variables) > 0,
             length(setdiff(unlist(variable_groups),
                            colnames(new_observation))) == 0)
 
-  #number of expected coefficients cannot be negative
+# number of expected coefficients cannot be negative ----------------------
+
   stopifnot(n_var >= 0)
 
-  # create empty matrix and data frames
+# create empty matrix and data frames -------------------------------------
+
   n_sample <- select_sample(data, n = N)
   n_sample_changed <- n_sample
 
-  # sample which aspects will be replaced
+# sample and replace aspects  ---------------------------------------------
+
   new_X <- get_sample(N, length(variable_groups), sample_method, f)
 
-  # replace aspects
   for (i in seq_len(nrow(n_sample))) {
     vars <- unlist(variable_groups[new_X[i, ] == 1])
     n_sample_changed[i, vars] <- new_observation[vars]
   }
 
-  # calculate change in predictions
+# calculate change in predictions -----------------------------------------
+
   y_changed <- predict_function(x, n_sample_changed) -
     predict_function(x, n_sample)
 
-  # fit linear model/lasso to estimate aspects importance
+# fit linear model/lasso to estimate aspects importance -------------------
+
   colnames(new_X) <- names(variable_groups)
   new_df <- data.frame(y_changed, new_X)
 
@@ -160,7 +175,8 @@ aspect_importance.default <- function(x, data, predict_function = predict,
     model_coef <- coef(glmnet_model)[, indx]
   }
 
-  #prepare dataframe with results
+# prepare dataframe with results ------------------------------------------
+
   res <- data.frame(names(model_coef), unname(model_coef))
   colnames(res) <- c("variable_groups", "importance")
   res <- res[!res$variable_groups == "(Intercept)", ]
@@ -242,32 +258,37 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
                                    text_size = 3) {
 
   stopifnot("aspect_importance" %in% class(x))
-
   importance <- a_sign <- variable_groups <- features <- hjust <- NULL
 
-  # order bars
+# order bars --------------------------------------------------------------
+
   x$variable_groups <- reorder(x$variable_groups, abs(x[, 2]), na.rm = TRUE)
   features_ordered <- sapply(x$features, paste0, collapse = ", ")
 
-  # bind aspect_importance data frames
+# bind aspect_importance data frames --------------------------------------
+
   dfl <- c(list(x), list(...))
   labels_list <- unlist(lapply(dfl, attr, "label"))
   x <- do.call(rbind, dfl)
   x <- cbind(x, labels_list)
 
-  # reformat features list
+# reformat features list --------------------------------------------------
+
   if (!aspects_on_axis) {
     x$features <- sapply(x$features, paste0, collapse = ", ")
   }
 
-  # prep data for plotting
+# prep data  --------------------------------------------------------------
+
   colnames(x)[ncol(x)] <- "label"
   x$a_sign <- ifelse(x$importance > 0, "positive", "negative")
   x$hjust <- ifelse(x$importance > 0, 1.1, -0.1)
 
-  # prep plot
+# prep plot ---------------------------------------------------------------
+
   if (aspects_on_axis) {
-    p <- ggplot(x, aes(variable_groups, ymin = 0, ymax = importance, color = a_sign)) +
+    p <- ggplot(x, aes(variable_groups, ymin = 0, ymax = importance,
+                       color = a_sign)) +
       geom_linerange(size = bar_width) +
       facet_wrap(~label, scales = "free_y", nrow = 1)
   } else {
@@ -295,9 +316,14 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank())
 
-  # plot it
+# plot it -----------------------------------------------------------------
+
   p
 }
+
+
+# list of aliases for aspect_importance() ---------------------------------
+
 
 #' @export
 #' @rdname aspect_importance
@@ -312,6 +338,7 @@ lime <- function(x, ...) {
 prediction_aspect <- function(x, ...) {
   aspect_importance(x, ...)
 }
+
 
 #' Function for getting binary matrix
 #'
@@ -339,9 +366,12 @@ prediction_aspect <- function(x, ...) {
 #' @rdname get_sample
 
 get_sample <- function(n, p, sample_method = c("default", "binom"), f = 2) {
+
   sample_method <- match.arg(sample_method)
   stopifnot(n > 0, p > 0, f > 0)
+
   x <- matrix(0, n, p)
+
   if (sample_method == "binom") {
     for (i in 1:n) {
       n_of_changes <- pmax(rbinom(1, p, f / p), 1)
@@ -352,5 +382,6 @@ get_sample <- function(n, p, sample_method = c("default", "binom"), f = 2) {
       x[i, unique(sample(1:p, 2, replace = TRUE))] <- 1
     }
   }
+
   return(x)
 }

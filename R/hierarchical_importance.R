@@ -5,7 +5,8 @@
 #'
 #' @param x a model to be explained
 #' @param data dataset, should be without target variable
-#' @param y true labels for \code{data}, will be extracted from \code{x} if it's an explainer,
+#' @param y true labels for \code{data}, will be extracted from \code{x}
+#' if it's an explainer,
 #'   need to be provided if feature importance is to be calculated
 #' @param predict_function predict function
 #' @param new_observation selected observation with columns that corresponds to
@@ -17,7 +18,8 @@
 #' @param absolute_value if TRUE, aspect importance values will be drawn as
 #'   absolute values
 #' @param show_labels if TRUE, plot will have annotated axis Y
-#' @param add_last_group if TRUE, plot will draw connecting line between last two groups
+#' @param add_last_group if TRUE, plot will draw connecting line between last
+#' two groups
 #' @param axis_lab_size size of labels on axis Y, if applicable
 #' @param text_size size of labels annotating values of aspects importance
 #' @param ... other parameters
@@ -56,9 +58,10 @@ hierarchical_importance <- function(x, ...)
 #' @rdname hierarchical_importance
 
 hierarchical_importance <- function(x, data, y = NULL,
-                                             predict_function = predict,
-                                             new_observation = NULL, N = 1000,
-                                             clust_method = "complete", ...) {
+                                    predict_function = predict,
+                                    new_observation = NULL,
+                                    N = 1000,
+                                    clust_method = "complete", ...) {
 
   # Building helper objects ---------------------------------------------
 
@@ -85,16 +88,18 @@ hierarchical_importance <- function(x, data, y = NULL,
                                    predict_function = predict_function,
                                    variable_groups = aspects_list_current,
                                    n_sample = N)
-      res_ai <- res_ai[!(substr(res_ai$variable,1,1) == "_"),]
+      res_ai <- res_ai[!(substr(res_ai$variable, 1, 1) == "_"), ]
       res_ai <- res_ai[res_ai$permutation == "0", ]
 
-      int_node_importance[i, 1] <- res_ai[res_ai$variable == group_name, ]$dropout_loss
+      int_node_importance[i, 1] <-
+        res_ai[res_ai$variable == group_name, ]$dropout_loss
     } else {
       res_ai <- aspect_importance(x = x, data = data,
                                   predict_function = predict_function,
                                   new_observation = new_observation,
                                   variable_groups = aspects_list_current, N = N)
-      int_node_importance[i, 1] <- res_ai[res_ai$variable_groups == group_name, ]$importance
+      int_node_importance[i, 1] <-
+        res_ai[res_ai$variable_groups == group_name, ]$importance
     }
 
     int_node_importance[i, 2] <- group_name
@@ -135,8 +140,6 @@ plot.hierarchical_importance <- function(x, new_observation = NULL,
 
   # Modifing importance -----------------------------------------------------
 
-  #if absolute_value is true
-
   if (absolute_value == TRUE) {
     ddata$segments$y <- abs(ddata$segments$y)
     ddata$segments$yend <- abs(ddata$segments$yend)
@@ -152,16 +155,17 @@ plot.hierarchical_importance <- function(x, new_observation = NULL,
 
   if (add_last_group) {
     ifelse(max(abs(ai_labels$yend)) > max(ai_labels$yend),
-           last_val <- -max(abs(ai_labels$yend))*1.05,
-           last_val <- max(ai_labels$yend)*1.05)
+           last_val <- -max(abs(ai_labels$yend)) * 1.05,
+           last_val <- max(ai_labels$yend) * 1.05)
     ddata$segments[is.na(ddata$segments)] <- last_val
   } else {
     cc_vector <- !complete.cases(ddata$segments)
     ddata$segments[cc_vector, ] <- 1
-    ddata$segments[min(which(cc_vector == TRUE)), c(1, 3)] <- min(ddata$labels$x)
-    ddata$segments[min(which(cc_vector == TRUE)) + 1, c(1, 3)] <- max(ddata$labels$x)
+    ddata$segments[min(which(cc_vector == TRUE)), c(1, 3)] <-
+      min(ddata$labels$x)
+    ddata$segments[min(which(cc_vector == TRUE)) + 1, c(1, 3)] <-
+      max(ddata$labels$x)
   }
-
 
   # Adding new observation values to labels ---------------------------------
 
@@ -174,12 +178,10 @@ plot.hierarchical_importance <- function(x, new_observation = NULL,
     }
   }
 
-
   # Moving labels -----------------------------------------------------------
 
   nudge_value <- ifelse(min(ddata$segments$yend) == 0, -0.2,
                         min(ddata$segments$yend) * 1.35)
-
 
   # Building plot -----------------------------------------------------------
 
@@ -214,5 +216,3 @@ plot.hierarchical_importance <- function(x, new_observation = NULL,
   return(p)
 
 }
-
-

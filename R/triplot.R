@@ -1,6 +1,7 @@
 #' Three plots that sum up automatic aspect/feature importance grouping
 #'
-#' This function shows: \itemize{ \item plot for aspect_importance or feature_importance with
+#' This function shows: \itemize{ \item plot for aspect_importance or
+#' feature_importance with
 #' single aspect \item tree that shows aspect_importance for every newly
 #' expanded aspect
 #' \item clustering tree. }
@@ -9,7 +10,8 @@
 #' or a model to be explained.
 #' @param data dataset, it will be extracted from \code{x} if it's an explainer
 #' NOTE: Target variable shouldn't be present in the \code{data}
-#' @param y true labels for \code{data}, will be extracted from \code{x} if it's an explainer
+#' @param y true labels for \code{data}, will be extracted from \code{x}
+#' if it's an explainer
 #' @param predict_function predict function, it will be extracted from \code{x}
 #'   if it's an explainer
 #' @param new_observation selected observation with columns that corresponds to
@@ -19,13 +21,15 @@
 #'   \code{\link[stats]{hclust}} methods
 #' @param absolute_value if TRUE, aspect importance values will be drawn as
 #'   absolute values
-#' @param add_importance_labels if TRUE, first plot is annotated with values of aspects
+#' @param add_importance_labels if TRUE, first plot is annotated with values of
+#' aspects
 #'   importance
 #' @param show_axis_y_duplicated_labels if TRUE, every plot will have annotated
 #'   axis Y
 #' @param abbrev_labels if greater than 0, labels for axis Y in single aspect
 #'   importance plot will be abbreviated according to this parameter
-#' @param add_last_group if TRUE, second plot will draw connecting line between last two groups
+#' @param add_last_group if TRUE, second plot will draw connecting line between
+#'   last two groups
 #' @param axis_lab_size size of labels on axis
 #' @param text_size size of labels annotating values of aspects importance and
 #'   correlations
@@ -66,17 +70,18 @@ calculate_triplot <- function(x, ...)
 #' @export
 #' @rdname calculate_triplot
 
-calculate_triplot.explainer <- function(x, new_observation = NULL, N = 1000,
-                              clust_method = "complete",
-                              absolute_value = FALSE,
-                              add_importance_labels = FALSE,
-                              show_axis_y_duplicated_labels = FALSE,
-                              add_last_group = FALSE,
-                              axis_lab_size = 10,
-                              text_size = 3,
-                              ...) {
+calculate_triplot.explainer <- function(x, new_observation = NULL,
+                                        N = 1000,
+                                        clust_method = "complete",
+                                        absolute_value = FALSE,
+                                        add_importance_labels = FALSE,
+                                        axis_y_duplicated_labels = FALSE,
+                                        add_last_group = FALSE,
+                                        axis_lab_size = 10,
+                                        ...) {
 
-  # extracts model, data and predict function from the explainer
+# extracts model, data and predict function from the explainer ------------
+
   data <- x$data
   model <- x$model
   predict_function <- x$predict_function
@@ -87,7 +92,8 @@ calculate_triplot.explainer <- function(x, new_observation = NULL, N = 1000,
     y <- NULL
   }
 
-  # calls target function
+# calls target function ---------------------------------------------------
+
   calculate_triplot.default(x = model, data = data, y = y,
                   predict_function = predict_function,
                   new_observation = new_observation, N = N,
@@ -100,23 +106,22 @@ calculate_triplot.explainer <- function(x, new_observation = NULL, N = 1000,
 #' @export
 #' @rdname calculate_triplot
 
-
-calculate_triplot.default <- function(x, data, y = NULL, predict_function = predict,
-                            new_observation = NULL,
-                            N = 1000, clust_method = "complete",
-                            absolute_value = FALSE,
-                            add_importance_labels = FALSE,
-                            show_axis_y_duplicated_labels = FALSE,
-                            abbrev_labels = 0,
-                            add_last_group = FALSE,
-                            axis_lab_size = 10,
-                            text_size = 3,
-                            ...) {
+calculate_triplot.default <- function(x, data, y = NULL,
+                                      predict_function = predict,
+                                      N = 1000,
+                                      clust_method = "complete",
+                                      absolute_value = FALSE,
+                                      add_importance_labels = FALSE,
+                                      show_axis_y_duplicated_labels = FALSE,
+                                      abbrev_labels = 0,
+                                      add_last_group = FALSE,
+                                      axis_lab_size = 10,
+                                      text_size = 3,
+                                      ...) {
 
   stopifnot(all(sapply(data, is.numeric)))
 
-  # Build second plot -------------------------------------------------------
-
+# Builds second plot ------------------------------------------------------
 
   hi <- hierarchical_importance(x = x, data = data, y = y,
                                 predict_function = predict_function,
@@ -139,7 +144,7 @@ calculate_triplot.default <- function(x, data, y = NULL, predict_function = pred
   p2 <- p2 + theme(axis.title = element_text(size = axis_lab_size))
 
 
-  # Build third plot -------------------------------------------------------
+# Builds third plot -------------------------------------------------------
 
   cv <- cluster_variables(data, clust_method)
   p3 <- plot(cv, show_labels = show_axis_y_duplicated_labels,
@@ -147,7 +152,7 @@ calculate_triplot.default <- function(x, data, y = NULL, predict_function = pred
                              text_size = text_size)
   p3 <- p3 + theme(axis.title = element_text(size = axis_lab_size))
 
-  # Build first plot --------------------------------------------------------
+# Builds first plot -------------------------------------------------------
 
   if (is.null(new_observation)) {
     importance_leaves <- feature_importance(x = x, data = data, y = y,
@@ -167,7 +172,8 @@ calculate_triplot.default <- function(x, data, y = NULL, predict_function = pred
                      plot.title = element_blank()) +
       scale_x_discrete(expand = expand_scale(mult = .01))
 
-    order_mod <- attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
+    order_mod <-
+      attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
     order_mod <-  match(order_mod, p1$data$variable)
     lev_mod <- p1$data$variable[order_mod]
     p1$data$variable <- factor(p1$data$variable,
@@ -186,7 +192,8 @@ calculate_triplot.default <- function(x, data, y = NULL, predict_function = pred
                                               minlength = abbrev_labels)
     }
 
-    order_mod <- attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
+    order_mod <-
+      attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
     order_mod <-  match(order_mod, p1$data$variable_groups)
     lev_mod <- p1$data$`new observation`[order_mod]
     p1$data$`new observation` <- factor(p1$data$`new observation`,
@@ -197,8 +204,8 @@ calculate_triplot.default <- function(x, data, y = NULL, predict_function = pred
       scale_x_discrete(expand = expand_scale(mult = .01))
   }
 
+# returns list of plots ---------------------------------------------------
 
-  # Plot
   plot_list <- list(p1, p2, p3)
   class(plot_list) <- c("triplot", "list")
 

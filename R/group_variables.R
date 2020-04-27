@@ -70,28 +70,35 @@ cluster_variables.default <- function(x, clust_method = "complete", ...) {
 #'
 #' @export
 
-plot.cluster_variables <- function(x, p = NULL, show_labels = TRUE,
-                                 axis_lab_size = 10, text_size = 3, ...) {
+plot.cluster_variables <- function(x,
+                                   p = NULL,
+                                   show_labels = TRUE,
+                                   axis_lab_size = 10,
+                                   text_size = 3, ...) {
   stopifnot(p >= 0, p <= 1)
   stopifnot("hclust" %in% class(x))
 
   y <- xend <- yend <- h <- NULL
 
-  #convert tree to dendogram
+# convert tree to dendogram -----------------------------------------------
+
   dhc <- as.dendrogram(x)
   ddata <- dendro_data(dhc, type = "rectangle")
 
-  #get correlation values
-  xy_horizontal <- ddata$segments[ddata$segments$x == ddata$segments$xend, ]
-  additional_x <- mean(xy_horizontal[xy_horizontal$y == max(xy_horizontal$y), ]$x)
-  additional_y <- max(xy_horizontal$y)
+# get correlation values --------------------------------------------------
+
+  xy_horizon <- ddata$segments[ddata$segments$x == ddata$segments$xend, ]
+  additional_x <- mean(xy_horizon[xy_horizon$y == max(xy_horizon$y), ]$x)
+  additional_y <- max(xy_horizon$y)
   last_cor_value <- data.frame("x" = additional_x, "yend" = additional_y)
-  xy <- xy_horizontal[xy_horizontal$yend != 0, ][, c(1, 4)]
+  xy <- xy_horizon[xy_horizon$yend != 0, ][, c(1, 4)]
   xy <- rbind(xy, last_cor_value)
   xy <- cbind(xy, 1 - xy[, 2])
   colnames(xy) <- c("x", "y", "h")
 
-  #build plot
+
+# build plot --------------------------------------------------------------
+
   cor_plot <- ggplot(segment(ddata)) +
     geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
     geom_text(data = xy, aes(x = x, y = y, label = round(h, digits = 2)),
@@ -117,7 +124,8 @@ plot.cluster_variables <- function(x, p = NULL, show_labels = TRUE,
                 colour = theme_drwhy()$axis.title$colour)
   }
 
-  #add line that shows correlation cut off level
+  # add line that shows correlation cut off level ---------------------------
+
   if (!is.null(p)) {
     cor_plot <- cor_plot + geom_hline(yintercept = 1 - p, linetype = "dashed")
   }
@@ -185,6 +193,7 @@ list_variables <- function(x, h) {
 #'
 #' @return list with aspect
 #' @export
+
 
 group_variables <- function(x, h, clust_method = "complete") {
 
