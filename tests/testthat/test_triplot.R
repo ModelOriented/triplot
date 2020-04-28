@@ -19,7 +19,7 @@ test_that("check calculate_triplot.explainer function",{
                                   verbose = FALSE)
 
   p <- calculate_triplot(x = apartments_explainer,
-               new_observation = apartments_num_new_observation)
+                         new_observation = apartments_num_new_observation)
 
   expect_true("list" %in% class(p))
 })
@@ -30,8 +30,8 @@ test_that("check calculate_triplot function for FI",{
   library("ingredients")
 
   p <- calculate_triplot(x = apartments_num_lm_model,
-               data = apartments_num_mod,
-               y = apartments[,1])
+                         data = apartments_num_mod,
+                         y = apartments[,1])
 
   expect_true("list" %in% class(p))
 })
