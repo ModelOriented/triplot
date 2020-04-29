@@ -335,7 +335,7 @@ lime <- function(x, ...) {
 #' @export
 #' @rdname aspect_importance
 
-prediction_aspect <- function(x, ...) {
+predict_aspects <- function(x, ...) {
   aspect_importance(x, ...)
 }
 
