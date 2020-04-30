@@ -21,6 +21,7 @@ calculate_triplot(x, ...)
   add_last_group = FALSE,
   axis_lab_size = 10,
   text_size = 3,
+  bar_width = 5,
   ...
 )
 
@@ -39,6 +40,7 @@ calculate_triplot(x, ...)
   add_last_group = FALSE,
   axis_lab_size = 10,
   text_size = 3,
+  bar_width = 5,
   ...
 )
 }
@@ -76,6 +78,8 @@ last two groups}
 
 \item{text_size}{size of labels annotating values of aspects importance and
 correlations}
+
+\item{bar_width}{bar width in the first plot}
 
 \item{data}{dataset, it will be extracted from \code{x} if it's an explainer
 NOTE: Target variable shouldn't be present in the \code{data}}

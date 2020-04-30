@@ -33,6 +33,7 @@
 #' @param axis_lab_size size of labels on axis
 #' @param text_size size of labels annotating values of aspects importance and
 #'   correlations
+#' @param bar_width bar width in the first plot
 #' @param ... other parameters
 #'
 #' @import stats
@@ -76,6 +77,7 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
                                         add_last_group = FALSE,
                                         axis_lab_size = 10,
                                         text_size = 3,
+                                        bar_width = 5,
                                         ...) {
 
 # extracts model, data and predict function from the explainer ------------
@@ -104,7 +106,8 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
                   abbrev_labels = abbrev_labels,
                   add_last_group = add_last_group,
                   axis_lab_size = axis_lab_size,
-                  text_size = text_size)
+                  text_size = text_size,
+                  bar_width = bar_width)
 }
 
 #' @export
@@ -122,6 +125,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                       add_last_group = FALSE,
                                       axis_lab_size = 10,
                                       text_size = 3,
+                                      bar_width = 5,
                                       ...) {
 
   stopifnot(all(sapply(data, is.numeric)))
@@ -175,7 +179,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
                      panel.grid.major = element_blank(),
                      panel.grid.minor = element_blank(),
                      plot.title = element_blank()) +
-      scale_x_discrete(expand = expand_scale(mult = .01))
+      scale_x_discrete(expand = expansion(mult = 0.01))
 
     order_mod <-
       attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
@@ -190,7 +194,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                                   new_observation, N,
                                                   label = "")
     p1 <- plot(importance_leaves, add_importance = add_importance_labels,
-               text_size = text_size)
+               text_size = text_size, bar_width = bar_width)
     p1$labels$y <- "Single aspects importance"
     if (abbrev_labels > 0) {
       p1$data$`new observation` <- abbreviate(p1$data$`new observation`,
@@ -206,7 +210,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
     p1$data$variable_groups <- p1$data$`new observation`
     p1 <- p1 + theme(axis.text = element_text(size = axis_lab_size),
                      axis.title = element_text(size = axis_lab_size)) +
-      scale_x_discrete(expand = expand_scale(mult = .01))
+      scale_x_discrete(expand = expansion(mult = 0.01))
   }
 
 # returns list of plots ---------------------------------------------------
