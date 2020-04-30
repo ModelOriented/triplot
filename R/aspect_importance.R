@@ -57,7 +57,7 @@
 #'                 personal = c("gender", "age"),
 #'                 embarked = "embarked")
 #'
-#' aspect_importance(explain_titanic_glm,
+#' predict_aspects(explain_titanic_glm,
 #'                   new_observation = titanic_imputed[1,],
 #'                   variable_groups = aspects)
 #'
@@ -72,7 +72,7 @@
 #'                               y = titanic_imputed$survived == 1,
 #'                               verbose = FALSE)
 #'
-#' aspect_importance(explain_titanic_rf,
+#' predict_aspects(explain_titanic_rf,
 #'                   new_observation = titanic_imputed[1,],
 #'                   variable_groups = aspects)
 #'
@@ -241,9 +241,10 @@ aspect_importance.default <- function(x, data,
 #'                 personal = c("gender", "age"),
 #'                 embarked = "embarked")
 #'
-#' plot(aspect_importance(explain_titanic_glm,
+#' titanic_ai <- predict_aspects(explain_titanic_glm,
 #'                   new_observation = titanic_imputed[1,],
-#'                   variable_groups = aspects))
+#'                   variable_groups = aspects)
+#' plot(titanic_ai)
 #'
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy_vertical

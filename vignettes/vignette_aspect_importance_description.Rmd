@@ -86,14 +86,24 @@ We are going to build two models: linear regression model and random forest. Tho
 library(triplot)
 library(mlbench)
 library(randomForest)
+library(DALEX)
+
 set.seed(123)
+
 data("BostonHousing2")   
+
 Boston <- BostonHousing2[,-c(1:5, 10)]
+
 Boston_no_target <- BostonHousing2[,-c(1:6, 10)]
+
 new_observation <- Boston_no_target[4,]
+
 Boston_lm <- lm(cmedv ~., data = Boston)
+
 Boston_rf <- randomForest(cmedv ~ ., data = Boston)
+
 predict(Boston_lm, new_observation)
+
 predict(Boston_rf, new_observation)
 ```
 
@@ -117,15 +127,27 @@ Boston_aspects_m <- list(geo = c("dis", "nox", "rad"),
                          b = "b",
                          tax = "tax",
                          crim = "crim")
-Boston_ai_lm <- aspect_importance(Boston_lm, Boston_no_target, 
-                           predict_function = predict, new_observation, 
-                           Boston_aspects_m, N = 5000, show_cor = TRUE, 
-                           label = "LM")
-Boston_ai_rf <- aspect_importance(Boston_rf, Boston_no_target, 
-                           predict_function = predict, new_observation, 
-                           Boston_aspects_m, N = 5000, show_cor = TRUE, 
-                           label = "RF")
+
+explain_Boston_lm <- explain(Boston_lm, Boston_no_target)
+
+explain_Boston_rf <- explain(Boston_rf, Boston_no_target)
+
+Boston_ai_lm <- predict_aspects(x = explain_Boston_lm,
+                                  new_observation = new_observation, 
+                                  variable_groups = Boston_aspects_m, 
+                                  N = 5000, 
+                                  show_cor = TRUE, 
+                                  label = "LM")
+
+Boston_ai_rf <- predict_aspects(x = explain_Boston_lm,
+                                  new_observation = new_observation, 
+                                  variable_groups = Boston_aspects_m, 
+                                  N = 5000, 
+                                  show_cor = TRUE, 
+                                  label = "LM")
+
 Boston_ai_lm
+
 Boston_ai_rf
 
 plot(Boston_ai_lm, Boston_ai_rf, add_importance = TRUE)
@@ -141,15 +163,21 @@ Since `group_variables()` built different list that us, we can observe a little 
 ```{r aspect importance with automated aspects}
 Boston_aspects_a <- group_variables(Boston_no_target, 0.6)
 
-Boston_ai_lm_2 <- aspect_importance(Boston_lm, Boston_no_target, 
-                           predict_function = predict, new_observation, 
-                           Boston_aspects_a, N = 10000, show_cor = TRUE, 
-                           label = "LM")
-Boston_ai_rf_2 <- aspect_importance(Boston_rf, Boston_no_target, 
-                           predict_function = predict, new_observation, 
-                           Boston_aspects_a, N = 10000, show_cor = TRUE, 
-                           label = "RF")
+Boston_ai_lm_2 <- predict_aspects(x = explain_Boston_lm,
+                                    new_observation = new_observation, 
+                                    variable_groups = Boston_aspects_a, 
+                                    N = 10000, 
+                                    show_cor = TRUE, 
+                                    label = "LM")
+
+Boston_ai_rf_2 <- predict_aspects(x = explain_Boston_rf, 
+                                    new_observation = new_observation, 
+                                    variable_groups = Boston_aspects_a, 
+                                    N = 10000, 
+                                    show_cor = TRUE, 
+                                    label = "RF")
 Boston_ai_lm_2
+
 Boston_ai_rf_2
 
 plot(Boston_ai_lm_2, Boston_ai_rf_2, aspects_on_axis = FALSE, add_importance = TRUE)
@@ -171,30 +199,40 @@ Hierarchical aspects importance allows us to check the values of aspects importa
 It should be noted that similarly to `group_variables()`, `calculate_triplot()` works for the datasets with only numerical variables. 
 
 ```{r triplot}
-tri_lm <- calculate_triplot(Boston_lm, Boston_no_target, predict_function = predict, 
-        new_observation = new_observation, N = 10000, add_importance_labels = TRUE, 
-        axis_lab_size = 8, text_size = 3)
+tri_lm <- calculate_triplot(x = explain_Boston_lm, 
+                            new_observation = new_observation, 
+                            N = 10000, 
+                            add_importance_labels = TRUE, 
+                            axis_lab_size = 8, 
+                            text_size = 3)
+
 plot(tri_lm)
 
-tri_rf <- calculate_triplot(Boston_rf, Boston_no_target, predict_function = predict, 
-        new_observation = new_observation, N = 10000, add_importance_labels = TRUE, 
-        axis_lab_size = 8, text_size = 3)
+tri_rf <- calculate_triplot(x = explain_Boston_rf, 
+                            new_observation = new_observation, 
+                            N = 10000, 
+                            add_importance_labels = TRUE, 
+                            axis_lab_size = 8, 
+                            text_size = 3)
 plot(tri_rf)
 
 ```
 
 # Lasso
 
-Behind the scenes, aspect importance numbers are really linear model coefficients. That allowed us to add one more tool to control the method result. By using lasso regression, we can control how many nonzero coefficients (nonzero aspects importance values) are present in the final explanation. To use `aspect_importance()` with lasso, we have to provide `n_var` parameter, which declares how many aspects importance values we would like to get in `aspect_importance()` results. 
+Behind the scenes, aspect importance numbers are really linear model coefficients. That allowed us to add one more tool to control the method result. By using lasso regression, we can control how many nonzero coefficients (nonzero aspects importance values) are present in the final explanation. To use `predict_aspects()` with lasso, we have to provide `n_var` parameter, which declares how many aspects importance values we would like to get in `predict_aspects()` results. 
 
-Suppose that in our last example (random forest model with aspect list build by `group_variables`), we would like to calculate the importance of variables' aspects, while controlling that three of them should be equal to 0. We will call `aspect_importance()` on this model, with `n_var` parameter set to 3. 
+Suppose that in our last example (random forest model with aspect list build by `group_variables`), we would like to calculate the importance of variables' aspects, while controlling that three of them should be equal to 0. We will call `predict_aspects()` on this model, with `n_var` parameter set to 3. 
 
 In result, we get what we expected - three nonzero aspect importance values. We can observe that there exists significant difference between the level of contribution of aspect containing `rm` and `lstat` features and the other two groups.
 
 
 ```{r lasso demo}
-aspect_importance(Boston_rf, Boston_no_target, predict_function = predict, 
-                  new_observation, Boston_aspects_a, N = 10000, show_cor = TRUE, 
+predict_aspects(x = explain_Boston_rf, 
+                  new_observation = new_observation, 
+                  variable_groups = Boston_aspects_a, 
+                  N = 10000, 
+                  show_cor = TRUE, 
                   n_var = 3)
 ```
 
@@ -203,7 +241,7 @@ aspect_importance(Boston_rf, Boston_no_target, predict_function = predict,
 
 Aspect importance allow us to check how the level of prediction is influenced by the different groups of features. We added additional tools to this method that let us group features automatically, control how many nonzero values are in the method results or see how aspect importance values are changing while aspects are one by one increasing in size (hierarchical aspects importance). 
 
-However, we still see place for experimenting with stability of the results (size of the subset used by the `aspect_importance`), clarity of triplot and with lasso regression as the method extensions. 
+However, we still see place for experimenting with stability of the results (size of the subset used by the `predict_aspects`), clarity of triplot and with lasso regression as the method extensions. 
 
 
 # Session info
