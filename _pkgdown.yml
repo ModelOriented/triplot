@@ -1,3 +1,24 @@
 template:
   package: DrWhyTemplate
   default_assets: false
+reference:
+- title: "Predict aspects"
+  desc: "Functions for local model explanations. Also known as aspect importance."
+- contents:
+  - matches("aspect_importance")
+  - get_sample
+
+- title: "Triplot"
+  desc: "Plots for hierarchical feature grouping."
+- contents:
+  - matches("triplot")
+  - matches("hierarchical")
+
+- title: "Variables grouping"
+  desc: "Function for variables grouping."
+- contents:
+  - cluster_variables
+  - plot.cluster_variables
+  - list_variables
+  - group_variables
+

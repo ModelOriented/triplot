@@ -59,7 +59,15 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14""></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
+ gtag('config', 'UA-5650686-14');
+</script>
 
   </head>
 
@@ -137,6 +145,16 @@
       <small>Source: <a href='https://github.com/kasiapekala/triplot/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="triplot-032" class="section level2">
+<h2 class="hasAnchor">
+<a href="#triplot-032" class="anchor"></a>triplot 0.3.2</h2>
+<ul>
+<li>restructured group_variables and triplot objects</li>
+<li>added hierarchical_importance object (instead of plot_aspects_importance_grouping)</li>
+<li>triplot renamed to calculate_triplot</li>
+<li>triplot is plotted by calling plot on calculate_triplot results</li>
+</ul>
+</div>
     <div id="triplot-031" class="section level2">
 <h2 class="hasAnchor">
 <a href="#triplot-031" class="anchor"></a>triplot 0.3.1</h2>

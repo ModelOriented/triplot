@@ -60,7 +60,15 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14""></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
+ gtag('config', 'UA-5650686-14');
+</script>
 
   </head>
 
@@ -144,7 +152,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for cluster_variables</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,7 +192,7 @@ be drawn</p></td>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DALEX"</span>)
 <span class='no'>dragons_data</span> <span class='kw'>&lt;-</span> <span class='no'>dragons</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>7</span>,<span class='fl'>8</span>)]
 <span class='no'>cv</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cluster_variables.html'>cluster_variables</a></span>(<span class='no'>dragons_data</span>, <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>cv</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.7</span>)</div><div class='img'><img src='plot.cluster_variables-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>cv</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.7</span>)</div><div class='img'><img src='plot.cluster_variables-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
