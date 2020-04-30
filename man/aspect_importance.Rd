@@ -5,7 +5,7 @@
 \alias{aspect_importance.explainer}
 \alias{aspect_importance.default}
 \alias{lime}
-\alias{prediction_aspect}
+\alias{predict_aspects}
 \title{Calculates importance of variable groups (called aspects importance) for a
 selected observation}
 \usage{
@@ -40,7 +40,7 @@ aspect_importance(x, ...)
 
 lime(x, ...)
 
-prediction_aspect(x, ...)
+predict_aspects(x, ...)
 }
 \arguments{
 \item{x}{an explainer created with the \code{DALEX::explain()} function

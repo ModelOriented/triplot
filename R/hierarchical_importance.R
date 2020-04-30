@@ -36,16 +36,13 @@
 #'
 #' @examples
 #' library(DALEX)
-#' library(ingredients)
 #' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
-#' apartments_num_new_observation <- apartments_num[2,-1]
-#' apartments_num_mod <- apartments_num[,-1]
+#' apartments_num_new_observation <- apartments_num[2,]
 #' hi <- hierarchical_importance(x = apartments_num_lm_model,
-#'     data = apartments_num_mod,
-#'     new_observation = apartments_num_new_observation)
-#' plot(hi, add_last_group = TRUE,)
-#'
+#'  data = apartments_num[,-1],
+#'  new_observation = apartments_num_new_observation[-1])
+#' plot(hi, add_last_group = TRUE, absolute_value = TRUE)
 #'
 #' @export
 #'

@@ -7,7 +7,7 @@
 #' @param clust_method the agglomeration method to be used
 #' see \code{\link[stats]{hclust}} methods
 #'
-#' @return list of aspects
+#' @return an hclust object
 #'
 #' @importFrom stats hclust
 #' @importFrom stats cor
@@ -144,7 +144,7 @@ plot.cluster_variables <- function(x,
 #' @param x hclust object
 #' @param h correlation value for tree cutting
 #'
-#' @return list with aspect
+#' @return list of aspects
 #'
 #' @examples
 #' library("DALEX")

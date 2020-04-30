@@ -12,7 +12,7 @@ list_variables(x, h)
 \item{h}{correlation value for tree cutting}
 }
 \value{
-list with aspect
+list of aspects
 }
 \description{
 This function creates aspect list after cutting a tree at a given height.

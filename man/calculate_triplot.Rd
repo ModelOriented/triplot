@@ -11,11 +11,13 @@ calculate_triplot(x, ...)
 \method{calculate_triplot}{explainer}(
   x,
   new_observation = NULL,
+  type = c("predict_aspects"),
   N = 1000,
   clust_method = "complete",
   absolute_value = FALSE,
   add_importance_labels = FALSE,
   show_axis_y_duplicated_labels = FALSE,
+  abbrev_labels = 0,
   add_last_group = FALSE,
   axis_lab_size = 10,
   text_size = 3,
@@ -26,8 +28,8 @@ calculate_triplot(x, ...)
   x,
   data,
   y = NULL,
-  new_observation = NULL,
   predict_function = predict,
+  new_observation = NULL,
   N = 1000,
   clust_method = "complete",
   absolute_value = FALSE,
@@ -64,6 +66,9 @@ aspects
 \item{show_axis_y_duplicated_labels}{if TRUE, every plot will have annotated
 axis Y}
 
+\item{abbrev_labels}{if greater than 0, labels for axis Y in single aspect
+importance plot will be abbreviated according to this parameter}
+
 \item{add_last_group}{if TRUE, second plot will draw connecting line between
 last two groups}
 
@@ -80,9 +85,6 @@ if it's an explainer}
 
 \item{predict_function}{predict function, it will be extracted from \code{x}
 if it's an explainer}
-
-\item{abbrev_labels}{if greater than 0, labels for axis Y in single aspect
-importance plot will be abbreviated according to this parameter}
 }
 \value{
 triplot object
@@ -95,22 +97,17 @@ expanded aspect
 \item clustering tree. }
 }
 \examples{
+
 library(DALEX)
-library(ingredients)
+set.seed(123)
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
-apartments_num_new_observation <- apartments_num[30,-1]
-apartments_num_mod <- apartments_num[,-1]
-calculate_triplot(x = apartments_num_lm_model,
-  data = apartments_num_mod,
-  new_observation = apartments_num_new_observation,
-  add_importance_labels = FALSE)
-
-set.seed(123)
-plot(calculate_triplot(x = apartments_num_lm_model,
-  data = apartments_num_mod,
-  y = apartments_num[,1],
-  show_axis_y_duplicated_labels = TRUE, add_last_group = TRUE))
+apartments_num_new_observation <- apartments_num[30, ]
+explainer_apartments <- explain(model = apartments_num_lm_model,
+ data = apartments_num[,-1],
+ y = apartments_num[, 1])
+apartments_tri <- calculate_triplot(x = explainer_apartments,
+ new_observation = apartments_num_new_observation[-1])
 
 
 }

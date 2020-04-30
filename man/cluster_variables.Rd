@@ -18,7 +18,7 @@ cluster_variables(x, ...)
 see \code{\link[stats]{hclust}} methods}
 }
 \value{
-list of aspects
+an hclust object
 }
 \description{
 Divides correlated features into groups, called aspects. Division is based on

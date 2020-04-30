@@ -28,7 +28,7 @@ test_that("check output for aspects importance (lm, binom)",{
                                                     new_observation = apartments_new_observation,
                                                     variable_groups =  apartments_aspects, sample_method = "binom")
   expect_true("aspect_importance" %in% class(aspect_importance_apartments))
-  expect_true(floor(aspect_importance_apartments[aspect_importance_apartments$variable_groups == "district",]$importance) == 279)
+  expect_true(floor(aspect_importance_apartments[aspect_importance_apartments$variable_groups == "district",]$importance) == 251)
 })
 
 test_that("check output for aspects importance (additional parameters)",{
@@ -118,12 +118,12 @@ test_that("check aliases for aspect_importance",{
   lime_apartments <- lime(apartments_lm_model, apartments,
                                        new_observation = apartments_new_observation,
                                        variable_groups =  apartments_aspects, method = "binom")
-  prediction_aspect_apartments <- prediction_aspect(apartments_lm_model, apartments,
+  predict_aspects_apartments <- predict_aspects(apartments_lm_model, apartments,
                                        new_observation = apartments_new_observation,
                                        variable_groups =  apartments_aspects, method = "binom")
 
   expect_true("aspect_importance" %in% class(lime_apartments))
-  expect_true("aspect_importance" %in% class(prediction_aspect_apartments))
+  expect_true("aspect_importance" %in% class(predict_aspects_apartments))
 
 
 })
@@ -159,7 +159,7 @@ test_that("check for aspect_importance with lasso",{
 
   expect_true("aspect_importance" %in% class(aspect_importance_apartments))
   expect_true(sum(aspect_importance_apartments[,2] != 0) == 3)
-  expect_true(sum(aspect_importance_apartments_0[,2] != 0) == 0)
+  expect_true(sum(aspect_importance_apartments_0[,2] != 0) == 1)
 
 })
 
@@ -177,7 +177,7 @@ test_that("check for aspect_importance with show_cor",{
 
   expect_true("aspect_importance" %in% class(aspect_importance_apartments_num))
   expect_true(dim(aspect_importance_apartments_num)[2] == 5)
-  expect_true(aspect_importance_apartments_num[1,5] == "pos")
+  expect_true(aspect_importance_apartments_num[3,5] == "pos")
 })
 
 

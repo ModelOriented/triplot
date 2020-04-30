@@ -5,8 +5,9 @@ test_that("check hierarchical_importance function for aspects_importance",{
   library("triplot")
 
   hi <- hierarchical_importance(x = apartments_num_lm_model,
-                                data = apartments_num_mod,
-                                new_observation = apartments_num_new_observation)
+                                data = apartments_num[,-1],
+                                new_observation =
+                                  apartments_num_new_observation[-1])
 
   expect_true("hclust" %in% class(hi))
   expect_true("hierarchical_importance" %in% class(hi))
@@ -18,8 +19,8 @@ test_that("check hierarchical_importance function for feature_importance",{
   library("triplot")
 
   hi <- hierarchical_importance(x = apartments_num_lm_model,
-                                data = apartments_num_mod,
-                                y = apartments[,1])
+                                data = apartments_num[,-1],
+                                y = apartments_num[,1])
 
   expect_true("hclust" %in% class(hi))
   expect_true("hierarchical_importance" %in% class(hi))
@@ -32,8 +33,10 @@ test_that("check plot.hierarchical_importance  function",{
   library("triplot")
 
   hi <- hierarchical_importance(x = apartments_num_lm_model,
-                                data = apartments_num_mod,
-                                y = apartments[,1])
+                                data = apartments_num[,-1],
+                                new_observation =
+                                  apartments_num_new_observation[-1])
+
   p <- plot(hi, add_last_group = TRUE,
             absolute_value = TRUE)
 

@@ -19,16 +19,15 @@ Plots triplot that sum up automatic aspect/feature importance grouping
 }
 \examples{
 library(DALEX)
-library(ingredients)
+set.seed(123)
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
-apartments_num_new_observation <- apartments_num[30,-1]
-apartments_num_mod <- apartments_num[,-1]
-tri <- calculate_triplot(x = apartments_num_lm_model,
-  data = apartments_num_mod,
-  new_observation = apartments_num_new_observation,
-  add_importance_labels = FALSE)
-
- plot(tri)
+apartments_num_new_observation <- apartments_num[30, ]
+explainer_apartments <- explain(model = apartments_num_lm_model,
+ data = apartments_num[,-1],
+ y = apartments_num[, 1])
+apartments_tri <- calculate_triplot(x = explainer_apartments,
+ new_observation = apartments_num_new_observation[-1])
+plot(apartments_tri)
 
 }

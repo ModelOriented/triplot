@@ -44,22 +44,17 @@
 #' @return triplot object
 #'
 #' @examples
+#'
 #' library(DALEX)
-#' library(ingredients)
+#' set.seed(123)
 #' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
-#' apartments_num_new_observation <- apartments_num[30,-1]
-#' apartments_num_mod <- apartments_num[,-1]
-#' calculate_triplot(x = apartments_num_lm_model,
-#'   data = apartments_num_mod,
-#'   new_observation = apartments_num_new_observation,
-#'   add_importance_labels = FALSE)
-#'
-#' set.seed(123)
-#' plot(calculate_triplot(x = apartments_num_lm_model,
-#'   data = apartments_num_mod,
-#'   y = apartments_num[,1],
-#'   show_axis_y_duplicated_labels = TRUE, add_last_group = TRUE))
+#' apartments_num_new_observation <- apartments_num[30, ]
+#' explainer_apartments <- explain(model = apartments_num_lm_model,
+#'  data = apartments_num[,-1],
+#'  y = apartments_num[, 1])
+#' apartments_tri <- calculate_triplot(x = explainer_apartments,
+#'  new_observation = apartments_num_new_observation[-1])
 #'
 #'
 #' @export
@@ -71,6 +66,7 @@ calculate_triplot <- function(x, ...)
 #' @rdname calculate_triplot
 
 calculate_triplot.explainer <- function(x, new_observation = NULL,
+                                        type = c("predict_aspects"),
                                         N = 1000,
                                         clust_method = "complete",
                                         absolute_value = FALSE,
@@ -87,6 +83,7 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
   data <- x$data
   model <- x$model
   predict_function <- x$predict_function
+  y <- x$new_observation
 
   if (is.null(new_observation)) {
     y <- x$y
@@ -98,11 +95,15 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
 
   calculate_triplot.default(x = model, data = data, y = y,
                   predict_function = predict_function,
-                  new_observation = new_observation, N = N,
-                  clust_method = clust_method, absolute_value = FALSE,
-                  add_importance_labels, show_axis_y_duplicated_labels,
+                  new_observation = new_observation,
+                  N = N,
+                  clust_method = clust_method,
+                  absolute_value = FALSE,
+                  add_importance_labels,
+                  show_axis_y_duplicated_labels,
                   abbrev_labels = abbrev_labels,
-                  add_last_group, axis_lab_size = axis_lab_size,
+                  add_last_group = add_last_group,
+                  axis_lab_size = axis_lab_size,
                   text_size = text_size)
 }
 
@@ -110,8 +111,8 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
 #' @rdname calculate_triplot
 
 calculate_triplot.default <- function(x, data, y = NULL,
-                                      new_observation = NULL,
                                       predict_function = predict,
+                                      new_observation = NULL,
                                       N = 1000,
                                       clust_method = "complete",
                                       absolute_value = FALSE,
@@ -233,17 +234,16 @@ calculate_triplot.default <- function(x, data, y = NULL,
 #'
 #' @examples
 #' library(DALEX)
-#' library(ingredients)
+#' set.seed(123)
 #' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
-#' apartments_num_new_observation <- apartments_num[30,-1]
-#' apartments_num_mod <- apartments_num[,-1]
-#' tri <- calculate_triplot(x = apartments_num_lm_model,
-#'   data = apartments_num_mod,
-#'   new_observation = apartments_num_new_observation,
-#'   add_importance_labels = FALSE)
-#'
-#'  plot(tri)
+#' apartments_num_new_observation <- apartments_num[30, ]
+#' explainer_apartments <- explain(model = apartments_num_lm_model,
+#'  data = apartments_num[,-1],
+#'  y = apartments_num[, 1])
+#' apartments_tri <- calculate_triplot(x = explainer_apartments,
+#'  new_observation = apartments_num_new_observation[-1])
+#' plot(apartments_tri)
 #'
 #' @export
 #'
