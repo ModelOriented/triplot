@@ -3,7 +3,7 @@
 \name{cluster_variables}
 \alias{cluster_variables}
 \alias{cluster_variables.default}
-\title{Groups numeric features into aspects}
+\title{Creates a cluster tree from numeric features}
 \usage{
 cluster_variables(x, ...)
 
@@ -21,8 +21,7 @@ see \code{\link[stats]{hclust}} methods}
 an hclust object
 }
 \description{
-Divides correlated features into groups, called aspects. Division is based on
-correlation cutoff level.
+Creates a cluster tree from numeric features and their correlations.
 }
 \examples{
 library("DALEX")

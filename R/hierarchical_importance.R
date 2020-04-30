@@ -47,13 +47,6 @@
 #' @export
 #'
 
-
-hierarchical_importance <- function(x, ...)
-  UseMethod("hierarchical_importance")
-
-#' @export
-#' @rdname hierarchical_importance
-
 hierarchical_importance <- function(x, data, y = NULL,
                                     predict_function = predict,
                                     new_observation = NULL,

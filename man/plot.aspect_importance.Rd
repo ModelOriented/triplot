@@ -57,8 +57,9 @@ aspects <- list(wealth = c("class", "fare"),
                 personal = c("gender", "age"),
                 embarked = "embarked")
 
-plot(aspect_importance(explain_titanic_glm,
+titanic_ai <- predict_aspects(explain_titanic_glm,
                   new_observation = titanic_imputed[1,],
-                  variable_groups = aspects))
+                  variable_groups = aspects)
+plot(titanic_ai)
 
 }

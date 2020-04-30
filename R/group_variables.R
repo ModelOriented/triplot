@@ -1,7 +1,6 @@
-#' Groups numeric features into aspects
+#' Creates a cluster tree from numeric features
 #'
-#' Divides correlated features into groups, called aspects. Division is based on
-#' correlation cutoff level.
+#' Creates a cluster tree from numeric features and their correlations.
 #'
 #' @param x dataframe with only numeric columns
 #' @param clust_method the agglomeration method to be used
@@ -43,7 +42,7 @@ cluster_variables.default <- function(x, clust_method = "complete", ...) {
 
 #' Plots tree with correlation values
 #'
-#' Plots tree that illustrates the results of group_variables function.
+#' Plots tree that illustrates the results of cluster_variables function.
 #'
 #' @param x cluster_variables or hclust object
 #' @param p correlation value for cutoff level, if not NULL, cutoff line will
@@ -139,7 +138,8 @@ plot.cluster_variables <- function(x,
 
 #' Cuts tree at custom height and returns a list
 #'
-#' This function creates aspect list after cutting a tree at a given height.
+#' This function creates aspect list after cutting a cluster tree of features
+#' at a given height.
 #'
 #' @param x hclust object
 #' @param h correlation value for tree cutting
@@ -178,8 +178,9 @@ list_variables <- function(x, h) {
 
 #' Helper function that combines clustering variables and creating aspect list
 #'
-#' This function creates aspect list after creating and cutting a tree at a
-#'   given height.
+#' Divides correlated features into groups, called aspects. Division is based on
+#' correlation cutoff level.
+#'
 #'
 #' @param x hclust object
 #' @param h correlation value for tree cutting

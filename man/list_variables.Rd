@@ -15,7 +15,8 @@ list_variables(x, h)
 list of aspects
 }
 \description{
-This function creates aspect list after cutting a tree at a given height.
+This function creates aspect list after cutting a cluster tree of features
+at a given height.
 }
 \examples{
 library("DALEX")

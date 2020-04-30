@@ -24,7 +24,7 @@ be drawn}
 plot
 }
 \description{
-Plots tree that illustrates the results of group_variables function.
+Plots tree that illustrates the results of cluster_variables function.
 }
 \examples{
 library("DALEX")

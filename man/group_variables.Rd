@@ -18,8 +18,8 @@ see \code{\link[stats]{hclust}} methods}
 list with aspect
 }
 \description{
-This function creates aspect list after creating and cutting a tree at a
-  given height.
+Divides correlated features into groups, called aspects. Division is based on
+correlation cutoff level.
 }
 \examples{
 library("DALEX")

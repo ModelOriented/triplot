@@ -16,17 +16,6 @@ hierarchical_importance(
   ...
 )
 
-hierarchical_importance(
-  x,
-  data,
-  y = NULL,
-  predict_function = predict,
-  new_observation = NULL,
-  N = 1000,
-  clust_method = "complete",
-  ...
-)
-
 \method{plot}{hierarchical_importance}(
   x,
   new_observation = NULL,

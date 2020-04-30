@@ -104,7 +104,7 @@ aspects <- list(wealth = c("class", "fare"),
                 personal = c("gender", "age"),
                 embarked = "embarked")
 
-aspect_importance(explain_titanic_glm,
+predict_aspects(explain_titanic_glm,
                   new_observation = titanic_imputed[1,],
                   variable_groups = aspects)
 
@@ -119,7 +119,7 @@ explain_titanic_rf <- explain(model_titanic_rf,
                               y = titanic_imputed$survived == 1,
                               verbose = FALSE)
 
-aspect_importance(explain_titanic_rf,
+predict_aspects(explain_titanic_rf,
                   new_observation = titanic_imputed[1,],
                   variable_groups = aspects)
 
