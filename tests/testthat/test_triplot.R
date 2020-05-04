@@ -78,6 +78,19 @@ test_that("check plot.calculate_triplot function",{
   expect_true("gtable" %in% class(p))
 })
 
+test_that("check plot.calculate_triplot function for FI",{
+  library("DALEX")
+  library("triplot")
+  library("ingredients")
+
+  apartments_tri <- calculate_triplot(x = apartments_explain,
+                                      type = "model")
+  p <- plot(apartments_tri, abbrev_labels = 10)
+
+
+  expect_true("gtable" %in% class(p))
+})
+
 test_that("check triplot aliases",{
   library("DALEX")
   library("triplot")

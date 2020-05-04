@@ -214,7 +214,7 @@ plot.triplot <- function(x,
              axis_lab_size = axis_lab_size,
              text_size = text_size)
 
-  if (is.null(new_observation)) {
+  if (type != "predict") {
     p2$labels$y <- "Hierarchical feature importance"
   } else {
     p2$labels$y <- "Hierarchical aspect importance"
