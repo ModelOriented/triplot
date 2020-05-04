@@ -155,8 +155,8 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-predict-aspects" class="hasAnchor"><a href="#section-predict-aspects" class="anchor"></a>Predict aspects</h2>
+          <p class="section-desc"><p>Functions for local model explanations. Also known as aspect importance.</p></p>
         </th>
       </tr>
       
@@ -167,7 +167,7 @@
       <tr>
         
         <td>
-          <p><code><a href="aspect_importance.html">aspect_importance()</a></code> <code><a href="aspect_importance.html">lime()</a></code> <code><a href="aspect_importance.html">prediction_aspect()</a></code> </p>
+          <p><code><a href="aspect_importance.html">aspect_importance()</a></code> <code><a href="aspect_importance.html">lime()</a></code> <code><a href="aspect_importance.html">predict_aspects()</a></code> </p>
         </td>
         <td><p>Calculates importance of variable groups (called aspects importance) for a
 selected observation</p></td>
@@ -180,45 +180,65 @@ selected observation</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="calculate_triplot.html">calculate_triplot()</a></code> </p>
+          <p><code><a href="plot.aspect_importance.html">plot(<i>&lt;aspect_importance&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Three plots that sum up automatic aspect/feature importance grouping</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="cluster_variables.html">cluster_variables()</a></code> </p>
-        </td>
-        <td><p>Groups numeric features into aspects</p></td>
+        <td><p>Function for plotting aspect_importance results</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="get_sample.html">get_sample()</a></code> </p>
         </td>
         <td><p>Function for getting binary matrix</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-triplot" class="hasAnchor"><a href="#section-triplot" class="anchor"></a>Triplot</h2>
+          <p class="section-desc"><p>Plots for hierarchical feature grouping.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
-          <p><code><a href="group_variables.html">group_variables()</a></code> </p>
+          <p><code><a href="calculate_triplot.html">calculate_triplot()</a></code> <code><a href="calculate_triplot.html">model_triplot()</a></code> <code><a href="calculate_triplot.html">predict_triplot()</a></code> </p>
         </td>
-        <td><p>Helper function that combines clustering variables and creating aspect list</p></td>
+        <td><p>Three plots that sum up automatic aspect/feature importance grouping</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="hierarchical_importance.html">hierarchical_importance()</a></code> <code><a href="hierarchical_importance.html">hierarchical_importance()</a></code> <code><a href="hierarchical_importance.html">plot(<i>&lt;hierarchical_importance&gt;</i>)</a></code> </p>
+          <p><code><a href="plot.triplot.html">plot(<i>&lt;triplot&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plots triplot with correlation values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="hierarchical_importance.html">hierarchical_importance()</a></code> <code><a href="hierarchical_importance.html">plot(<i>&lt;hierarchical_importance&gt;</i>)</a></code> </p>
         </td>
         <td><p>Calculates importance of hierarchically grouped aspects</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-variables-grouping" class="hasAnchor"><a href="#section-variables-grouping" class="anchor"></a>Variables grouping</h2>
+          <p class="section-desc"><p>Function for variables grouping.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
-          <p><code><a href="list_variables.html">list_variables()</a></code> </p>
+          <p><code><a href="cluster_variables.html">cluster_variables()</a></code> </p>
         </td>
-        <td><p>Cuts tree at custom height and returns a list</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.aspect_importance.html">plot(<i>&lt;aspect_importance&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Function for plotting aspect_importance results</p></td>
+        <td><p>Creates a cluster tree from numeric features</p></td>
       </tr><tr>
         
         <td>
@@ -228,9 +248,15 @@ selected observation</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="plot.triplot.html">plot(<i>&lt;triplot&gt;</i>)</a></code> </p>
+          <p><code><a href="list_variables.html">list_variables()</a></code> </p>
         </td>
-        <td><p>Plots triplot with correlation values</p></td>
+        <td><p>Cuts tree at custom height and returns a list</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="group_variables.html">group_variables()</a></code> </p>
+        </td>
+        <td><p>Helper function that combines clustering variables and creating aspect list</p></td>
       </tr>
     </tbody>
     </table>

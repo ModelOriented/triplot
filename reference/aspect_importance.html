@@ -197,7 +197,7 @@ linear model or lasso.</p>
 
 <span class='fu'>lime</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-<span class='fu'>prediction_aspect</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>predict_aspects</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -284,7 +284,7 @@ attribute of the model.</p></td>
                 <span class='kw'>personal</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gender"</span>, <span class='st'>"age"</span>),
                 <span class='kw'>embarked</span> <span class='kw'>=</span> <span class='st'>"embarked"</span>)
 
-<span class='fu'>aspect_importance</span>(<span class='no'>explain_titanic_glm</span>,
+<span class='fu'>predict_aspects</span>(<span class='no'>explain_titanic_glm</span>,
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
                   <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)</div><div class='output co'>#&gt;   variable_groups importance     features
 #&gt; 3          family    0.09559 sibsp, parch
@@ -302,7 +302,7 @@ attribute of the model.</p></td>
                               <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>$<span class='no'>survived</span> <span class='kw'>==</span> <span class='fl'>1</span>,
                               <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>aspect_importance</span>(<span class='no'>explain_titanic_rf</span>,
+<span class='fu'>predict_aspects</span>(<span class='no'>explain_titanic_rf</span>,
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
                   <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)
 

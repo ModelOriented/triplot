@@ -152,7 +152,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for aspect_importance</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(
   <span class='no'>x</span>,
   <span class='no'>...</span>,
   <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>10</span>,
@@ -221,9 +221,10 @@ if applicable</p></td>
                 <span class='kw'>personal</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gender"</span>, <span class='st'>"age"</span>),
                 <span class='kw'>embarked</span> <span class='kw'>=</span> <span class='st'>"embarked"</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'><a href='aspect_importance.html'>aspect_importance</a></span>(<span class='no'>explain_titanic_glm</span>,
+<span class='no'>titanic_ai</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aspect_importance.html'>predict_aspects</a></span>(<span class='no'>explain_titanic_glm</span>,
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
-                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>))</div><div class='img'><img src='plot.aspect_importance-1.png' alt='' width='700' height='433' /></div><div class='input'>
+                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>titanic_ai</span>)</div><div class='img'><img src='plot.aspect_importance-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

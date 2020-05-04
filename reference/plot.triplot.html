@@ -152,7 +152,18 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for triplot</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(
+  <span class='no'>x</span>,
+  <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show_axis_y_duplicated_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>abbrev_labels</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,6 +171,44 @@
     <tr>
       <th>x</th>
       <td><p>triplot object</p></td>
+    </tr>
+    <tr>
+      <th>absolute_value</th>
+      <td><p>if TRUE, aspect importance values will be drawn as
+absolute values</p></td>
+    </tr>
+    <tr>
+      <th>add_importance_labels</th>
+      <td><p>if TRUE, first plot is annotated with values of
+aspects importance</p></td>
+    </tr>
+    <tr>
+      <th>show_axis_y_duplicated_labels</th>
+      <td><p>if TRUE, every plot will have annotated
+axis Y</p></td>
+    </tr>
+    <tr>
+      <th>abbrev_labels</th>
+      <td><p>if greater than 0, labels for axis Y in single aspect
+importance plot will be abbreviated according to this parameter</p></td>
+    </tr>
+    <tr>
+      <th>add_last_group</th>
+      <td><p>if TRUE, second plot will draw connecting line between
+last two groups</p></td>
+    </tr>
+    <tr>
+      <th>axis_lab_size</th>
+      <td><p>size of labels on axis</p></td>
+    </tr>
+    <tr>
+      <th>text_size</th>
+      <td><p>size of labels annotating values of aspects importance and
+correlations</p></td>
+    </tr>
+    <tr>
+      <th>bar_width</th>
+      <td><p>bar width in the first plot</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -173,16 +222,17 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ingredients</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
 <span class='no'>apartments_num</span> <span class='kw'>&lt;-</span> <span class='no'>apartments</span>[,<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>apartments</span>, <span class='no'>is.numeric</span>))]
 <span class='no'>apartments_num_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>)
-<span class='no'>apartments_num_new_observation</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[<span class='fl'>30</span>,-<span class='fl'>1</span>]
-<span class='no'>apartments_num_mod</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[,-<span class='fl'>1</span>]
-<span class='no'>tri</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calculate_triplot.html'>calculate_triplot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num_mod</span>,
-  <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>apartments_num_new_observation</span>,
-  <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `expand_scale()` is deprecated; use `expansion()` instead.</span></div><div class='input'>
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>tri</span>)</div><div class='img'><img src='plot.triplot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>apartments_num_new_observation</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[<span class='fl'>30</span>, ]
+<span class='no'>explainer_apartments</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
+                                <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[,-<span class='fl'>1</span>],
+                                <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[, <span class='fl'>1</span>],
+                                <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>apartments_tri</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calculate_triplot.html'>calculate_triplot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>explainer_apartments</span>,
+ <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>apartments_num_new_observation</span>[-<span class='fl'>1</span>])
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>apartments_tri</span>)</div><div class='img'><img src='plot.triplot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
