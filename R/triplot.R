@@ -19,21 +19,6 @@
 #' @param N number of rows to be sampled from data
 #' @param clust_method the agglomeration method to be used, see
 #'   \code{\link[stats]{hclust}} methods
-#' @param absolute_value if TRUE, aspect importance values will be drawn as
-#'   absolute values
-#' @param add_importance_labels if TRUE, first plot is annotated with values of
-#' aspects
-#'   importance
-#' @param show_axis_y_duplicated_labels if TRUE, every plot will have annotated
-#'   axis Y
-#' @param abbrev_labels if greater than 0, labels for axis Y in single aspect
-#'   importance plot will be abbreviated according to this parameter
-#' @param add_last_group if TRUE, second plot will draw connecting line between
-#'   last two groups
-#' @param axis_lab_size size of labels on axis
-#' @param text_size size of labels annotating values of aspects importance and
-#'   correlations
-#' @param bar_width bar width in the first plot
 #' @param ... other parameters
 #'
 #' @import stats
@@ -51,11 +36,13 @@
 #' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 #' apartments_num_new_observation <- apartments_num[30, ]
-#' explainer_apartments <- explain(model = apartments_num_lm_model,
-#'  data = apartments_num[,-1],
-#'  y = apartments_num[, 1])
-#' apartments_tri <- calculate_triplot(x = explainer_apartments,
-#'  new_observation = apartments_num_new_observation[-1])
+# explainer_apartments <- explain(model = apartments_num_lm_model,
+#                                 data = apartments_num[,-1],
+#                                 y = apartments_num[, 1],
+#                                 verbose = FALSE)
+# apartments_tri <- calculate_triplot(x = explainer_apartments,
+#                                     new_observation =
+#                                       apartments_num_new_observation[-1])
 #'
 #'
 #' @export
@@ -70,14 +57,6 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
                                         type = c("predict_aspects"),
                                         N = 1000,
                                         clust_method = "complete",
-                                        absolute_value = FALSE,
-                                        add_importance_labels = FALSE,
-                                        show_axis_y_duplicated_labels = FALSE,
-                                        abbrev_labels = 0,
-                                        add_last_group = FALSE,
-                                        axis_lab_size = 10,
-                                        text_size = 3,
-                                        bar_width = 5,
                                         ...) {
 
 # extracts model, data and predict function from the explainer ------------
@@ -238,21 +217,17 @@ plot.triplot <- function(x,
 
   p2 <- p2 + theme(axis.title = element_text(size = axis_lab_size))
 
+  # Builds third plot -------------------------------------------------------
 
-# Builds third plot -------------------------------------------------------
-
-  cv <- cluster_variables(data, clust_method)
   p3 <- plot(cv, show_labels = show_axis_y_duplicated_labels,
-                             axis_lab_size = axis_lab_size,
-                             text_size = text_size)
+             axis_lab_size = axis_lab_size,
+             text_size = text_size)
   p3 <- p3 + theme(axis.title = element_text(size = axis_lab_size))
 
-# Builds first plot -------------------------------------------------------
+
+  # Builds first plot -------------------------------------------------------
 
   if (is.null(new_observation)) {
-    importance_leaves <- feature_importance(x = x, data = data, y = y,
-                                            predict_function = predict_function,
-                                            n_sample = N)
     p1 <- plot(importance_leaves, show_boxplots = FALSE, subtitle = "",
                title = "")
     p1$theme$text$size <- text_size
@@ -274,11 +249,6 @@ plot.triplot <- function(x,
     p1$data$variable <- factor(p1$data$variable,
                                levels = lev_mod)
   } else {
-
-    importance_leaves <- aspect_importance_single(x, data,
-                                                  predict_function,
-                                                  new_observation, N,
-                                                  label = "")
     p1 <- plot(importance_leaves, add_importance = add_importance_labels,
                text_size = text_size, bar_width = bar_width)
     p1$labels$y <- "Single aspects importance"
@@ -299,47 +269,7 @@ plot.triplot <- function(x,
       scale_x_discrete(expand = expansion(mult = 0.01))
   }
 
-# returns list of plots ---------------------------------------------------
-
   plot_list <- list(p1, p2, p3)
-  class(plot_list) <- c("triplot", "list")
-
-  invisible(plot_list)
-
-}
-
-
-
-#' Plots triplot with correlation values
-#'
-#' Plots triplot that sum up automatic aspect/feature importance grouping
-#'
-#' @param x triplot object
-#' @param ... other parameters
-#'
-#' @return plot
-#'
-#' @import ggplot2
-#' @importFrom gridExtra grid.arrange
-#'
-#' @examples
-#' library(DALEX)
-#' set.seed(123)
-#' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
-#' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
-#' apartments_num_new_observation <- apartments_num[30, ]
-#' explainer_apartments <- explain(model = apartments_num_lm_model,
-#'  data = apartments_num[,-1],
-#'  y = apartments_num[, 1])
-#' apartments_tri <- calculate_triplot(x = explainer_apartments,
-#'  new_observation = apartments_num_new_observation[-1])
-#' plot(apartments_tri)
-#'
-#' @export
-#'
-
-plot.triplot <- function(x, ...) {
-
-  do.call("grid.arrange", c(x, nrow = 1, top = "Triplot"))
+  do.call("grid.arrange", c(plot_list, nrow = 1, top = "Triplot"))
 
 }

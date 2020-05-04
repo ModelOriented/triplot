@@ -30,8 +30,9 @@
 #'                          data = titanic_imputed,
 #'                          family = "binomial")
 #'
-#' explainer_titanic <- explain(model_titanic_glm, data = titanic_imputed[,-8])
-#'
+#' explainer_titanic <- explain(model_titanic_glm,
+#'                              data = titanic_imputed[,-8],
+#'                              verbose = FALSE)
 #' aspect_importance_single(explainer_titanic,
 #'                          new_observation = titanic_imputed[1,-8])
 #'

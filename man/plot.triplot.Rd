@@ -4,10 +4,43 @@
 \alias{plot.triplot}
 \title{Plots triplot with correlation values}
 \usage{
-\method{plot}{triplot}(x, ...)
+\method{plot}{triplot}(
+  x,
+  absolute_value = FALSE,
+  add_importance_labels = FALSE,
+  show_axis_y_duplicated_labels = FALSE,
+  abbrev_labels = 0,
+  add_last_group = FALSE,
+  axis_lab_size = 10,
+  text_size = 3,
+  bar_width = 5,
+  ...
+)
 }
 \arguments{
 \item{x}{triplot object}
+
+\item{absolute_value}{if TRUE, aspect importance values will be drawn as
+absolute values}
+
+\item{add_importance_labels}{if TRUE, first plot is annotated with values of
+aspects importance}
+
+\item{show_axis_y_duplicated_labels}{if TRUE, every plot will have annotated
+axis Y}
+
+\item{abbrev_labels}{if greater than 0, labels for axis Y in single aspect
+importance plot will be abbreviated according to this parameter}
+
+\item{add_last_group}{if TRUE, second plot will draw connecting line between
+last two groups}
+
+\item{axis_lab_size}{size of labels on axis}
+
+\item{text_size}{size of labels annotating values of aspects importance and
+correlations}
+
+\item{bar_width}{bar width in the first plot}
 
 \item{...}{other parameters}
 }
@@ -23,9 +56,6 @@ set.seed(123)
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 apartments_num_new_observation <- apartments_num[30, ]
-explainer_apartments <- explain(model = apartments_num_lm_model,
- data = apartments_num[,-1],
- y = apartments_num[, 1])
 apartments_tri <- calculate_triplot(x = explainer_apartments,
  new_observation = apartments_num_new_observation[-1])
 plot(apartments_tri)

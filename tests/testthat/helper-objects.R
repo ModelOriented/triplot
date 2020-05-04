@@ -40,4 +40,3 @@ apartments_explain <- explain(model = apartments_num_lm_model,
                               data = apartments_num[,-1],
                               y = apartments_num[, 1],
                               verbose = FALSE)
-
