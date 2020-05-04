@@ -4,14 +4,16 @@
 \alias{calculate_triplot}
 \alias{calculate_triplot.explainer}
 \alias{calculate_triplot.default}
+\alias{model_triplot}
+\alias{predict_triplot}
 \title{Three plots that sum up automatic aspect/feature importance grouping}
 \usage{
 calculate_triplot(x, ...)
 
 \method{calculate_triplot}{explainer}(
   x,
+  type = c("predict", "model"),
   new_observation = NULL,
-  type = c("predict_aspects"),
   N = 1000,
   clust_method = "complete",
   ...
@@ -22,17 +24,25 @@ calculate_triplot(x, ...)
   data,
   y = NULL,
   predict_function = predict,
+  type = c("predict", "model"),
   new_observation = NULL,
   N = 1000,
   clust_method = "complete",
   ...
 )
+
+model_triplot(x, ...)
+
+predict_triplot(x, ...)
 }
 \arguments{
 \item{x}{an explainer created with the \code{DALEX::explain()} function
 or a model to be explained.}
 
 \item{...}{other parameters}
+
+\item{type}{if \code{predict} aspect_importance is used, if
+\code{model} is used, than feature_importance is calculated}
 
 \item{new_observation}{selected observation with columns that corresponds to
 variables used in the model, should be without target variable}
@@ -68,6 +78,13 @@ set.seed(123)
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 apartments_num_new_observation <- apartments_num[30, ]
+explainer_apartments <- explain(model = apartments_num_lm_model,
+                                data = apartments_num[,-1],
+                                y = apartments_num[, 1],
+                                verbose = FALSE)
+apartments_tri <- calculate_triplot(x = explainer_apartments,
+                                    new_observation =
+                                      apartments_num_new_observation[-1])
 
 
 }

@@ -10,6 +10,7 @@ hierarchical_importance(
   data,
   y = NULL,
   predict_function = predict,
+  type = "predict",
   new_observation = NULL,
   N = 1000,
   clust_method = "complete",
@@ -18,7 +19,6 @@ hierarchical_importance(
 
 \method{plot}{hierarchical_importance}(
   x,
-  new_observation = NULL,
   absolute_value = FALSE,
   show_labels = TRUE,
   add_last_group = FALSE,
@@ -37,6 +37,9 @@ if it's an explainer,
   need to be provided if feature importance is to be calculated}
 
 \item{predict_function}{predict function}
+
+\item{type}{if \code{predict} aspect_importance is used, if
+\code{model} is used, than feature_importance is calculated}
 
 \item{new_observation}{selected observation with columns that corresponds to
 variables used in the model (it should be without target variable),
@@ -75,7 +78,8 @@ apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 apartments_num_new_observation <- apartments_num[2,]
 hi <- hierarchical_importance(x = apartments_num_lm_model,
  data = apartments_num[,-1],
- new_observation = apartments_num_new_observation[-1])
+ y = apartments_num[,1],
+ type = "model")
 plot(hi, add_last_group = TRUE, absolute_value = TRUE)
 
 }

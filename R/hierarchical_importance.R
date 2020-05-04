@@ -9,6 +9,8 @@
 #' if it's an explainer,
 #'   need to be provided if feature importance is to be calculated
 #' @param predict_function predict function
+#' @param type if \code{predict} aspect_importance is used, if
+#'   \code{model} is used, than feature_importance is calculated
 #' @param new_observation selected observation with columns that corresponds to
 #'   variables used in the model (it should be without target variable),
 #'   if NULL feature_importance will be calculated
@@ -41,7 +43,8 @@
 #' apartments_num_new_observation <- apartments_num[2,]
 #' hi <- hierarchical_importance(x = apartments_num_lm_model,
 #'  data = apartments_num[,-1],
-#'  new_observation = apartments_num_new_observation[-1])
+#'  y = apartments_num[,1],
+#'  type = "model")
 #' plot(hi, add_last_group = TRUE, absolute_value = TRUE)
 #'
 #' @export
@@ -49,9 +52,15 @@
 
 hierarchical_importance <- function(x, data, y = NULL,
                                     predict_function = predict,
+                                    type = "predict",
                                     new_observation = NULL,
                                     N = 1000,
-                                    clust_method = "complete", ...) {
+                                    clust_method = "complete",
+                                    ...) {
+
+  if (all(type != "predict", is.null(y))) {
+    stop("Target is needed for hierarchical_importance calculated at model level")
+  }
 
   # Building helper objects ---------------------------------------------
 
@@ -73,7 +82,7 @@ hierarchical_importance <- function(x, data, y = NULL,
     t3 <- aspects_list_current[t2]
     group_name <- names(t3)
 
-    if (is.null(new_observation)) {
+    if (type != "predict") {
       res_ai <- feature_importance(x = x, data = data, y = y,
                                    predict_function = predict_function,
                                    variable_groups = aspects_list_current,
@@ -102,9 +111,9 @@ hierarchical_importance <- function(x, data, y = NULL,
   # Inserting importance values into x_hc tree ------------------------------
 
   x_hc$height <- int_node_importance$V1
-
-  class(x_hc) <- c("hierarchical_importance", "hclust")
-  return(x_hc)
+  hi <- list(x_hc, type, new_observation)
+  class(hi) <- c("hierarchical_importance")
+  return(hi)
 }
 
 
@@ -112,14 +121,16 @@ hierarchical_importance <- function(x, data, y = NULL,
 #' @rdname hierarchical_importance
 #'
 
-plot.hierarchical_importance <- function(x, new_observation = NULL,
+plot.hierarchical_importance <- function(x,
                                          absolute_value = FALSE,
                                          show_labels = TRUE,
                                          add_last_group = FALSE,
                                          axis_lab_size = 10,
                                          text_size = 3, ...) {
 
-  x_hc <- x
+  x_hc <- x[[1]]
+  type <- x[[2]]
+  new_observation <- x[[3]]
   x <- y <- xend <- yend <- yend_val <- NULL
 
   # Building dendogram ------------------------------------------------------
@@ -159,7 +170,7 @@ plot.hierarchical_importance <- function(x, new_observation = NULL,
 
   # Adding new observation values to labels ---------------------------------
 
-  if (!is.null(new_observation)) {
+  if (type == "predict") {
     ddata$labels[, 3] <- as.character(ddata$labels[, 3])
     for (i in seq_along(ddata$labels[, 3])) {
       ddata$labels[i, 3] <- paste0(ddata$labels[i, 3], " = ",

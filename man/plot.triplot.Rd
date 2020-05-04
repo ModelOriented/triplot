@@ -56,6 +56,10 @@ set.seed(123)
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 apartments_num_new_observation <- apartments_num[30, ]
+explainer_apartments <- explain(model = apartments_num_lm_model,
+                                data = apartments_num[,-1],
+                                y = apartments_num[, 1],
+                                verbose = FALSE)
 apartments_tri <- calculate_triplot(x = explainer_apartments,
  new_observation = apartments_num_new_observation[-1])
 plot(apartments_tri)

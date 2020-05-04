@@ -14,6 +14,8 @@
 #' if it's an explainer
 #' @param predict_function predict function, it will be extracted from \code{x}
 #'   if it's an explainer
+#' @param type if \code{predict} aspect_importance is used, if
+#'   \code{model} is used, than feature_importance is calculated
 #' @param new_observation selected observation with columns that corresponds to
 #'   variables used in the model, should be without target variable
 #' @param N number of rows to be sampled from data
@@ -36,13 +38,13 @@
 #' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 #' apartments_num_new_observation <- apartments_num[30, ]
-# explainer_apartments <- explain(model = apartments_num_lm_model,
-#                                 data = apartments_num[,-1],
-#                                 y = apartments_num[, 1],
-#                                 verbose = FALSE)
-# apartments_tri <- calculate_triplot(x = explainer_apartments,
-#                                     new_observation =
-#                                       apartments_num_new_observation[-1])
+#' explainer_apartments <- explain(model = apartments_num_lm_model,
+#'                                 data = apartments_num[,-1],
+#'                                 y = apartments_num[, 1],
+#'                                 verbose = FALSE)
+#' apartments_tri <- calculate_triplot(x = explainer_apartments,
+#'                                     new_observation =
+#'                                       apartments_num_new_observation[-1])
 #'
 #'
 #' @export
@@ -53,30 +55,27 @@ calculate_triplot <- function(x, ...)
 #' @export
 #' @rdname calculate_triplot
 
-calculate_triplot.explainer <- function(x, new_observation = NULL,
-                                        type = c("predict_aspects"),
+calculate_triplot.explainer <- function(x,
+                                        type = c("predict", "model"),
+                                        new_observation = NULL,
                                         N = 1000,
                                         clust_method = "complete",
                                         ...) {
+
+  type <- match.arg(type)
 
 # extracts model, data and predict function from the explainer ------------
 
   data <- x$data
   model <- x$model
   predict_function <- x$predict_function
-  y <- x$new_observation
-
-  if (is.null(new_observation)) {
-    y <- x$y
-  } else {
-    y <- NULL
-  }
+  y <- x$y
 
 # check if target is in data ----------------------------------------------
 
-  if (!is.null(x$y)) {
+  if (!is.null(y)) {
     target_in_data_check <- any(apply(data, 2, function(z) {
-      all(as.character(z) == as.character(x$y))
+      all(as.character(z) == as.character(y))
     }))
 
     if (target_in_data_check) {
@@ -88,6 +87,7 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
 
   calculate_triplot.default(x = model, data = data, y = y,
                   predict_function = predict_function,
+                  type = type,
                   new_observation = new_observation,
                   N = N,
                   clust_method = clust_method)
@@ -98,19 +98,23 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
 
 calculate_triplot.default <- function(x, data, y = NULL,
                                       predict_function = predict,
+                                      type = c("predict", "model"),
                                       new_observation = NULL,
                                       N = 1000,
                                       clust_method = "complete",
                                       ...) {
 
+  type <- match.arg(type)
   stopifnot(all(sapply(data, is.numeric)))
 
 # Calculations for second plot ------------------------------------------------------
 
   hi <- hierarchical_importance(x = x, data = data, y = y,
                                 predict_function = predict_function,
+                                type = type,
                                 new_observation = new_observation,
-                                N = N, clust_method = clust_method)
+                                N = N,
+                                clust_method = clust_method)
 
 # Calculations for third plot -------------------------------------------------------
 
@@ -118,7 +122,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
 
 # Calculations for first plot -------------------------------------------------------
 
-  if (is.null(new_observation)) {
+  if (type != "predict") {
     importance_leaves <- feature_importance(x = x, data = data, y = y,
                                             predict_function = predict_function,
                                             n_sample = N)
@@ -132,7 +136,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
 
 # returns list of plots ---------------------------------------------------
 
-  tri_data <- list(importance_leaves, hi, cv, new_observation)
+  tri_data <- list(importance_leaves, hi, cv, new_observation, type)
   class(tri_data) <- c("triplot", "list")
 
   invisible(tri_data)
@@ -173,10 +177,10 @@ calculate_triplot.default <- function(x, data, y = NULL,
 #' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 #' apartments_num_new_observation <- apartments_num[30, ]
-# explainer_apartments <- explain(model = apartments_num_lm_model,
-#                                 data = apartments_num[,-1],
-#                                 y = apartments_num[, 1],
-#                                 verbose = FALSE)
+#' explainer_apartments <- explain(model = apartments_num_lm_model,
+#'                                 data = apartments_num[,-1],
+#'                                 y = apartments_num[, 1],
+#'                                 verbose = FALSE)
 #' apartments_tri <- calculate_triplot(x = explainer_apartments,
 #'  new_observation = apartments_num_new_observation[-1])
 #' plot(apartments_tri)
@@ -199,6 +203,7 @@ plot.triplot <- function(x,
   hi <- x[[2]]
   cv <- x[[3]]
   new_observation <- x[[4]]
+  type <- x[[5]]
 
   # Builds second plot ------------------------------------------------------
 
@@ -227,7 +232,7 @@ plot.triplot <- function(x,
 
   # Builds first plot -------------------------------------------------------
 
-  if (is.null(new_observation)) {
+  if (type != "predict") {
     p1 <- plot(importance_leaves, show_boxplots = FALSE, subtitle = "",
                title = "")
     p1$theme$text$size <- text_size
@@ -273,3 +278,19 @@ plot.triplot <- function(x,
   do.call("grid.arrange", c(plot_list, nrow = 1, top = "Triplot"))
 
 }
+
+#' @export
+#' @rdname calculate_triplot
+
+model_triplot <- function(x, ...) {
+  calculate_triplot(x, type = "model", ...)
+}
+
+#' @export
+#' @rdname calculate_triplot
+#'
+predict_triplot <- function(x, ...) {
+  calculate_triplot(x, type = "predict", ...)
+}
+
+
