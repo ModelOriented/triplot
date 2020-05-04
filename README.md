@@ -9,7 +9,11 @@
 
 ## Overview
 
-The `triplot` package provides instance-level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.
+The `triplot` package provides an instance-level explainer for the groups of explanatory variables called aspect importance. 
+
+Package enables grouping predictors into entities called aspects. Afterwards, it calculates the contribution of those aspects to the prediction for a given observation.
+
+Furthermore, package delivers functionality called `triplot`. It illustrates how the importance of aspects change depending on the size of aspects.
 
 Key functions: 
 
@@ -26,6 +30,11 @@ The `triplot` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 ```r
 devtools::install_github("ModelOriented/triplot")
 ```
+## Demo
+
+To illustrate how the function works, we use titanic example. We build random forest model, group features into aspects and choose new observation to be explained. Then we build DALEX explainer and use it to call aspect importance function. Finally, we print and plot function results. We can observe that personal (age and gender) variables have the biggest contribution to the prediction. This contribution is of a positive type.
+
+
 
 ## Acknowledgments
 
