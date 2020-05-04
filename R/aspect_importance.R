@@ -102,6 +102,18 @@ aspect_importance.explainer <- function(x, new_observation,
   predict_function <- x$predict_function
   label <- x$label
 
+# check if target is in data ----------------------------------------------
+
+  if (!is.null(x$y)) {
+    target_in_data_check <- any(apply(data, 2, function(z) {
+      all(as.character(z) == as.character(x$y))
+    }))
+
+    if (target_in_data_check) {
+      warning("It is recommended to pass `data` without the target variable column")
+    }
+  }
+
 # calls target function ---------------------------------------------------
 
   aspect_importance.default(model, data, predict_function,

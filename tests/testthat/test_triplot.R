@@ -12,6 +12,8 @@ test_that("check calculate_triplot.default function",{
   expect_true("list" %in% class(apartments_tri))
 })
 
+
+
 test_that("check calculate_triplot.explainer function",{
   library("DALEX")
   library("triplot")
@@ -21,6 +23,19 @@ test_that("check calculate_triplot.explainer function",{
                                         apartments_num_new_observation[-1])
 
   expect_true("list" %in% class(apartments_tri))
+})
+
+test_that("check warning in calculate_triplot.explainer",{
+  library("DALEX")
+  library("triplot")
+
+  apartments_num_explain_2 <- explain(model = apartments_num_lm_model,
+                                      data = apartments_num,
+                                      y = apartments_num[, 1],
+                                      verbose = FALSE)
+
+  expect_warning(calculate_triplot(apartments_num_explain_2))
+
 })
 
 test_that("check calculate_triplot.default function for FI",{

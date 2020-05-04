@@ -13,6 +13,20 @@ test_that("check output for aspects importance (glm, default)",{
   expect_true(dim(aspect_importance_titanic_glm)[2] == 3)
 })
 
+test_that("check warning of aspects importance",{
+  library("DALEX")
+  library("triplot")
+
+  apartments_explain_2 <- explain(model = apartments_lm_model,
+                                  data = apartments,
+                                  y = apartments[, 1],
+                                  verbose = FALSE)
+
+  expect_warning(aspect_importance(apartments_explain_2,
+                                   new_observation = apartments_new_observation,
+                                   variable_groups = apartments_aspects))
+})
+
 test_that("check output for aspects importance (lm, binom)",{
   library("DALEX")
   library("triplot")

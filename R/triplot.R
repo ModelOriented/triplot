@@ -93,21 +93,25 @@ calculate_triplot.explainer <- function(x, new_observation = NULL,
     y <- NULL
   }
 
+# check if target is in data ----------------------------------------------
+
+  if (!is.null(x$y)) {
+    target_in_data_check <- any(apply(data, 2, function(z) {
+      all(as.character(z) == as.character(x$y))
+    }))
+
+    if (target_in_data_check) {
+      warning("It is recommended to pass `data` without the target variable column")
+    }
+  }
+
 # calls target function ---------------------------------------------------
 
   calculate_triplot.default(x = model, data = data, y = y,
                   predict_function = predict_function,
                   new_observation = new_observation,
                   N = N,
-                  clust_method = clust_method,
-                  absolute_value = FALSE,
-                  add_importance_labels,
-                  show_axis_y_duplicated_labels,
-                  abbrev_labels = abbrev_labels,
-                  add_last_group = add_last_group,
-                  axis_lab_size = axis_lab_size,
-                  text_size = text_size,
-                  bar_width = bar_width)
+                  clust_method = clust_method)
 }
 
 #' @export
@@ -118,24 +122,106 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                       new_observation = NULL,
                                       N = 1000,
                                       clust_method = "complete",
-                                      absolute_value = FALSE,
-                                      add_importance_labels = FALSE,
-                                      show_axis_y_duplicated_labels = FALSE,
-                                      abbrev_labels = 0,
-                                      add_last_group = FALSE,
-                                      axis_lab_size = 10,
-                                      text_size = 3,
-                                      bar_width = 5,
                                       ...) {
 
   stopifnot(all(sapply(data, is.numeric)))
 
-# Builds second plot ------------------------------------------------------
+# Calculations for second plot ------------------------------------------------------
 
   hi <- hierarchical_importance(x = x, data = data, y = y,
                                 predict_function = predict_function,
                                 new_observation = new_observation,
                                 N = N, clust_method = clust_method)
+
+# Calculations for third plot -------------------------------------------------------
+
+  cv <- cluster_variables(data, clust_method)
+
+# Calculations for first plot -------------------------------------------------------
+
+  if (is.null(new_observation)) {
+    importance_leaves <- feature_importance(x = x, data = data, y = y,
+                                            predict_function = predict_function,
+                                            n_sample = N)
+  } else {
+
+    importance_leaves <- aspect_importance_single(x, data,
+                                                  predict_function,
+                                                  new_observation, N,
+                                                  label = "")
+  }
+
+# returns list of plots ---------------------------------------------------
+
+  tri_data <- list(importance_leaves, hi, cv, new_observation)
+  class(tri_data) <- c("triplot", "list")
+
+  invisible(tri_data)
+
+}
+
+
+
+#' Plots triplot with correlation values
+#'
+#' Plots triplot that sum up automatic aspect/feature importance grouping
+#'
+#' @param x triplot object
+#' @param absolute_value if TRUE, aspect importance values will be drawn as
+#'   absolute values
+#' @param add_importance_labels if TRUE, first plot is annotated with values of
+#'   aspects importance
+#' @param show_axis_y_duplicated_labels if TRUE, every plot will have annotated
+#'   axis Y
+#' @param abbrev_labels if greater than 0, labels for axis Y in single aspect
+#'   importance plot will be abbreviated according to this parameter
+#' @param add_last_group if TRUE, second plot will draw connecting line between
+#'   last two groups
+#' @param axis_lab_size size of labels on axis
+#' @param text_size size of labels annotating values of aspects importance and
+#'   correlations
+#' @param bar_width bar width in the first plot
+#' @param ... other parameters
+#'
+#' @return plot
+#'
+#' @import ggplot2
+#' @importFrom gridExtra grid.arrange
+#'
+#' @examples
+#' library(DALEX)
+#' set.seed(123)
+#' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
+#' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
+#' apartments_num_new_observation <- apartments_num[30, ]
+# explainer_apartments <- explain(model = apartments_num_lm_model,
+#                                 data = apartments_num[,-1],
+#                                 y = apartments_num[, 1],
+#                                 verbose = FALSE)
+#' apartments_tri <- calculate_triplot(x = explainer_apartments,
+#'  new_observation = apartments_num_new_observation[-1])
+#' plot(apartments_tri)
+#'
+#' @export
+#'
+
+plot.triplot <- function(x,
+                         absolute_value = FALSE,
+                         add_importance_labels = FALSE,
+                         show_axis_y_duplicated_labels = FALSE,
+                         abbrev_labels = 0,
+                         add_last_group = FALSE,
+                         axis_lab_size = 10,
+                         text_size = 3,
+                         bar_width = 5,
+                         ...) {
+
+  importance_leaves <- x[[1]]
+  hi <- x[[2]]
+  cv <- x[[3]]
+  new_observation <- x[[4]]
+
+  # Builds second plot ------------------------------------------------------
 
   p2 <- plot(x = hi, new_observation = new_observation,
              absolute_value = absolute_value,
