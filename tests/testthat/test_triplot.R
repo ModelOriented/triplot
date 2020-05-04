@@ -34,7 +34,9 @@ test_that("check warning in calculate_triplot.explainer",{
                                       y = apartments_num[, 1],
                                       verbose = FALSE)
 
-  expect_warning(calculate_triplot(apartments_num_explain_2))
+  expect_warning(calculate_triplot(apartments_num_explain_2,
+                                   new_observation =
+                                     apartments_num_new_observation))
 
 })
 
@@ -45,7 +47,8 @@ test_that("check calculate_triplot.default function for FI",{
 
   apartments_tri <- calculate_triplot(x = apartments_num_lm_model,
                                       data = apartments_num[,-1],
-                                      y = apartments_num[, 1])
+                                      y = apartments_num[, 1],
+                                      type = "model")
   expect_true("list" %in% class(apartments_tri))
 })
 
@@ -54,7 +57,8 @@ test_that("check calculate_triplot.explainer function for FI",{
   library("triplot")
   library("ingredients")
 
-  apartments_tri <- calculate_triplot(x = apartments_explain)
+  apartments_tri <- calculate_triplot(x = apartments_explain,
+                                      type = "model")
 
   expect_true("list" %in% class(apartments_tri))
 })
@@ -72,5 +76,31 @@ test_that("check plot.calculate_triplot function",{
 
 
   expect_true("gtable" %in% class(p))
+})
+
+test_that("check triplot aliases",{
+  library("DALEX")
+  library("triplot")
+  library("ingredients")
+
+  apartments_tri_model <- model_triplot(x = apartments_explain)
+
+  apartments_tri_predict <- predict_triplot(x = apartments_explain,
+                                    new_observation =
+                                      apartments_num_new_observation[-1])
+
+  expect_true("triplot" %in% class(apartments_tri_model))
+  expect_true("triplot" %in% class(apartments_tri_predict))
+
+})
+
+test_that("check for triplot error",{
+  library("DALEX")
+  library("triplot")
+  library("ingredients")
+
+  expect_error(predict_triplot(x = apartments_explain))
+
+
 })
 
