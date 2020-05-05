@@ -1,3 +1,12 @@
+triplot 0.3.3
+----------------------------------------------------------------
+* renamed prediction_aspect to predict_aspects
+* added aliases predict_triplot and model_triplot
+* added bar_width param to triplot
+* added warning if target is in data
+* added parameter "type" to calculate_triplot
+* added print for predict_aspects and triplot
+
 triplot 0.3.2
 ----------------------------------------------------------------
 * restructured group_variables and triplot objects

@@ -11,3 +11,4 @@
 ^\.github$
 README_files
 README.rmd
+vignettes/
