@@ -25,6 +25,17 @@ test_that("check calculate_triplot.explainer function",{
   expect_true("list" %in% class(apartments_tri))
 })
 
+test_that("check print of triplot",{
+  library("DALEX")
+  library("triplot")
+
+  apartments_tri <- calculate_triplot(x = apartments_explain,
+                                      new_observation =
+                                        apartments_num_new_observation[-1])
+  expect_output(print(apartments_tri), "Triplot object")
+
+})
+
 test_that("check warning in calculate_triplot.explainer",{
   library("DALEX")
   library("triplot")

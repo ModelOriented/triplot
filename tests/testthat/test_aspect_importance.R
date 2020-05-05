@@ -13,6 +13,18 @@ test_that("check output for aspects importance (glm, default)",{
   expect_true(dim(aspect_importance_titanic_glm)[2] == 3)
 })
 
+test_that("check print of aspects importance",{
+  library("DALEX")
+  library("triplot")
+
+  ai <- aspect_importance(titanic_glm_model, titanic_data,
+                          new_observation = titanic_new_observation,
+                          variable_groups = titanic_aspects)
+  expect_output(print(ai, show_features = TRUE), "features")
+
+})
+
+
 test_that("check warning of aspects importance",{
   library("DALEX")
   library("triplot")

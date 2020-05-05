@@ -4,6 +4,7 @@
 \alias{aspect_importance}
 \alias{aspect_importance.explainer}
 \alias{aspect_importance.default}
+\alias{print.aspect_importance}
 \alias{lime}
 \alias{predict_aspects}
 \title{Calculates importance of variable groups (called aspects importance) for a
@@ -37,6 +38,8 @@ aspect_importance(x, ...)
   show_cor = FALSE,
   ...
 )
+
+\method{print}{aspect_importance}(x, show_features = FALSE, ...)
 
 lime(x, ...)
 

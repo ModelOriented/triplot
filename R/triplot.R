@@ -136,10 +136,45 @@ calculate_triplot.default <- function(x, data, y = NULL,
 
 # returns list of plots ---------------------------------------------------
 
-  tri_data <- list(importance_leaves, hi, cv, new_observation, type)
+  tri_data <- list(
+    single_importance = importance_leaves,
+    hierarchical_tree_data = hi,
+    cluestering_tree_data = cv,
+    new_observation = new_observation,
+    triplot_type = type,
+    model = x)
+
   class(tri_data) <- c("triplot", "list")
 
   invisible(tri_data)
+
+}
+
+
+
+# print triplot object ------------------------------------------
+
+#' @export
+#' @rdname calculate_triplot
+
+print <- function(x, ...)
+  UseMethod("print")
+
+#' @export
+#' @rdname calculate_triplot
+
+print.triplot <- function(x, ...) {
+
+  stopifnot("triplot" %in% class(x))
+
+  if (apartments_tri$triplot_type == "model"){
+    print("\nTriplot object for model.\n\n")
+  } else {
+    cat("\nTriplot object for single prediction:\n\n")
+    print(apartments_tri$new_observation)
+  }
+
+  invisible(x)
 
 }
 

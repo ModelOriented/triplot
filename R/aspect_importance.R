@@ -83,8 +83,11 @@
 aspect_importance <- function(x, ...)
   UseMethod("aspect_importance")
 
-#' @export
 #' @rdname aspect_importance
+#'
+#' @export
+#'
+
 
 aspect_importance.explainer <- function(x, new_observation,
                                         variable_groups,
@@ -121,8 +124,11 @@ aspect_importance.explainer <- function(x, new_observation,
                             sample_method, n_var, f, show_cor)
 }
 
-#' @export
+
 #' @rdname aspect_importance
+#'
+#' @export
+
 
 aspect_importance.default <- function(x, data,
                                       predict_function = predict,
@@ -261,6 +267,7 @@ aspect_importance.default <- function(x, data,
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy_vertical
 #'
+#'
 #' @export
 
 
@@ -332,6 +339,27 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 # plot it -----------------------------------------------------------------
 
   p
+}
+
+
+# print aspect_importance object ------------------------------------------
+
+#' @export
+#' @rdname aspect_importance
+
+print.aspect_importance <- function(x, show_features = FALSE, ...) {
+
+  stopifnot("aspect_importance" %in% class(x))
+
+  if (show_features) {
+    res <- x
+  }
+  else {
+    res <- x[,c("variable_groups", "importance")]
+  }
+
+  print.data.frame(res)
+
 }
 
 

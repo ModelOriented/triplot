@@ -4,6 +4,8 @@
 \alias{calculate_triplot}
 \alias{calculate_triplot.explainer}
 \alias{calculate_triplot.default}
+\alias{print}
+\alias{print.triplot}
 \alias{model_triplot}
 \alias{predict_triplot}
 \title{Three plots that sum up automatic aspect/feature importance grouping}
@@ -30,6 +32,10 @@ calculate_triplot(x, ...)
   clust_method = "complete",
   ...
 )
+
+print(x, ...)
+
+\method{print}{triplot}(x, ...)
 
 model_triplot(x, ...)
 
