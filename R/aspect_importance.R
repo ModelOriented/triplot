@@ -63,7 +63,7 @@
 #'
 #' \dontrun{
 #' library("randomForest")
-#' model_titanic_rf <- randomForest(survived ~ class + gender + age + sibsp +
+#' model_titanic_rf <- randomForest(factor(survived) ~ class + gender + age + sibsp +
 #'                                  parch + fare + embarked,
 #'                                  data = titanic_imputed)
 #'
@@ -91,7 +91,7 @@ aspect_importance <- function(x, ...)
 
 aspect_importance.explainer <- function(x, new_observation,
                                         variable_groups,
-                                        N = 100,
+                                        N = 1000,
                                         sample_method = "default",
                                         n_var = 0,
                                         f = 2,
@@ -119,9 +119,17 @@ aspect_importance.explainer <- function(x, new_observation,
 
 # calls target function ---------------------------------------------------
 
-  aspect_importance.default(model, data, predict_function,
-                            new_observation, variable_groups, N, label,
-                            sample_method, n_var, f, show_cor)
+  aspect_importance.default(x = model,
+                            data = data,
+                            predict_function = predict_function,
+                            new_observation = new_observation,
+                            variable_groups = variable_groups,
+                            N = N,
+                            label = label,
+                            sample_method = sample_method,
+                            n_var = n_var,
+                            f = f,
+                            show_cor = show_cor)
 }
 
 
@@ -138,7 +146,9 @@ aspect_importance.default <- function(x, data,
                                       label = class(x)[1],
                                       sample_method = "default",
                                       n_var = 0,
-                                      f = 2, show_cor = FALSE, ...) {
+                                      f = 2,
+                                      show_cor = FALSE,
+                                      ...) {
 
   # look only for common variables in data and new observation --------------
 
