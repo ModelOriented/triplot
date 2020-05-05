@@ -154,11 +154,6 @@ calculate_triplot.default <- function(x, data, y = NULL,
 
 # print triplot object ------------------------------------------
 
-#' @export
-#' @rdname calculate_triplot
-
-print <- function(x, ...)
-  UseMethod("print")
 
 #' @export
 #' @rdname calculate_triplot

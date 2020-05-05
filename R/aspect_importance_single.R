@@ -59,12 +59,15 @@ aspect_importance_single.explainer <- function(x, new_observation,
 
 # calls aspect_importance_single function ---------------------------------
 
-  aspect_importance_single.default(x = model, data = data,
+  aspect_importance_single.default(x = model,
+                                   data = data,
                                    predict_function = predict_function,
-                                   new_observation = new_observation, N = N,
+                                   new_observation = new_observation,
+                                   N = N,
                                    label = label,
                                    sample_method = sample_method,
-                                   n_var = n_var, f = f)
+                                   n_var = n_var,
+                                   f = f)
 }
 
 #' @export

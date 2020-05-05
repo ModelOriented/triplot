@@ -21,6 +21,8 @@ test_that("check print of aspects importance",{
                           new_observation = titanic_new_observation,
                           variable_groups = titanic_aspects)
   expect_output(print(ai, show_features = TRUE), "features")
+  expect_output(print(ai, show_corr = TRUE), "min_cor")
+  expect_output(print(ai), "variable_groups")
 
 })
 

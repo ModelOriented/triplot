@@ -25,8 +25,6 @@
 #' @param n_var maximum number of non-zero coefficients after lasso fitting,
 #'   if zero than linear regression is used
 #' @param f frequency in \code{\link{get_sample}}
-#' @param show_cor show if all features in aspect are pairwise positively
-#'   correlated, works only if dataset contains solely numeric values
 #' @param ... other parameters
 #'
 #' @return An object of the class \code{aspect_importance}. Contains dataframe
@@ -128,8 +126,7 @@ aspect_importance.explainer <- function(x, new_observation,
                             label = label,
                             sample_method = sample_method,
                             n_var = n_var,
-                            f = f,
-                            show_cor = show_cor)
+                            f = f)
 }
 
 
@@ -213,13 +210,12 @@ aspect_importance.default <- function(x, data,
   for (i in seq_along(variable_groups)) {
     res$features[i] <- variable_groups[as.character(res[i, 1])]
     vars <- unlist(res$features[i])
-    if (all(sapply(data[, vars], is.numeric)) & length(vars) > 1 &
-        show_cor == TRUE) {
+    if (all(sapply(data[, vars], is.numeric)) & length(vars) > 1) {
       cor_matrix <- cor(data[, vars], method = "spearman")
       res$min_cor[i] <- min(abs(cor_matrix))
       res$sign[i] <- ifelse(max(cor_matrix) > 0 & min(cor_matrix) < 0,
                             "neg", "pos")
-    } else if (show_cor == TRUE) {
+    } else {
       res$min_cor[i] <- NA
       res$sign[i] <- ""
     }
@@ -354,18 +350,27 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 
 # print aspect_importance object ------------------------------------------
 
+
+#' @param show_features show list of features for every aspect
+#' @param show_cor show if all features in aspect are pairwise positively
+#'   correlated, (works for numeric features)
+#'
 #' @export
 #' @rdname aspect_importance
 
-print.aspect_importance <- function(x, show_features = FALSE, ...) {
+print.aspect_importance <- function(x, show_features = FALSE, show_corr = FALSE,
+                                    ...) {
 
   stopifnot("aspect_importance" %in% class(x))
 
   if (show_features) {
-    res <- x
-  }
-  else {
+    res <- x[,c("variable_groups", "importance", "features")]
+  } else {
     res <- x[,c("variable_groups", "importance")]
+  }
+
+  if (show_corr) {
+    res <- cbind(res, x[,c("min_cor", "sign")])
   }
 
   print.data.frame(res)
