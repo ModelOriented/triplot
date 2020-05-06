@@ -146,9 +146,10 @@ Boston_ai_rf <- predict_aspects(x = explain_Boston_lm,
                                   show_cor = TRUE, 
                                   label = "LM")
 
-Boston_ai_lm
 
-Boston_ai_rf
+print(Boston_ai_lm, show_features = TRUE)
+
+print(Boston_ai_rf, show_features = TRUE)
 
 plot(Boston_ai_lm, Boston_ai_rf, add_importance = TRUE)
 
@@ -199,22 +200,22 @@ Hierarchical aspects importance allows us to check the values of aspects importa
 It should be noted that similarly to `group_variables()`, `calculate_triplot()` works for the datasets with only numerical variables. 
 
 ```{r triplot}
-tri_lm <- calculate_triplot(x = explain_Boston_lm, 
+tri_lm <- predict_triplot(x = explain_Boston_lm, 
                             new_observation = new_observation, 
-                            N = 10000, 
-                            add_importance_labels = TRUE, 
-                            axis_lab_size = 8, 
-                            text_size = 3)
+                            N = 10000)
 
-plot(tri_lm)
+plot(tri_lm,
+     add_importance_labels = TRUE,
+     axis_lab_size = 8,
+     text_size = 3)
 
-tri_rf <- calculate_triplot(x = explain_Boston_rf, 
+tri_rf <- predict_triplot(x = explain_Boston_rf, 
                             new_observation = new_observation, 
-                            N = 10000, 
-                            add_importance_labels = TRUE, 
-                            axis_lab_size = 8, 
-                            text_size = 3)
-plot(tri_rf)
+                            N = 10000)
+plot(tri_rf,
+     add_importance_labels = TRUE,
+     axis_lab_size = 8,
+     text_size = 3)
 
 ```
 
@@ -228,12 +229,13 @@ In result, we get what we expected - three nonzero aspect importance values. We 
 
 
 ```{r lasso demo}
-predict_aspects(x = explain_Boston_rf, 
-                  new_observation = new_observation, 
-                  variable_groups = Boston_aspects_a, 
-                  N = 10000, 
-                  show_cor = TRUE, 
-                  n_var = 3)
+ai_Boston_rf <- predict_aspects(x = explain_Boston_rf, 
+                                new_observation = new_observation,
+                                variable_groups = Boston_aspects_a,
+                                N = 10000,
+                                show_cor = TRUE,
+                                n_var = 3)
+print(ai_Boston_rf, show_features = TRUE, show_cor = TRUE)
 ```
 
 

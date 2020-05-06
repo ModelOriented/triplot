@@ -1,4 +1,4 @@
-#' Three plots that sum up automatic aspect/feature importance grouping
+#' Calculate triplot that sums up automatic aspect/feature importance grouping
 #'
 #' This function shows: \itemize{ \item plot for aspect_importance or
 #' feature_importance with
@@ -175,7 +175,7 @@ print.triplot <- function(x, ...) {
 
 
 
-#' Plots triplot with correlation values
+#' Plots triplot
 #'
 #' Plots triplot that sum up automatic aspect/feature importance grouping
 #'

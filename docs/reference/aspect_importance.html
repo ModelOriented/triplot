@@ -281,11 +281,11 @@ attribute of the model.</p></td>
 
 <span class='fu'>predict_aspects</span>(<span class='no'>explain_titanic_glm</span>,
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
-                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)</div><div class='output co'>#&gt;   variable_groups importance
-#&gt; 4        personal   -0.16814
-#&gt; 2          wealth   -0.09473
-#&gt; 5        embarked   -0.02441
-#&gt; 3          family    0.02205</div><div class='input'>
+                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)</div><div class='output co'>#&gt;   variable_groups importance     features
+#&gt; 4        personal   -0.16814  gender, age
+#&gt; 2          wealth   -0.09473  class, fare
+#&gt; 5        embarked   -0.02441     embarked
+#&gt; 3          family    0.02205 sibsp, parch</div><div class='input'>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
 <span class='no'>model_titanic_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>survived</span>) ~ <span class='no'>class</span> + <span class='no'>gender</span> + <span class='no'>age</span> + <span class='no'>sibsp</span> +

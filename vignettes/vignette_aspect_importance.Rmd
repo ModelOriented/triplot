@@ -26,11 +26,9 @@ Vignette presents the predict_aspects() function on the datasets: `titanic_imput
 At the beginning, we download `titanic_imputed` dataset and build logistic regression model.
 
 ```{r read titanic data}
-
 library("DALEX")
-
 titanic <- titanic_imputed
-titanic_without_target <- titanic[,colnames(titanic) != "survived"]
+
 head(titanic)
 
 model_titanic_glm <-
@@ -72,7 +70,6 @@ passenger <- data.frame(
 )
 
 passenger
-
 predict(model_titanic_glm, passenger, type = "response")
 
 ```
@@ -85,22 +82,23 @@ Now we can call predict_aspects() function and see that features included in `we
 library("ggplot2")
 library("triplot")
 
+titanic_without_target <- titanic[,colnames(titanic) != "survived"]
+
 explain_titanic_glm <- explain(model_titanic_glm, 
                       data = titanic_without_target,
-                      y = titanic$survived == 1,
-                      label = "Logistic Regression",
+                      y = titanic$survived == 1, 
+                      predict_function = predict,
+                      label = "Logistic Regression", 
                       verbose = FALSE)
 
-titanic_glm_ai <- predict_aspects(x = explain_titanic_glm, 
+titanic_glm_ai <- predict_aspects(explain_titanic_glm, 
                                     new_observation = passenger, 
-                                    variable_groups = aspects_titanic)
+                                    variable_groups = aspects_titanic, 
+                                    N = 1000)
 
-titanic_glm_ai
-
+print(titanic_glm_ai, show_features = TRUE)
 plot(titanic_glm_ai) + ggtitle("Aspect importance for the selected passenger")
 ```
-
-
 
 # Random forest model for Titanic survival
 
@@ -109,10 +107,9 @@ Now, we prepare random forest model for the `titanic` dataset.
 ```{r  Random forest model for Titanic survival}
 library("randomForest")
 model_titanic_rf <- randomForest(factor(survived) == 1 ~ 
-                                   gender + age + class + embarked + 
-                                   fare + sibsp + parch,  
+                                   gender + age + class + embarked + fare + 
+                                   sibsp + parch,  
                                  data = titanic)
-
 predict(model_titanic_rf, passenger)
 ```
 
@@ -123,17 +120,20 @@ After calling predict_aspects() we can see why the survival prediction for the p
 In this example `personal` features (`age` and `gender`) have the biggest positive influence. Aspects `wealth` (`class`, `fare`) and `embarked` have both much smaller contribution and those are negative ones. Aspect `family` has very small influence on the prediction.
 
 ```{r Calculating aspect importance (random forest)}
+
 explain_titanic_rf <- explain(model_titanic_rf, 
-                              data = titanic,
-                              label = "Random forest",
-                              verbose = FALSE)
+                      data = titanic_without_target,
+                      y = titanic$survived == 1, 
+                      predict_function = predict,
+                      label = "Random Forest",
+                      verbose = FALSE)
 
-titanic_rf_ai <- predict_aspects(explain_titanic_rf,
-                                   new_observation = passenger, 
-                                   variable_groups = aspects_titanic)
+titanic_rf_ai <- predict_aspects(explain_titanic_rf, 
+                                 new_observation = passenger, 
+                                 variable_groups = aspects_titanic, 
+                                 N = 1000)
 
-titanic_rf_ai
-
+print(titanic_rf_ai, show_features = TRUE)
 plot(titanic_rf_ai) + ggtitle("Aspect importance for the selected passenger")
 ```
 
@@ -141,16 +141,18 @@ plot(titanic_rf_ai) + ggtitle("Aspect importance for the selected passenger")
 
 Function predict_aspects() can calculate coefficients (that is aspects' importance) by using either linear regression or lasso regression. Using lasso, we can control how many nonzero coefficients (nonzero aspects importance values) are present in the final explanation.
 
-To use predict_aspects() with lasso, we have to provide `n_var` parameter, which declares how many aspects importance values we would like to get in predict_aspects() results.
+To use predict_aspects() with lasso, we have to provide `n_var` parameter, which declares how many aspects importance nonzero values we would like to get in predict_aspects() results.
 
-For this example, we use `titanic_imputed` dataset again and random forest model. With the help of lasso technique, we would like to check the importance of variables' aspects, while controlling that one of them should be equal to 0. Therefore we call predict_aspects() with `n_var` parameter set to 3. 
+For this example, we use `titanic_imputed` dataset again and random forest model. With the help of lasso technique, we would like to check the importance of variables' aspects, while controlling that two of them should be equal to 0. Therefore we call predict_aspects() with `n_var` parameter set to 2. 
 
-```{r lasso demo, eval=FALSE}
+```{r lasso demo}
 titanic_rf_ai_lasso <- predict_aspects(explain_titanic_rf, 
-                                         new_observation = passenger,
-                                         variable_groups = aspects_titanic, 
-                                         n_var = 3)
-titanic_rf_ai_lasso
+                                 new_observation = passenger, 
+                                 variable_groups = aspects_titanic, 
+                                 N = 1000, 
+                                 n_var = 2)
+
+print(titanic_rf_ai_lasso, show_features = TRUE)
 ```
 
 
@@ -172,9 +174,7 @@ apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))] #excluding
 
 head(apartments_num)
 
-apartments_no_target <- apartments_num[,-1] #excluding target variable
-
-new_observation_apartments <- apartments_num[1,]
+new_observation_apartments <- apartments_num[20,]
 
 model_apartments <- lm(m2.price ~ ., data = apartments_num)
 
@@ -185,18 +185,24 @@ We run group_variables() function with cut off level set on 0.6. As a result, we
 Afterwards, we call predict_aspects() function with parameter `show_cor = TRUE`, to check how features are grouped into aspects, what is minimal value of pairwise correlation in each group and to check whether any pair of features is negatively correlated (`neg`) or not (`pos`). 
 
 ```{r}
+apartments_no_target <- apartments_num[,-1] #excluding target variable
+
 aspects_apartments <- group_variables(apartments_no_target, 0.6)
 
-explain_apartments <- explain(model = model_apartments,
-                              data = apartments_no_target,
-                              verbose = FALSE)
+explain_apartments_lm <- explain(model_apartments, 
+                      data = apartments_no_target,
+                      y = apartments_num$m2.price, 
+                      predict_function = predict,
+                      label = "Linear Model",
+                      verbose = FALSE)
 
-apartments_ai <- predict_aspects(x = explain_apartments, 
-                                   new_observation = new_observation_apartments,
-                                   variable_groups = aspects_apartments, 
-                                   show_cor = TRUE)
+apartments_ai <- predict_aspects(x = explain_apartments_lm, 
+                                 new_observation = new_observation_apartments,
+                                 variable_groups = aspects_apartments,
+                                 N = 1000)
 
-apartments_ai
+print(apartments_ai, show_features = TRUE, show_cor = TRUE)
+
 ```
 
 # Hierarchical aspects importance
@@ -205,25 +211,30 @@ apartments_ai
 
 * the importance of every single feature,
 * hierarchical aspects importance (explained below), 
-* order of grouping features into aspects in `group_variables()`.
+* order of grouping features into aspects as in `group_variables()`.
 
 Hierarchical aspects importance allows us to check the values of aspects importance for the different levels of variables grouping. Method starts with looking at the aspect importance where every aspect has one, single variable. Afterwards, it iteratively creates bigger aspects by merging the ones with the highest level of absolute correlation into one aspect and calculating it's contribution to the prediction. 
-
 It should be noted that similarly to `group_variables()`, `calculate_triplot()` works for the datasets with only numerical variables. 
 
+Looking at the triplot, we can observe that for a given observation: 
+
+* ... have biggest impact on prediction,
+* only .. has positive influence on prediction,
+* surface and number of rooms are, unsuprisingly, strongly correlated and together they have .. influence on the predction,
+
+
 ```{r}
-library(DALEX)
+apartments_tri <- predict_triplot(explain_apartments_lm, 
+                         new_observation = new_observation_apartments, 
+                         N = 1000,
+                         clust_method = "complete")
 
-apartments_tri <- calculate_triplot(explain_apartments,
-                                    new_observation = new_observation_apartments,
-                                    clust_method = "complete", 
-                                    absolute_value = FALSE, 
-                                    cumulative_max = FALSE, 
-                                    add_importance_labels = FALSE, 
-                                    abbrev_labels = 15,
-                                    add_last_group = TRUE)
-
-plot(apartments_tri)
+plot(apartments_tri, 
+     absolute_value = FALSE,
+     cumulative_max = FALSE,
+     add_importance_labels = FALSE,
+     abbrev_labels = 15,
+     add_last_group = TRUE)
 
 ```
 

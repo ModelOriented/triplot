@@ -350,13 +350,16 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 
 # print aspect_importance object ------------------------------------------
 
-
+#' Function for printing aspect_importance results
+#'
+#' This function prints the results of aspect_importance.
+#'
+#' @param x object of aspect_importance class
 #' @param show_features show list of features for every aspect
 #' @param show_cor show if all features in aspect are pairwise positively
 #'   correlated, (works for numeric features)
 #'
 #' @export
-#' @rdname aspect_importance
 
 print.aspect_importance <- function(x, show_features = FALSE, show_corr = FALSE,
                                     ...) {
