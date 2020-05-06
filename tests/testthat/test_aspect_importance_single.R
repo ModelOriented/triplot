@@ -11,7 +11,7 @@ test_that("check aspect_importance_single function",{
 
   expect_true("data.frame" %in% class(aspect_importance_titanic_single))
   expect_true(dim(aspect_importance_titanic_single)[1] == 5)
-  expect_true(dim(aspect_importance_titanic_single)[2] == 3)
+  expect_true(dim(aspect_importance_titanic_single)[2] == 5)
 
 })
 

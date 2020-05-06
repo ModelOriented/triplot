@@ -131,7 +131,7 @@ linear model or lasso." />
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/kasiapekala/triplot/">
+  <a href="https://github.com/ModelOriented/triplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -151,7 +151,7 @@ linear model or lasso." />
     <div class="page-header">
     <h1>Calculates importance of variable groups (called aspects importance) for a
 selected observation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kasiapekala/triplot/blob/master/R/aspect_importance.R'><code>R/aspect_importance.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/triplot/blob/master/R/aspect_importance.R'><code>R/aspect_importance.R</code></a></small>
     <div class="hidden name"><code>aspect_importance.Rd</code></div>
     </div>
 
@@ -171,7 +171,7 @@ linear model or lasso.</p>
   <span class='no'>x</span>,
   <span class='no'>new_observation</span>,
   <span class='no'>variable_groups</span>,
-  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
@@ -238,11 +238,6 @@ if zero than linear regression is used</p></td>
       <td><p>frequency in <code><a href='get_sample.html'>get_sample</a></code></p></td>
     </tr>
     <tr>
-      <th>show_cor</th>
-      <td><p>show if all features in aspect are pairwise positively
-correlated, works only if dataset contains solely numeric values</p></td>
-    </tr>
-    <tr>
       <th>data</th>
       <td><p>dataset, it will be extracted from <code>x</code> if it's an explainer
 NOTE: It is best when target variable is not present in the <code>data</code></p></td>
@@ -286,14 +281,14 @@ attribute of the model.</p></td>
 
 <span class='fu'>predict_aspects</span>(<span class='no'>explain_titanic_glm</span>,
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
-                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)</div><div class='output co'>#&gt;   variable_groups importance     features
-#&gt; 3          family    0.09559 sibsp, parch
-#&gt; 5        embarked    0.07390     embarked
-#&gt; 4        personal   -0.07312  gender, age
-#&gt; 2          wealth   -0.04942  class, fare</div><div class='input'>
+                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)</div><div class='output co'>#&gt;   variable_groups importance
+#&gt; 4        personal   -0.16814
+#&gt; 2          wealth   -0.09473
+#&gt; 5        embarked   -0.02441
+#&gt; 3          family    0.02205</div><div class='input'>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>model_titanic_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>survived</span> ~ <span class='no'>class</span> + <span class='no'>gender</span> + <span class='no'>age</span> + <span class='no'>sibsp</span> +
+<span class='no'>model_titanic_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>survived</span>) ~ <span class='no'>class</span> + <span class='no'>gender</span> + <span class='no'>age</span> + <span class='no'>sibsp</span> +
                                  <span class='no'>parch</span> + <span class='no'>fare</span> + <span class='no'>embarked</span>,
                                  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)
 

@@ -10,7 +10,7 @@ test_that("check output for aspects importance (glm, default)",{
 
   expect_true("data.frame" %in% class(aspect_importance_titanic_glm))
   expect_true(dim(aspect_importance_titanic_glm)[1] == 4)
-  expect_true(dim(aspect_importance_titanic_glm)[2] == 3)
+  expect_true(dim(aspect_importance_titanic_glm)[2] == 5)
 })
 
 test_that("check print of aspects importance",{

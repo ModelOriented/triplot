@@ -132,7 +132,7 @@ clustering tree.
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/kasiapekala/triplot/">
+  <a href="https://github.com/ModelOriented/triplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -151,7 +151,7 @@ clustering tree.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Three plots that sum up automatic aspect/feature importance grouping</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kasiapekala/triplot/blob/master/R/triplot.R'><code>R/triplot.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/triplot/blob/master/R/triplot.R'><code>R/triplot.R</code></a></small>
     <div class="hidden name"><code>calculate_triplot.Rd</code></div>
     </div>
 
@@ -172,18 +172,10 @@ expanded aspect</p></li>
 <span class='co'># S3 method for explainer</span>
 <span class='fu'>calculate_triplot</span>(
   <span class='no'>x</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"predict"</span>, <span class='st'>"model"</span>),
   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"predict_aspects"</span>),
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
-  <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show_axis_y_duplicated_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>abbrev_labels</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='no'>...</span>
 )
 
@@ -193,19 +185,19 @@ expanded aspect</p></li>
   <span class='no'>data</span>,
   <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"predict"</span>, <span class='st'>"model"</span>),
   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
-  <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show_axis_y_duplicated_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>abbrev_labels</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='no'>...</span>
-)</pre>
+)
+
+<span class='co'># S3 method for triplot</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>model_triplot</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>predict_triplot</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,6 +212,11 @@ or a model to be explained.</p></td>
       <td><p>other parameters</p></td>
     </tr>
     <tr>
+      <th>type</th>
+      <td><p>if <code>predict</code> aspect_importance is used, if
+<code>model</code> is used, than feature_importance is calculated</p></td>
+    </tr>
+    <tr>
       <th>new_observation</th>
       <td><p>selected observation with columns that corresponds to
 variables used in the model, should be without target variable</p></td>
@@ -232,45 +229,6 @@ variables used in the model, should be without target variable</p></td>
       <th>clust_method</th>
       <td><p>the agglomeration method to be used, see
 <code><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></code> methods</p></td>
-    </tr>
-    <tr>
-      <th>absolute_value</th>
-      <td><p>if TRUE, aspect importance values will be drawn as
-absolute values</p></td>
-    </tr>
-    <tr>
-      <th>add_importance_labels</th>
-      <td><p>if TRUE, first plot is annotated with values of
-aspects
-  importance</p></td>
-    </tr>
-    <tr>
-      <th>show_axis_y_duplicated_labels</th>
-      <td><p>if TRUE, every plot will have annotated
-axis Y</p></td>
-    </tr>
-    <tr>
-      <th>abbrev_labels</th>
-      <td><p>if greater than 0, labels for axis Y in single aspect
-importance plot will be abbreviated according to this parameter</p></td>
-    </tr>
-    <tr>
-      <th>add_last_group</th>
-      <td><p>if TRUE, second plot will draw connecting line between
-last two groups</p></td>
-    </tr>
-    <tr>
-      <th>axis_lab_size</th>
-      <td><p>size of labels on axis</p></td>
-    </tr>
-    <tr>
-      <th>text_size</th>
-      <td><p>size of labels annotating values of aspects importance and
-correlations</p></td>
-    </tr>
-    <tr>
-      <th>bar_width</th>
-      <td><p>bar width in the first plot</p></td>
     </tr>
     <tr>
       <th>data</th>
@@ -301,18 +259,12 @@ if it's an explainer</p></td>
 <span class='no'>apartments_num_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>)
 <span class='no'>apartments_num_new_observation</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[<span class='fl'>30</span>, ]
 <span class='no'>explainer_apartments</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
- <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[,-<span class='fl'>1</span>],
- <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[, <span class='fl'>1</span>])</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  1000  rows  4  cols 
-#&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predict function  :  yhat.lm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  2254.424 , mean =  3487.019 , max =  4693.831  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -733.2672 , mean =  -3.230912e-12 , max =  2099.205  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>apartments_tri</span> <span class='kw'>&lt;-</span> <span class='fu'>calculate_triplot</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>explainer_apartments</span>,
- <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>apartments_num_new_observation</span>[-<span class='fl'>1</span>])</div></span></pre>
+                                <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[,-<span class='fl'>1</span>],
+                                <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[, <span class='fl'>1</span>],
+                                <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>apartments_tri</span> <span class='kw'>&lt;-</span> <span class='fu'>calculate_triplot</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>explainer_apartments</span>,
+                                    <span class='kw'>new_observation</span> <span class='kw'>=</span>
+                                      <span class='no'>apartments_num_new_observation</span>[-<span class='fl'>1</span>])</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

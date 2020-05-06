@@ -4,7 +4,6 @@
 \alias{aspect_importance}
 \alias{aspect_importance.explainer}
 \alias{aspect_importance.default}
-\alias{print.aspect_importance}
 \alias{lime}
 \alias{predict_aspects}
 \title{Calculates importance of variable groups (called aspects importance) for a
@@ -39,8 +38,6 @@ aspect_importance(x, ...)
   ...
 )
 
-\method{print}{aspect_importance}(x, show_features = FALSE, show_corr = FALSE, ...)
-
 lime(x, ...)
 
 predict_aspects(x, ...)
@@ -65,9 +62,6 @@ if zero than linear regression is used}
 
 \item{f}{frequency in \code{\link{get_sample}}}
 
-\item{show_cor}{show if all features in aspect are pairwise positively
-correlated, (works for numeric features)}
-
 \item{data}{dataset, it will be extracted from \code{x} if it's an explainer
 NOTE: It is best when target variable is not present in the \code{data}}
 
@@ -76,8 +70,6 @@ if it's an explainer}
 
 \item{label}{name of the model. By default it's extracted from the 'class'
 attribute of the model.}
-
-\item{show_features}{show list of features for every aspect}
 }
 \value{
 An object of the class \code{aspect_importance}. Contains dataframe
