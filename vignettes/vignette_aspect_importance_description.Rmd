@@ -177,9 +177,10 @@ Boston_ai_rf_2 <- predict_aspects(x = explain_Boston_rf,
                                     N = 10000, 
                                     show_cor = TRUE, 
                                     label = "RF")
-Boston_ai_lm_2
 
-Boston_ai_rf_2
+print(Boston_ai_lm_2, show_features = TRUE)
+
+print(Boston_ai_rf_2, show_features = TRUE)
 
 plot(Boston_ai_lm_2, Boston_ai_rf_2, aspects_on_axis = FALSE, add_importance = TRUE)
 
@@ -233,7 +234,6 @@ ai_Boston_rf <- predict_aspects(x = explain_Boston_rf,
                                 new_observation = new_observation,
                                 variable_groups = Boston_aspects_a,
                                 N = 10000,
-                                show_cor = TRUE,
                                 n_var = 3)
 print(ai_Boston_rf, show_features = TRUE, show_cor = TRUE)
 ```

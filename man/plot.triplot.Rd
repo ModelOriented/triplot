@@ -2,7 +2,7 @@
 % Please edit documentation in R/triplot.R
 \name{plot.triplot}
 \alias{plot.triplot}
-\title{Plots triplot with correlation values}
+\title{Plots triplot}
 \usage{
 \method{plot}{triplot}(
   x,

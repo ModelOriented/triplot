@@ -92,8 +92,7 @@ aspect_importance.explainer <- function(x, new_observation,
                                         N = 1000,
                                         sample_method = "default",
                                         n_var = 0,
-                                        f = 2,
-                                        show_cor = FALSE, ...) {
+                                        f = 2, ...) {
 
 
 # extracts model, data and predict function from the explainer ------------
@@ -144,7 +143,6 @@ aspect_importance.default <- function(x, data,
                                       sample_method = "default",
                                       n_var = 0,
                                       f = 2,
-                                      show_cor = FALSE,
                                       ...) {
 
   # look only for common variables in data and new observation --------------
@@ -356,7 +354,7 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 #'
 #' @param x object of aspect_importance class
 #' @param show_features show list of features for every aspect
-#' @param show_cor show if all features in aspect are pairwise positively
+#' @param show_corr show if all features in aspect are pairwise positively
 #'   correlated, (works for numeric features)
 #'
 #' @export

@@ -19,7 +19,6 @@ aspect_importance(x, ...)
   sample_method = "default",
   n_var = 0,
   f = 2,
-  show_cor = FALSE,
   ...
 )
 
@@ -34,7 +33,6 @@ aspect_importance(x, ...)
   sample_method = "default",
   n_var = 0,
   f = 2,
-  show_cor = FALSE,
   ...
 )
 

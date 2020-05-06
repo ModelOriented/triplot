@@ -11,7 +11,7 @@
 
 \item{show_features}{show list of features for every aspect}
 
-\item{show_cor}{show if all features in aspect are pairwise positively
+\item{show_corr}{show if all features in aspect are pairwise positively
 correlated, (works for numeric features)}
 }
 \description{

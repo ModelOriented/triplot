@@ -201,7 +201,7 @@ test_that("check for aspect_importance with show_cor",{
   aspect_importance_apartments_num <- aspect_importance(
     apartments_num_lm_model, apartments_num,
     new_observation = apartments_num_new_observation,
-    variable_groups =  aspect_list_apartments_num, show_cor = TRUE)
+    variable_groups =  aspect_list_apartments_num)
 
   expect_true("aspect_importance" %in% class(aspect_importance_apartments_num))
   expect_true(dim(aspect_importance_apartments_num)[2] == 5)

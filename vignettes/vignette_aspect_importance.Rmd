@@ -70,6 +70,7 @@ passenger <- data.frame(
 )
 
 passenger
+
 predict(model_titanic_glm, passenger, type = "response")
 
 ```
@@ -97,6 +98,7 @@ titanic_glm_ai <- predict_aspects(explain_titanic_glm,
                                     N = 1000)
 
 print(titanic_glm_ai, show_features = TRUE)
+
 plot(titanic_glm_ai) + ggtitle("Aspect importance for the selected passenger")
 ```
 
@@ -106,10 +108,12 @@ Now, we prepare random forest model for the `titanic` dataset.
 
 ```{r  Random forest model for Titanic survival}
 library("randomForest")
-model_titanic_rf <- randomForest(factor(survived) == 1 ~ 
-                                   gender + age + class + embarked + fare + 
-                                   sibsp + parch,  
+
+model_titanic_rf <- randomForest(factor(survived) == 1 ~
+                                   gender + age + class + embarked + fare +
+                                   sibsp + parch,
                                  data = titanic)
+
 predict(model_titanic_rf, passenger)
 ```
 
@@ -134,6 +138,7 @@ titanic_rf_ai <- predict_aspects(explain_titanic_rf,
                                  N = 1000)
 
 print(titanic_rf_ai, show_features = TRUE)
+
 plot(titanic_rf_ai) + ggtitle("Aspect importance for the selected passenger")
 ```
 
@@ -178,11 +183,15 @@ new_observation_apartments <- apartments_num[20,]
 
 model_apartments <- lm(m2.price ~ ., data = apartments_num)
 
+new_observation_apartments
+
+predict(model_apartments, new_observation_apartments) 
+
 ```
 
 We run group_variables() function with cut off level set on 0.6. As a result, we get a list of variables groups (aspects) where absolute value of features' pairwise correlation is at least at 0.6.
 
-Afterwards, we call predict_aspects() function with parameter `show_cor = TRUE`, to check how features are grouped into aspects, what is minimal value of pairwise correlation in each group and to check whether any pair of features is negatively correlated (`neg`) or not (`pos`). 
+Afterwards, we call print predict_aspects() results with parameter `show_cor = TRUE`, to check how features are grouped into aspects, what is minimal value of pairwise correlation in each group and to check whether any pair of features is negatively correlated (`neg`) or not (`pos`). 
 
 ```{r}
 apartments_no_target <- apartments_num[,-1] #excluding target variable
@@ -197,7 +206,7 @@ explain_apartments_lm <- explain(model_apartments,
                       verbose = FALSE)
 
 apartments_ai <- predict_aspects(x = explain_apartments_lm, 
-                                 new_observation = new_observation_apartments,
+                                 new_observation = new_observation_apartments[-1],
                                  variable_groups = aspects_apartments,
                                  N = 1000)
 
@@ -225,7 +234,7 @@ Looking at the triplot, we can observe that for a given observation:
 
 ```{r}
 apartments_tri <- predict_triplot(explain_apartments_lm, 
-                         new_observation = new_observation_apartments, 
+                         new_observation = new_observation_apartments[-1], 
                          N = 1000,
                          clust_method = "complete")
 

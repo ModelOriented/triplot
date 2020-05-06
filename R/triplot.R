@@ -162,11 +162,11 @@ print.triplot <- function(x, ...) {
 
   stopifnot("triplot" %in% class(x))
 
-  if (apartments_tri$triplot_type == "model"){
+  if (x$triplot_type == "model"){
     print("\nTriplot object for model.\n\n")
   } else {
     cat("\nTriplot object for single prediction:\n\n")
-    print(apartments_tri$new_observation)
+    print(x$new_observation)
   }
 
   invisible(x)

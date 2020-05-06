@@ -7,7 +7,7 @@
 \alias{print.triplot}
 \alias{model_triplot}
 \alias{predict_triplot}
-\title{Three plots that sum up automatic aspect/feature importance grouping}
+\title{Calculate triplot that sums up automatic aspect/feature importance grouping}
 \usage{
 calculate_triplot(x, ...)
 
