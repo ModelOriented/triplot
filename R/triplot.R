@@ -275,7 +275,7 @@ plot.triplot <- function(x,
                      panel.grid.major = element_blank(),
                      panel.grid.minor = element_blank(),
                      plot.title = element_blank()) +
-      scale_x_discrete(expand = expansion(mult = 0.01))
+      scale_x_discrete(expand = expansion(add = c(0.9, 0)))
 
     order_mod <-
       attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
@@ -301,7 +301,7 @@ plot.triplot <- function(x,
     p1$data$variable_groups <- p1$data$`new observation`
     p1 <- p1 + theme(axis.text = element_text(size = axis_lab_size),
                      axis.title = element_text(size = axis_lab_size)) +
-      scale_x_discrete(expand = expansion(mult = 0.01))
+      scale_x_discrete(expand = expansion(mult = c(0.05, 0.035)))
   }
 
   plot_list <- list(p1, p2, p3)

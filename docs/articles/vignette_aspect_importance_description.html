@@ -71,6 +71,9 @@
     <li>
       <a href="../articles/vignette_aspect_importance_description.html">Description of aspect importance method</a>
     </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Triplot demo - fifa_20</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -279,7 +282,8 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
                                     <span class="kw">N</span> <span class="kw">=</span> <span class="fl">10000</span>,
                                     <span class="kw">show_cor</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
                                     <span class="kw">label</span> <span class="kw">=</span> <span class="st">"RF"</span>)
-<span class="no">Boston_ai_lm_2</span></pre></body></html></div>
+
+<span class="fu"><a href="https://rdrr.io/pkg/triplot/man/calculate_triplot.html">print</a></span>(<span class="no">Boston_ai_lm_2</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance                   features   min_cor sign
 #&gt; 4   aspect.group3     7.9860                  rm, lstat 0.6408316  neg
 #&gt; 2   aspect.group1    -1.7999 crim, indus, nox, age, dis 0.6794867  neg
@@ -287,7 +291,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 5   aspect.group4     0.6281                   rad, tax 0.7048757  pos
 #&gt; 7   aspect.group6     0.4711                          b        NA     
 #&gt; 6   aspect.group5    -0.1835                    ptratio        NA</code></pre>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">Boston_ai_rf_2</span></pre></body></html></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/triplot/man/calculate_triplot.html">print</a></span>(<span class="no">Boston_ai_rf_2</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance                   features   min_cor sign
 #&gt; 4   aspect.group3   11.60548                  rm, lstat 0.6408316  neg
 #&gt; 2   aspect.group1    1.11142 crim, indus, nox, age, dis 0.6794867  neg
@@ -338,16 +342,15 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
                                 <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation</span>,
                                 <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">Boston_aspects_a</span>,
                                 <span class="kw">N</span> <span class="kw">=</span> <span class="fl">10000</span>,
-                                <span class="kw">show_cor</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
                                 <span class="kw">n_var</span> <span class="kw">=</span> <span class="fl">3</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/triplot/man/calculate_triplot.html">print</a></span>(<span class="no">ai_Boston_rf</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">show_cor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
-<pre><code>#&gt;   variable_groups importance                   features   min_cor sign
-#&gt; 4   aspect.group3   10.55857                  rm, lstat 0.6408316  neg
-#&gt; 3   aspect.group2   -0.12409                         zn        NA     
-#&gt; 2   aspect.group1    0.08732 crim, indus, nox, age, dis 0.6794867  neg
-#&gt; 5   aspect.group4    0.00000                   rad, tax 0.7048757  pos
-#&gt; 6   aspect.group5    0.00000                    ptratio        NA     
-#&gt; 7   aspect.group6    0.00000                          b        NA</code></pre>
+<pre><code>#&gt;   variable_groups importance                   features
+#&gt; 4   aspect.group3   10.55857                  rm, lstat
+#&gt; 3   aspect.group2   -0.12409                         zn
+#&gt; 2   aspect.group1    0.08732 crim, indus, nox, age, dis
+#&gt; 5   aspect.group4    0.00000                   rad, tax
+#&gt; 6   aspect.group5    0.00000                    ptratio
+#&gt; 7   aspect.group6    0.00000                          b</code></pre>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
@@ -378,10 +381,10 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; [4] triplot_0.1.0      
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.4.6      compiler_4.0.0    pillar_1.4.3      ingredients_1.2.0
+#&gt;  [1] Rcpp_1.0.4.6      compiler_4.0.0    pillar_1.4.4      ingredients_1.2.0
 #&gt;  [5] iterators_1.0.12  tools_4.0.0       digest_0.6.25     lattice_0.20-41  
 #&gt;  [9] evaluate_0.14     memoise_1.1.0     lifecycle_0.2.0   tibble_3.0.1     
-#&gt; [13] gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.5       foreach_1.5.0    
+#&gt; [13] gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.6       foreach_1.5.0    
 #&gt; [17] Matrix_1.2-18     rstudioapi_0.11   yaml_2.2.1        pkgdown_1.5.1    
 #&gt; [21] xfun_0.13         ggdendro_0.1-20   gridExtra_2.3     stringr_1.4.0    
 #&gt; [25] dplyr_0.8.5       knitr_1.28        desc_1.2.0        fs_1.4.1         

@@ -71,6 +71,9 @@
     <li>
       <a href="../articles/vignette_aspect_importance_description.html">Description of aspect importance method</a>
     </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Triplot demo - fifa_20</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -200,10 +203,12 @@
 <a href="#random-forest-model-for-titanic-survival" class="anchor"></a>Random forest model for Titanic survival</h1>
 <p>Now, we prepare random forest model for the <code>titanic</code> dataset.</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"randomForest"</span>)
+
 <span class="no">model_titanic_rf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">survived</span>) <span class="kw">==</span> <span class="fl">1</span> ~
                                    <span class="no">gender</span> + <span class="no">age</span> + <span class="no">class</span> + <span class="no">embarked</span> + <span class="no">fare</span> +
                                    <span class="no">sibsp</span> + <span class="no">parch</span>,
                                  <span class="kw">data</span> <span class="kw">=</span> <span class="no">titanic</span>)
+
 <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">model_titanic_rf</span>, <span class="no">passenger</span>)</pre></body></html></div>
 <pre><code>#&gt;         1 
 #&gt; 0.4997378</code></pre>
@@ -274,10 +279,17 @@
 #&gt; 6     5795              1926      61     6        2</code></pre>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">new_observation_apartments</span> <span class="kw">&lt;-</span> <span class="no">apartments_num</span>[<span class="fl">20</span>,]
 
-<span class="no">model_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">m2.price</span> ~ <span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">apartments_num</span>)</pre></body></html></div>
+<span class="no">model_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">m2.price</span> ~ <span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">apartments_num</span>)
+
+<span class="no">new_observation_apartments</span></pre></body></html></div>
+<pre><code>#&gt;    m2.price construction.year surface floor no.rooms
+#&gt; 20     5267              1935      33     2        2</code></pre>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">model_apartments</span>, <span class="no">new_observation_apartments</span>)</pre></body></html></div>
+<pre><code>#&gt;       20 
+#&gt; 4477.935</code></pre>
 <p>We run group_variables() function with cut off level set on 0.6. As a result, we get a list of variables groups (aspects) where absolute value of features’ pairwise correlation is at least at 0.6.</p>
-<p>Afterwards, we call predict_aspects() function with parameter <code>show_cor = TRUE</code>, to check how features are grouped into aspects, what is minimal value of pairwise correlation in each group and to check whether any pair of features is negatively correlated (<code>neg</code>) or not (<code>pos</code>).</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">apartments_no_target</span> <span class="kw">&lt;-</span> <span class="no">apartments_num</span>[,-<span class="fl">1</span>] <span class="co">#excluding target variable</span>
+<p>Afterwards, we call print predict_aspects() results with parameter <code>show_cor = TRUE</code>, to check how features are grouped into aspects, what is minimal value of pairwise correlation in each group and to check whether any pair of features is negatively correlated (<code>neg</code>) or not (<code>pos</code>).</p>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">apartments_no_target</span> <span class="kw">&lt;-</span> <span class="no">apartments_num</span>[,-<span class="fl">1</span>] <span class="co">#excluding target variable</span>
 
 <span class="no">aspects_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_variables.html">group_variables</a></span>(<span class="no">apartments_no_target</span>, <span class="fl">0.6</span>)
 
@@ -289,7 +301,7 @@
                       <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 
 <span class="no">apartments_ai</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">explain_apartments_lm</span>,
-                                 <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>,
+                                 <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>[-<span class="fl">1</span>],
                                  <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">aspects_apartments</span>,
                                  <span class="kw">N</span> <span class="kw">=</span> <span class="fl">1000</span>)
 
@@ -315,8 +327,8 @@
 <li>only .. has positive influence on prediction,</li>
 <li>surface and number of rooms are, unsuprisingly, strongly correlated and together they have .. influence on the predction,</li>
 </ul>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">apartments_tri</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">predict_triplot</a></span>(<span class="no">explain_apartments_lm</span>,
-                         <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>,
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">apartments_tri</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">predict_triplot</a></span>(<span class="no">explain_apartments_lm</span>,
+                         <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>[-<span class="fl">1</span>],
                          <span class="kw">N</span> <span class="kw">=</span> <span class="fl">1000</span>,
                          <span class="kw">clust_method</span> <span class="kw">=</span> <span class="st">"complete"</span>)
 
@@ -331,7 +343,7 @@
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
 <pre><code>#&gt; R version 4.0.0 (2020-04-24)
 #&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
 #&gt; Running under: Windows 10 x64 (build 18362)
@@ -351,10 +363,10 @@
 #&gt; [4] DALEX_1.2.1        
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.4.6      compiler_4.0.0    pillar_1.4.3      ingredients_1.2.0
+#&gt;  [1] Rcpp_1.0.4.6      compiler_4.0.0    pillar_1.4.4      ingredients_1.2.0
 #&gt;  [5] iterators_1.0.12  tools_4.0.0       digest_0.6.25     lattice_0.20-41  
 #&gt;  [9] evaluate_0.14     memoise_1.1.0     lifecycle_0.2.0   tibble_3.0.1     
-#&gt; [13] gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.5       foreach_1.5.0    
+#&gt; [13] gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.6       foreach_1.5.0    
 #&gt; [17] Matrix_1.2-18     rstudioapi_0.11   yaml_2.2.1        pkgdown_1.5.1    
 #&gt; [21] xfun_0.13         ggdendro_0.1-20   gridExtra_2.3     withr_2.2.0      
 #&gt; [25] stringr_1.4.0     dplyr_0.8.5       knitr_1.28        desc_1.2.0       

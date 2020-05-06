@@ -1,0 +1,281 @@
+---
+title: "Triplot demo - fifa_20"
+author: "Katarzyna Pękala"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_document
+vignette: >
+  %\VignetteIndexEntry{Triplot demo with FIFA 20 dataset}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+
+# Data 
+
+
+```{r get data}
+library("DALEX")
+library("triplot")
+
+data(fifa)
+
+fifa$LogValue <- log10(fifa$value_eur)
+
+fifa[, c("nationality", "overall", "potential", "wage_eur",
+         "value_eur")] <- NULL
+
+```
+# build models 
+
+```{r build models}
+library("ranger")
+library("gbm")
+library("rms")
+
+fifa_gbm_shallow <- gbm(LogValue~., data = fifa, n.trees = 250,
+                        interaction.depth = 1, distribution = "gaussian")
+
+fifa_gbm_deep <- gbm(LogValue~., data = fifa, n.trees = 250,
+                     interaction.depth = 4, distribution = "gaussian")
+
+fifa_rf <- ranger(LogValue~., data = fifa, num.trees = 250)
+
+
+fifa_ols <- ols(LogValue ~ rcs(age) + rcs(weight_kg) + rcs(height_cm) + 
+                  rcs(attacking_crossing) + rcs(attacking_finishing) +
+                  rcs(attacking_heading_accuracy) + 
+                  rcs(attacking_short_passing) + rcs(attacking_volleys) +
+                  rcs(skill_dribbling) + rcs(skill_curve) +
+                  rcs(skill_fk_accuracy) + rcs(skill_long_passing) +
+                  rcs(skill_ball_control) + rcs(movement_acceleration) +
+                  rcs(movement_sprint_speed) + rcs(movement_agility) +
+                  rcs(movement_reactions) + rcs(movement_balance) +
+                  rcs(power_shot_power) + rcs(power_jumping) +
+                  rcs(power_stamina) + rcs(power_strength) + 
+                  rcs(power_long_shots) + rcs(mentality_aggression) +
+                  rcs(mentality_interceptions) + rcs(mentality_positioning) +
+                  rcs(mentality_vision) + rcs(mentality_penalties) +
+                  rcs(mentality_composure) + rcs(defending_marking) +
+                  rcs(defending_standing_tackle) + 
+                  rcs(defending_sliding_tackle) + rcs(goalkeeping_diving) +
+                  rcs(goalkeeping_handling) + rcs(goalkeeping_kicking) +
+                  rcs(goalkeeping_positioning) + rcs(goalkeeping_reflexes), 
+                data = fifa)
+
+
+```
+# build explainers 
+```{r build explainers}
+
+fifa_without_target_column <- fifa[,-38]
+
+fifa_gbm_exp_deep <- DALEX::explain(fifa_gbm_deep,
+                                    data = fifa_without_target_column,
+                                    y = 10 ^ fifa$LogValue,
+                                    predict_function =
+                                      function(m, x)
+                                        10 ^ predict(m, x, n.trees = 250),
+                                    label = "GBM deep"
+)
+fifa_gbm_exp_shallow <- DALEX::explain(fifa_gbm_shallow,
+                                       data = fifa_without_target_column,
+                                       y = 10 ^ fifa$LogValue,
+                                       predict_function =
+                                         function(m, x)
+                                           10 ^ predict(m, x, n.trees = 250),
+                                       label = "GBM shallow"
+)
+fifa_rf_exp <- DALEX::explain(fifa_rf,
+                              data = fifa_without_target_column,
+                              y = 10 ^ fifa$LogValue,
+                              predict_function = function(m, x) 
+                                10 ^ predict(m, x)$predictions,
+                              label = "RF"
+)
+fifa_rms_exp <- DALEX::explain(fifa_ols,
+                              data = fifa_without_target_column,
+                              y = 10 ^ fifa$LogValue,
+                              predict_function = function(m,x) 10^predict(m, x),
+                              label = "RMS"
+)
+
+```
+
+```{r check model parts}
+
+fifa_mp_gbm_shallow <- model_parts(fifa_gbm_exp_shallow)
+
+fifa_mp_gbm_deep <- model_parts(fifa_gbm_exp_deep)
+
+fifa_mp_rf <- model_parts(fifa_rf_exp)
+
+fifa_mp_rms <- model_parts(fifa_rms_exp)
+
+plot(fifa_mp_gbm_shallow, 
+     fifa_mp_gbm_deep, 
+     fifa_mp_rf, 
+     max_vars = 20, 
+     bar_width = 4, 
+     show_boxplots = FALSE) 
+
+```
+
+```{r triplot for the whole model}
+
+# fifa_gbm_tri_shallow <- model_triplot(fifa_gbm_exp_shallow)
+# 
+# fifa_gbm_tri_deep <- model_triplot(fifa_gbm_exp_deep)
+# 
+fifa_gbm_tri_rf <- model_triplot(fifa_rf_exp)
+# 
+# fifa_gbm_tri_rms <- model_triplot(fifa_rms_exp)
+# 
+# 
+# plot(fifa_gbm_tri_shallow, show_axis_y_duplicated_labels = T)
+# 
+# plot(fifa_gbm_tri_deep, show_axis_y_duplicated_labels = T)
+# 
+plot(fifa_gbm_tri_rf, show_axis_y_duplicated_labels = T)
+# 
+# plot(fifa_gbm_tri_rms, show_axis_y_duplicated_labels = T)
+
+
+```
+
+```{r players}
+
+player_gk <- fifa["J. Oblak",]
+
+player_mid <- fifa["L. Modric",]
+
+player_attack <- fifa["R. Lewandowski",]
+
+```
+
+```{r group variables}
+
+fifa_variable_groups <- list(
+  "age" = "age",
+  "body" = c("height_cm", "weight_kg"),
+  "attacking" = c("attacking_crossing",
+                "attacking_finishing", "attacking_heading_accuracy",
+                "attacking_short_passing", "attacking_volleys"),
+  "skill" = c("skill_dribbling",
+            "skill_curve", "skill_fk_accuracy", "skill_long_passing",
+            "skill_ball_control"),
+  "movement" = c("movement_acceleration", "movement_sprint_speed",
+               "movement_agility", "movement_reactions", "movement_balance"),
+  "power" = c("power_shot_power", "power_jumping", "power_stamina", "power_strength",
+            "power_long_shots"),
+  "mentality" = c("mentality_aggression", "mentality_interceptions",
+                "mentality_positioning", "mentality_vision", "mentality_penalties",
+                "mentality_composure"),
+  "defending" = c("defending_marking", "defending_standing_tackle",
+                "defending_sliding_tackle"),
+  "goalkeeping" = c("goalkeeping_diving",
+                   "goalkeeping_handling", "goalkeeping_kicking",
+                   "goalkeeping_positioning", "goalkeeping_reflexes"))
+
+```
+
+
+```{r predict_aspects #1}
+
+pa_fifa_gbm_attack_deep <- predict_aspects(x = fifa_gbm_exp_deep,
+                                     new_observation = player_attack,
+                                     variable_groups = fifa_variable_groups)
+
+pa_fifa_gbm_attack_shallow <- predict_aspects(x = fifa_gbm_exp_shallow,
+                                     new_observation = player_attack,
+                                     variable_groups = fifa_variable_groups)
+
+pa_fifa_rf_attack <- predict_aspects(x = fifa_rf_exp,
+                                     new_observation = player_attack,
+                                     variable_groups = fifa_variable_groups)
+
+pa_fifa_rms_attack <- predict_aspects(x = fifa_rms_exp,
+                                     new_observation = player_attack,
+                                     variable_groups = fifa_variable_groups)
+
+plot(pa_fifa_gbm_attack_deep, pa_fifa_gbm_attack_shallow,
+     pa_fifa_rf_attack, pa_fifa_rms_attack)
+
+
+```
+
+```{r predict_aspects #2}
+
+pa_fifa_gbm_mid_deep <- predict_aspects(x = fifa_gbm_exp_deep,
+                                     new_observation = player_mid,
+                                     variable_groups = fifa_variable_groups)
+
+pa_fifa_gbm_mid_shallow <- predict_aspects(x = fifa_gbm_exp_shallow,
+                                     new_observation = player_mid,
+                                     variable_groups = fifa_variable_groups)
+
+pa_fifa_rf_mid <- predict_aspects(x = fifa_rf_exp,
+                                     new_observation = player_mid,
+                                     variable_groups = fifa_variable_groups)
+
+pa_fifa_rms_mid <- predict_aspects(x = fifa_rms_exp,
+                                     new_observation = player_mid,
+                                     variable_groups = fifa_variable_groups)
+
+plot(pa_fifa_gbm_mid_deep, pa_fifa_gbm_mid_shallow,
+     pa_fifa_rf_mid, pa_fifa_rms_mid)
+
+
+```
+
+
+```{r predict_aspects #3}
+
+pa_fifa_gbm_gk_deep <- predict_aspects(x = fifa_gbm_exp_deep,
+                                     new_observation = player_gk,
+                                     variable_groups = fifa_variable_groups)
+
+pa_fifa_gbm_gk_shallow <- predict_aspects(x = fifa_gbm_exp_shallow,
+                                     new_observation = player_gk,
+                                     variable_groups = fifa_variable_groups)
+
+pa_fifa_rf_gk <- predict_aspects(x = fifa_rf_exp,
+                                     new_observation = player_gk,
+                                     variable_groups = fifa_variable_groups)
+
+pa_fifa_rms_gk <- predict_aspects(x = fifa_rms_exp,
+                                     new_observation = player_gk,
+                                     variable_groups = fifa_variable_groups)
+
+plot(pa_fifa_gbm_gk_deep, pa_fifa_gbm_gk_shallow,
+     pa_fifa_rf_gk, pa_fifa_rms_gk)
+
+
+```
+
+```{r}
+plot(pa_fifa_gbm_gk_deep, pa_fifa_gbm_gk_shallow,
+     pa_fifa_rf_gk)
+
+```
+
+
+
+#  ...
+
+# Session info
+
+```{r}
+sessionInfo()
+```
+
