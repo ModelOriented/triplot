@@ -13,6 +13,8 @@
 
 \item{show_corr}{show if all features in aspect are pairwise positively
 correlated, (works for numeric features)}
+
+\item{...}{other parameters}
 }
 \description{
 This function prints the results of aspect_importance.

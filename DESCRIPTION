@@ -29,5 +29,4 @@ Suggests:
     covr
 URL: https://github.com/ModelOriented/triplot
 BugReports: https://github.com/ModelOriented/triplot/issues
-VignetteBuilder: knitr
 Language: en-US

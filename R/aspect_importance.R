@@ -356,6 +356,8 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 #' @param show_features show list of features for every aspect
 #' @param show_corr show if all features in aspect are pairwise positively
 #'   correlated, (works for numeric features)
+#' @param ... other parameters
+#'
 #'
 #' @export
 
