@@ -95,7 +95,7 @@ print(ai_titanic, show_features = TRUE)
 plot(ai_titanic, add_importance = TRUE)
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
 ## Triplot
 
@@ -127,7 +127,7 @@ tri_apartments <- model_triplot(explain_apartments)
 plot(tri_apartments)
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 Afterwards, we are building triplot for single instance and it’s
 prediction.
@@ -146,7 +146,7 @@ tri_apartments <- predict_triplot(explain_apartments,
 plot(tri_apartments)
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 ## Acknowledgments
 

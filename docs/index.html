@@ -131,78 +131,60 @@
 <div id="demo" class="section level2">
 <h2 class="hasAnchor">
 <a href="#demo" class="anchor"></a>Demo</h2>
-<p>To illustrate how the function works, we use titanic example. We prepare model, group features into aspects and choose new observation to be explained. Then we build <code>DALEX</code> explainer and use it to call aspect importance function. Finally, we print and plot function results. We can observe that <code>personal</code> (<code>age</code> and <code>gender</code>) variables have the biggest contribution to the prediction. This contribution is of a positive type.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"triplot"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"DALEX"</span>)
-
-<span class="no">titanic</span> <span class="kw">&lt;-</span> <span class="no">titanic_imputed</span>
-<span class="no">aspects_titanic</span> <span class="kw">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="kw">wealth</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"class"</span>, <span class="st">"fare"</span>),
-    <span class="kw">family</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sibsp"</span>, <span class="st">"parch"</span>),
-    <span class="kw">personal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"age"</span>, <span class="st">"gender"</span>),
-    <span class="kw">embarked</span> <span class="kw">=</span> <span class="st">"embarked"</span>
-  )
-<span class="no">passenger</span> <span class="kw">&lt;-</span> <span class="no">titanic</span>[<span class="fl">4</span>,-<span class="fl">8</span>]
-
-<span class="no">model_titanic_glm</span> <span class="kw">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">survived</span> <span class="kw">==</span> <span class="fl">1</span> ~ <span class="no">class</span> + <span class="no">gender</span> + <span class="no">age</span> + <span class="no">sibsp</span> + <span class="no">parch</span> + <span class="no">fare</span> + <span class="no">embarked</span>,
-      <span class="no">titanic</span>,
-      <span class="kw">family</span> <span class="kw">=</span> <span class="st">"binomial"</span>)
+<p>For the <code>titanic</code> dataset we built logistic regression model that predicts passanger survival and group features into thematical aspects (<code>wealth</code> contains ticket’ class and fare, <code>family</code> information about family members on board, <code>personal</code> includes age and gender and <code>embarked</code> remain as aspect with single feature). We choose an existing passenger.</p>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="no">passenger</span> <span class="kw">&lt;-</span> <span class="no">titanic</span>[<span class="fl">2</span>,]
 
 <span class="no">passenger</span></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co">##   gender age class    embarked  fare sibsp parch</span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co">## 4 female  39   3rd Southampton 20.05     1     1</span></a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">model_titanic_glm</span>, <span class="no">passenger</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"response"</span>)</pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co">##         4 </span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="co">## 0.4308525</span></a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">explain_titanic</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">model_titanic_glm</span>,
-                               <span class="kw">data</span> <span class="kw">=</span> <span class="no">titanic</span>[,-<span class="fl">8</span>],
-                               <span class="kw">y</span> <span class="kw">=</span> <span class="no">titanic</span>$<span class="no">survived</span> <span class="kw">==</span> <span class="st">"yes"</span>,
-                               <span class="kw">predict_function</span> <span class="kw">=</span> <span class="no">predict</span>,
-                               <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co">##   gender age class    embarked  fare sibsp parch survived</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">## 2   male  13   3rd Southampton 20.05     0     2        0</span></a></code></pre></div>
+<p>We can check that the model prediction for this passenger’s survival is very low, it’s 0.1531932.</p>
+<p>Let’s see which aspects have the biggest influence on it.</p>
+<p>We start by building <code>DALEX</code> explainer and use it to call <code>predict_aspects</code> function. Afterwards, we print and plot function results. We can observe that <code>wealth</code> variables have the biggest contribution to the prediction. This contribution is of a negative type. <code>Family</code> variables have positive influence on the prediction, but it is many times smaller. Rest of the aspects have very small contribution to the prediction.</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">explain_titanic</span> <span class="kw">&lt;-</span> <span class="fu">explain</span>(<span class="no">model_titanic_glm</span>,
+                           <span class="kw">data</span> <span class="kw">=</span> <span class="no">titanic</span>[, -<span class="fl">8</span>],
+                           <span class="kw">y</span> <span class="kw">=</span> <span class="no">titanic</span>$<span class="no">survived</span> <span class="kw">==</span> <span class="st">"yes"</span>,
+                           <span class="kw">predict_function</span> <span class="kw">=</span> <span class="no">predict</span>,
+                           <span class="kw">label</span> <span class="kw">=</span> <span class="st">"Logistic Regression"</span>,
+                           <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+
 <span class="no">ai_titanic</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/aspect_importance.html">predict_aspects</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">explain_titanic</span>,
-                                   <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">passenger</span>,
-                                   <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">aspects_titanic</span>)
-<span class="no">ai_titanic</span></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co">##   variable_groups importance     features</span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="co">## 4        personal     2.3237  age, gender</span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="co">## 2          wealth    -0.4721  class, fare</span></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="co">## 5        embarked     0.3577     embarked</span></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="co">## 3          family     0.2710 sibsp, parch</span></a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">ai_titanic</span>, <span class="kw">add_importance</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-3-1.png" style="display: block; margin: auto;"></p>
+                              <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">passenger</span>[,-<span class="fl">8</span>],
+                              <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">aspects_titanic</span>)
+
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">ai_titanic</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co">##   variable_groups importance     features</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">## 2          wealth   -0.68985  class, fare</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">## 3          family    0.14762 sibsp, parch</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">## 5        embarked   -0.13525     embarked</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">## 4        personal   -0.06915  age, gender</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">ai_titanic</span>, <span class="kw">add_importance</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
+<p><img src="reference/figures/unnamed-chunk-4-1.png" style="display: block; margin: auto;"></p>
 </div>
 <div id="triplot-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#triplot-1" class="anchor"></a>Triplot</h2>
-<p><code>Triplot</code> is a tool built on <code>aspects_importance</code> function, that allows us to go one step further in our understanding of the inner workings of a black box model.</p>
+<p><code>Triplot</code> is a tool that allows us to go one step further in our understanding of the inner workings of a black box model.</p>
 <p>It illustrates, in one place:</p>
 <ul>
 <li>the importance of every single feature,</li>
-<li>hierarchical aspects importance (explained below),</li>
+<li>hierarchical aspects importance,</li>
 <li>order of grouping features into aspects in <code><a href="reference/group_variables.html">group_variables()</a></code>.</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb9"><pre class="r"><span class="no">apartments_num</span> <span class="kw">&lt;-</span> <span class="no">apartments</span>[,<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">apartments</span>, <span class="no">is.numeric</span>))]
+<p>We can use it to illustrate the instance level importance of features (using <code>predict_aspects</code> function) or to illustrate the model level importance of features (using <code>model_parts</code> function from <code>DALEX</code> package).</p>
+<p>Triplot function can be only used on numerical features. To showcase it, we will choose only such features from <code>apartments</code> dataset, build explainer, calculate <code>model_triplot</code> object and then plot it.</p>
+<p>We can observe that, at the model level, surface and floor have the biggest contribution. Number of rooms and surface are strongly correlated and together have big influence on the prediction.</p>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">tri_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/calculate_triplot.html">model_triplot</a></span>(<span class="no">explain_apartments</span>)
 
-<span class="no">new_observation_apartments</span> <span class="kw">&lt;-</span> <span class="no">apartments_num</span>[<span class="fl">6</span>,-<span class="fl">1</span>]
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>)</pre></div>
+<p><img src="reference/figures/unnamed-chunk-6-1.png" style="display: block; margin: auto;"></p>
+<p>Afterwards, we are building triplot for single instance and it’s prediction.</p>
+<p>We can observe that for the given appartment <code>surface</code> has also big, positive influence on prediction. Adding <code>number of rooms</code> and then <code>construction year</code> to <code>surface's</code> aspect, increases its contribution.</p>
+<p>We can see notice that <code>floor</code> has the smallest influence on the prediction, unlike in model wise analysis.</p>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">tri_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/calculate_triplot.html">predict_triplot</a></span>(<span class="no">explain_apartments</span>,
+                                  <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>)
 
-<span class="no">model_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">m2.price</span> ~ <span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">apartments_num</span>)
-
-<span class="no">explain_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">model</span> <span class="kw">=</span> <span class="no">model_apartments</span>,
-                              <span class="kw">data</span> <span class="kw">=</span> <span class="no">apartments_num</span>[, -<span class="fl">1</span>],
-                              <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-
-<span class="no">new_observation_apartments</span></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co">##   construction.year surface floor no.rooms</span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="co">## 6              1926      61     6        2</span></a></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">model_apartments</span>, <span class="no">new_observation_apartments</span>)</pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co">##        6 </span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="co">## 3817.634</span></a></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="r"><span class="no">tri_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/calculate_triplot.html">predict_triplot</a></span>(<span class="no">explain_apartments</span>,
-                                    <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>, <span class="kw">abbrev_labels</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">add_last_group</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-5-1.png" style="display: block; margin: auto;"></p>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>)</pre></div>
+<p><img src="reference/figures/unnamed-chunk-7-1.png" style="display: block; margin: auto;"></p>
 </div>
 <div id="acknowledgments" class="section level2">
 <h2 class="hasAnchor">

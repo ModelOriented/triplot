@@ -179,9 +179,9 @@
 #&gt;   -&gt; target variable   :  5000  values 
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task regression ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  function(m, x) 10^predict(m, x, n.trees = 250) 
-#&gt;   -&gt; predicted values  :  numerical, min =  277622.6 , mean =  7335964 , max =  101328616  
+#&gt;   -&gt; predicted values  :  numerical, min =  259227.7 , mean =  7326140 , max =  102228246  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -22061472 , mean =  137323.1 , max =  19683638  
+#&gt;   -&gt; residuals         :  numerical, min =  -24633773 , mean =  147147.4 , max =  27248493  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">fifa_gbm_exp_shallow</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">fifa_gbm_shallow</span>,
                                        <span class="kw">data</span> <span class="kw">=</span> <span class="no">fifa_without_target_column</span>,
@@ -197,9 +197,9 @@
 #&gt;   -&gt; target variable   :  5000  values 
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task regression ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  function(m, x) 10^predict(m, x, n.trees = 250) 
-#&gt;   -&gt; predicted values  :  numerical, min =  435326.8 , mean =  7054727 , max =  81532407  
+#&gt;   -&gt; predicted values  :  numerical, min =  430526.4 , mean =  7053124 , max =  83777167  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -36234153 , mean =  418559.6 , max =  49776575  
+#&gt;   -&gt; residuals         :  numerical, min =  -32770228 , mean =  420162.7 , max =  52245083  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">fifa_rf_exp</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">fifa_rf</span>,
                               <span class="kw">data</span> <span class="kw">=</span> <span class="no">fifa_without_target_column</span>,
@@ -214,9 +214,9 @@
 #&gt;   -&gt; target variable   :  5000  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  function(m, x) 10^predict(m, x)$predictions 
-#&gt;   -&gt; predicted values  :  numerical, min =  323037.3 , mean =  7033165 , max =  87991716  
+#&gt;   -&gt; predicted values  :  numerical, min =  341687.1 , mean =  7037797 , max =  85545448  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -5363990 , mean =  440122.5 , max =  23679299  
+#&gt;   -&gt; residuals         :  numerical, min =  -5312086 , mean =  435490.5 , max =  24104394  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">fifa_rms_exp</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">fifa_ols</span>,
                               <span class="kw">data</span> <span class="kw">=</span> <span class="no">fifa_without_target_column</span>,
@@ -252,7 +252,7 @@
      <span class="kw">max_vars</span> <span class="kw">=</span> <span class="fl">20</span>,
      <span class="kw">bar_width</span> <span class="kw">=</span> <span class="fl">4</span>,
      <span class="kw">show_boxplots</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_fifa_files/figure-html/check%20model%20parts-1.png" width="700"></p>
+<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div id="triplot-for-model" class="section level1">
 <h1 class="hasAnchor">
@@ -271,7 +271,7 @@
 <span class="co"># plot(fifa_gbm_tri_deep, show_axis_y_duplicated_labels = T)</span>
 <span class="co"># </span>
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fifa_gbm_tri_rf</span>, <span class="kw">show_axis_y_duplicated_labels</span> <span class="kw">=</span> <span class="no">T</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_fifa_files/figure-html/triplot%20for%20the%20whole%20model-1.png" width="700"></p>
+<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"># 
 # plot(fifa_gbm_tri_rms, show_axis_y_duplicated_labels = T)</pre></body></html></div>
 </div>
@@ -304,6 +304,10 @@
   <span class="st">"goalkeeping"</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"goalkeeping_diving"</span>,
                    <span class="st">"goalkeeping_handling"</span>, <span class="st">"goalkeeping_kicking"</span>,
                    <span class="st">"goalkeeping_positioning"</span>, <span class="st">"goalkeeping_reflexes"</span>))</pre></body></html></div>
+</div>
+<div id="predict-aspects" class="section level1">
+<h1 class="hasAnchor">
+<a href="#predict-aspects" class="anchor"></a>Predict aspects</h1>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">pa_fifa_gbm_attack_deep</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">fifa_gbm_exp_deep</span>,
                                      <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">player_attack</span>,
                                      <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">fifa_variable_groups</span>)
@@ -322,7 +326,7 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pa_fifa_gbm_attack_deep</span>, <span class="no">pa_fifa_gbm_attack_shallow</span>,
      <span class="no">pa_fifa_rf_attack</span>, <span class="no">pa_fifa_rms_attack</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_fifa_files/figure-html/predict_aspects%20#1-1.png" width="700"></p>
+<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">pa_fifa_gbm_mid_deep</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">fifa_gbm_exp_deep</span>,
                                      <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">player_mid</span>,
                                      <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">fifa_variable_groups</span>)
@@ -341,7 +345,7 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pa_fifa_gbm_mid_deep</span>, <span class="no">pa_fifa_gbm_mid_shallow</span>,
      <span class="no">pa_fifa_rf_mid</span>, <span class="no">pa_fifa_rms_mid</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_fifa_files/figure-html/predict_aspects%20#2-1.png" width="700"></p>
+<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">pa_fifa_gbm_gk_deep</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">fifa_gbm_exp_deep</span>,
                                      <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">player_gk</span>,
                                      <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">fifa_variable_groups</span>)
@@ -360,10 +364,10 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pa_fifa_gbm_gk_deep</span>, <span class="no">pa_fifa_gbm_gk_shallow</span>,
      <span class="no">pa_fifa_rf_gk</span>, <span class="no">pa_fifa_rms_gk</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_fifa_files/figure-html/predict_aspects%20#3-1.png" width="700"></p>
+<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pa_fifa_gbm_gk_deep</span>, <span class="no">pa_fifa_gbm_gk_shallow</span>,
      <span class="no">pa_fifa_rf_gk</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
+<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 <div id="section" class="section level1">
 <h1 class="hasAnchor">
