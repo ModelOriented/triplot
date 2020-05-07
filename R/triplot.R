@@ -285,11 +285,7 @@ plot.triplot <- function(x,
     lev_mod <- p1$data$variable[order_mod]
     p1$data$variable <- factor(p1$data$variable,
                                levels = lev_mod)
-    if (abbrev_labels > 0) {
-      p1$data$variable <- abbreviate(p1$data$variable,
-                                     minlength = abbrev_labels)
-    }
-    
+
   } else {
     p1 <- plot(importance_leaves, add_importance = add_importance_labels,
                text_size = text_size, bar_width = bar_width)
