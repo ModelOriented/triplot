@@ -79,7 +79,8 @@ calculate_triplot.explainer <- function(x,
     }))
 
     if (target_in_data_check) {
-      warning("It is recommended to pass `data` without the target variable column")
+      warning("It is recommended to pass `data` without the target variable 
+              column")
     }
   }
 
@@ -107,7 +108,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
   type <- match.arg(type)
   stopifnot(all(sapply(data, is.numeric)))
 
-# Calculations for second plot ------------------------------------------------------
+# Calculations for second plot -------------------------------------------------
 
   hi <- hierarchical_importance(x = x, data = data, y = y,
                                 predict_function = predict_function,
@@ -116,11 +117,11 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                 N = N,
                                 clust_method = clust_method)
 
-# Calculations for third plot -------------------------------------------------------
+# Calculations for third plot --------------------------------------------------
 
   cv <- cluster_variables(data, clust_method)
 
-# Calculations for first plot -------------------------------------------------------
+# Calculations for first plot --------------------------------------------------
 
   if (type != "predict") {
     importance_leaves <- feature_importance(x = x, data = data, y = y,
@@ -162,7 +163,7 @@ print.triplot <- function(x, ...) {
 
   stopifnot("triplot" %in% class(x))
 
-  if (x$triplot_type == "model"){
+  if (x$triplot_type == "model") {
     print("\nTriplot object for model.\n\n")
   } else {
     cat("\nTriplot object for single prediction:\n\n")
@@ -322,5 +323,3 @@ model_triplot <- function(x, ...) {
 predict_triplot <- function(x, ...) {
   calculate_triplot(x, type = "predict", ...)
 }
-
-

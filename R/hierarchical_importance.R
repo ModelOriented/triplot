@@ -59,7 +59,8 @@ hierarchical_importance <- function(x, data, y = NULL,
                                     ...) {
 
   if (all(type != "predict", is.null(y))) {
-    stop("Target is needed for hierarchical_importance calculated at model level")
+    stop("Target is needed for hierarchical_importance calculated at model 
+         level")
   }
 
   # Building helper objects ---------------------------------------------

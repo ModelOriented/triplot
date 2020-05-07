@@ -61,9 +61,10 @@
 #'
 #' \dontrun{
 #' library("randomForest")
-#' model_titanic_rf <- randomForest(factor(survived) ~ class + gender + age + sibsp +
-#'                                  parch + fare + embarked,
-#'                                  data = titanic_imputed)
+#'model_titanic_rf <-
+#'  randomForest(factor(survived) ~ class + gender + age + sibsp +
+#'                 parch + fare + embarked,
+#'               data = titanic_imputed)
 #'
 #' explain_titanic_rf <- explain(model_titanic_rf,
 #'                               data = titanic_imputed[,-8],
@@ -110,7 +111,8 @@ aspect_importance.explainer <- function(x, new_observation,
     }))
 
     if (target_in_data_check) {
-      warning("It is recommended to pass `data` without the target variable column")
+      warning("It is recommended to pass `data` without the target variable 
+              column")
     }
   }
 
@@ -367,13 +369,13 @@ print.aspect_importance <- function(x, show_features = FALSE, show_corr = FALSE,
   stopifnot("aspect_importance" %in% class(x))
 
   if (show_features) {
-    res <- x[,c("variable_groups", "importance", "features")]
+    res <- x[, c("variable_groups", "importance", "features")]
   } else {
-    res <- x[,c("variable_groups", "importance")]
+    res <- x[, c("variable_groups", "importance")]
   }
 
   if (show_corr) {
-    res <- cbind(res, x[,c("min_cor", "sign")])
+    res <- cbind(res, x[, c("min_cor", "sign")])
   }
 
   print.data.frame(res)
