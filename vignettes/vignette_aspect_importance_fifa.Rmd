@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 # Data 
 
 
-```{r get data}
+```{r}
 library("DALEX")
 library("triplot")
 
@@ -38,7 +38,7 @@ fifa[, c("nationality", "overall", "potential", "wage_eur",
 ```
 # Build models for predicting players value
 
-```{r build models}
+```{r}
 library("ranger")
 library("gbm")
 library("rms")
@@ -78,7 +78,7 @@ fifa_ols <- ols(LogValue ~ rcs(age) + rcs(weight_kg) + rcs(height_cm) +
 
 # Build explainers 
 
-```{r build explainers}
+```{r}
 
 fifa_without_target_column <- fifa[,-38]
 
@@ -116,7 +116,7 @@ fifa_rms_exp <- DALEX::explain(fifa_ols,
 
 # Check feature importance
 
-```{r check model parts}
+```{r}
 
 fifa_mp_gbm_shallow <- model_parts(fifa_gbm_exp_shallow)
 
@@ -137,7 +137,7 @@ plot(fifa_mp_gbm_shallow,
 
 # Triplot for model
 
-```{r triplot for the whole model}
+```{r}
 
 # fifa_gbm_tri_shallow <- model_triplot(fifa_gbm_exp_shallow)
 # 
@@ -161,7 +161,7 @@ plot(fifa_gbm_tri_rf, show_axis_y_duplicated_labels = T)
 
 # Investigate models for chosen instances (players)
 
-```{r players}
+```{r}
 
 player_gk <- fifa["J. Oblak",]
 
@@ -171,7 +171,7 @@ player_attack <- fifa["R. Lewandowski",]
 
 ```
 
-```{r group variables}
+```{r}
 
 fifa_variable_groups <- list(
   "age" = "age",
@@ -197,8 +197,9 @@ fifa_variable_groups <- list(
 
 ```
 
+# Predict aspects
 
-```{r predict_aspects #1}
+```{r}
 
 pa_fifa_gbm_attack_deep <- predict_aspects(x = fifa_gbm_exp_deep,
                                      new_observation = player_attack,
@@ -222,7 +223,7 @@ plot(pa_fifa_gbm_attack_deep, pa_fifa_gbm_attack_shallow,
 
 ```
 
-```{r predict_aspects #2}
+```{r}
 
 pa_fifa_gbm_mid_deep <- predict_aspects(x = fifa_gbm_exp_deep,
                                      new_observation = player_mid,
@@ -247,7 +248,7 @@ plot(pa_fifa_gbm_mid_deep, pa_fifa_gbm_mid_shallow,
 ```
 
 
-```{r predict_aspects #3}
+```{r}
 
 pa_fifa_gbm_gk_deep <- predict_aspects(x = fifa_gbm_exp_deep,
                                      new_observation = player_gk,
