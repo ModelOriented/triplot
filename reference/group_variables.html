@@ -114,10 +114,13 @@ correlation cutoff level." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/vignette_aspect_importance.html">Aspect importance function examples</a>
+      <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of aspect importance method</a>
+      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -125,7 +128,7 @@ correlation cutoff level." />
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/kasiapekala/triplot/">
+  <a href="https://github.com/ModelOriented/triplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -144,7 +147,7 @@ correlation cutoff level." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helper function that combines clustering variables and creating aspect list</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kasiapekala/triplot/blob/master/R/group_variables.R'><code>R/group_variables.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/triplot/blob/master/R/group_variables.R'><code>R/group_variables.R</code></a></small>
     <div class="hidden name"><code>group_variables.Rd</code></div>
     </div>
 
@@ -178,18 +181,9 @@ see <code><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></code> method
     <p>list with aspect</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DALEX"</span>)
+    <pre class="examples"><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DALEX"</span>)
 <span class='no'>dragons_data</span> <span class='kw'>&lt;-</span> <span class='no'>dragons</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>7</span>,<span class='fl'>8</span>)]
-<span class='fu'>group_variables</span>(<span class='no'>dragons_data</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>)</div><div class='output co'>#&gt; $aspect.group1
-#&gt; [1] "height" "weight"
-#&gt; 
-#&gt; $aspect.group2
-#&gt; [1] "scars"       "life_length"
-#&gt; 
-#&gt; $aspect.group3
-#&gt; [1] "number_of_lost_teeth"
-#&gt; </div><div class='input'>
-</div></pre>
+<span class='fu'>group_variables</span>(<span class='no'>dragons_data</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>)</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

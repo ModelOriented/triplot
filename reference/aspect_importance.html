@@ -120,10 +120,13 @@ linear model or lasso." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/vignette_aspect_importance.html">Aspect importance function examples</a>
+      <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of aspect importance method</a>
+      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -131,7 +134,7 @@ linear model or lasso." />
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/kasiapekala/triplot/">
+  <a href="https://github.com/ModelOriented/triplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -151,7 +154,7 @@ linear model or lasso." />
     <div class="page-header">
     <h1>Calculates importance of variable groups (called aspects importance) for a
 selected observation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kasiapekala/triplot/blob/master/R/aspect_importance.R'><code>R/aspect_importance.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/triplot/blob/master/R/aspect_importance.R'><code>R/aspect_importance.R</code></a></small>
     <div class="hidden name"><code>aspect_importance.Rd</code></div>
     </div>
 
@@ -171,11 +174,10 @@ linear model or lasso.</p>
   <span class='no'>x</span>,
   <span class='no'>new_observation</span>,
   <span class='no'>variable_groups</span>,
-  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>show_cor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )
 
@@ -191,7 +193,6 @@ linear model or lasso.</p>
   <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>show_cor</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )
 
@@ -238,11 +239,6 @@ if zero than linear regression is used</p></td>
       <td><p>frequency in <code><a href='get_sample.html'>get_sample</a></code></p></td>
     </tr>
     <tr>
-      <th>show_cor</th>
-      <td><p>show if all features in aspect are pairwise positively
-correlated, works only if dataset contains solely numeric values</p></td>
-    </tr>
-    <tr>
       <th>data</th>
       <td><p>dataset, it will be extracted from <code>x</code> if it's an explainer
 NOTE: It is best when target variable is not present in the <code>data</code></p></td>
@@ -265,10 +261,8 @@ attribute of the model.</p></td>
   that describes aspects' importance.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DALEX"</span>)</div><div class='output co'>#&gt; <span class='message'>Welcome to DALEX (version: 1.2.1).</span>
-#&gt; <span class='message'>Find examples and detailed introduction at: https://pbiecek.github.io/ema/</span>
-#&gt; <span class='message'>Additional features will be available after installation of: ggpubr.</span>
-#&gt; <span class='message'>Use 'install_dependencies()' to get all suggested dependencies</span></div><div class='input'>
+    <pre class="examples"><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DALEX"</span>)
+
 <span class='no'>model_titanic_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span> <span class='kw'>==</span> <span class='fl'>1</span> ~
                          <span class='no'>class</span>+<span class='no'>gender</span>+<span class='no'>age</span>+<span class='no'>sibsp</span>+<span class='no'>parch</span>+<span class='no'>fare</span>+<span class='no'>embarked</span>,
                          <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>,
@@ -286,16 +280,14 @@ attribute of the model.</p></td>
 
 <span class='fu'>predict_aspects</span>(<span class='no'>explain_titanic_glm</span>,
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
-                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)</div><div class='output co'>#&gt;   variable_groups importance     features
-#&gt; 3          family    0.09559 sibsp, parch
-#&gt; 5        embarked    0.07390     embarked
-#&gt; 4        personal   -0.07312  gender, age
-#&gt; 2          wealth   -0.04942  class, fare</div><div class='input'>
+                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)
+
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
-<span class='no'>model_titanic_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='no'>survived</span> ~ <span class='no'>class</span> + <span class='no'>gender</span> + <span class='no'>age</span> + <span class='no'>sibsp</span> +
-                                 <span class='no'>parch</span> + <span class='no'>fare</span> + <span class='no'>embarked</span>,
-                                 <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)
+<span class='no'>model_titanic_rf</span> <span class='kw'>&lt;-</span>
+ <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>survived</span>) ~ <span class='no'>class</span> + <span class='no'>gender</span> + <span class='no'>age</span> + <span class='no'>sibsp</span> +
+                <span class='no'>parch</span> + <span class='no'>fare</span> + <span class='no'>embarked</span>,
+              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>)
 
 <span class='no'>explain_titanic_rf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>model_titanic_rf</span>,
                               <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
@@ -306,7 +298,7 @@ attribute of the model.</p></td>
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
                   <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)
 
-}</div></pre>
+}</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

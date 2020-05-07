@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Three plots that sum up automatic aspect/feature importance grouping — calculate_triplot • triplot</title>
+<title>Calculate triplot that sums up automatic aspect/feature importance grouping — calculate_triplot • triplot</title>
 
 
 <!-- jquery -->
@@ -45,7 +45,7 @@
 
 
 
-<meta property="og:title" content="Three plots that sum up automatic aspect/feature importance grouping — calculate_triplot" />
+<meta property="og:title" content="Calculate triplot that sums up automatic aspect/feature importance grouping — calculate_triplot" />
 <meta property="og:description" content="This function shows:
 plot for aspect_importance or
 feature_importance with
@@ -121,10 +121,13 @@ clustering tree.
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/vignette_aspect_importance.html">Aspect importance function examples</a>
+      <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of aspect importance method</a>
+      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -132,7 +135,7 @@ clustering tree.
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/kasiapekala/triplot/">
+  <a href="https://github.com/ModelOriented/triplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -150,8 +153,8 @@ clustering tree.
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Three plots that sum up automatic aspect/feature importance grouping</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kasiapekala/triplot/blob/master/R/triplot.R'><code>R/triplot.R</code></a></small>
+    <h1>Calculate triplot that sums up automatic aspect/feature importance grouping</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/triplot/blob/master/R/triplot.R'><code>R/triplot.R</code></a></small>
     <div class="hidden name"><code>calculate_triplot.Rd</code></div>
     </div>
 
@@ -191,6 +194,9 @@ expanded aspect</p></li>
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
   <span class='no'>...</span>
 )
+
+<span class='co'># S3 method for triplot</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='fu'>model_triplot</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
@@ -249,7 +255,7 @@ if it's an explainer</p></td>
     <p>triplot object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
+    <pre class="examples">
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
 <span class='no'>apartments_num</span> <span class='kw'>&lt;-</span> <span class='no'>apartments</span>[,<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>apartments</span>, <span class='no'>is.numeric</span>))]
@@ -261,7 +267,7 @@ if it's an explainer</p></td>
                                 <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>apartments_tri</span> <span class='kw'>&lt;-</span> <span class='fu'>calculate_triplot</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>explainer_apartments</span>,
                                     <span class='kw'>new_observation</span> <span class='kw'>=</span>
-                                      <span class='no'>apartments_num_new_observation</span>[-<span class='fl'>1</span>])</div></pre>
+                                      <span class='no'>apartments_num_new_observation</span>[-<span class='fl'>1</span>])</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

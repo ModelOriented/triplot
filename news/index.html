@@ -112,10 +112,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/vignette_aspect_importance.html">Aspect importance function examples</a>
+      <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of aspect importance method</a>
+      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -123,7 +126,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/kasiapekala/triplot/">
+  <a href="https://github.com/ModelOriented/triplot/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -142,12 +145,24 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/kasiapekala/triplot/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+      <small>Source: <a href='https://github.com/ModelOriented/triplot/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="triplot-032" class="section level2">
-<h2 class="hasAnchor">
-<a href="#triplot-032" class="anchor"></a>triplot 0.3.2</h2>
+    <div id="triplot-033" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.3">
+<a href="#triplot-033" class="anchor"></a>triplot 0.3.3</h1>
+<ul>
+<li>renamed prediction_aspect to predict_aspects</li>
+<li>added aliases predict_triplot and model_triplot</li>
+<li>added bar_width param to triplot</li>
+<li>added warning if target is in data</li>
+<li>added parameter “type” to calculate_triplot</li>
+<li>added print for predict_aspects and triplot</li>
+</ul>
+</div>
+    <div id="triplot-032" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.2">
+<a href="#triplot-032" class="anchor"></a>triplot 0.3.2</h1>
 <ul>
 <li>restructured group_variables and triplot objects</li>
 <li>added hierarchical_importance object (instead of plot_aspects_importance_grouping)</li>
@@ -155,32 +170,32 @@
 <li>triplot is plotted by calling plot on calculate_triplot results</li>
 </ul>
 </div>
-    <div id="triplot-031" class="section level2">
-<h2 class="hasAnchor">
-<a href="#triplot-031" class="anchor"></a>triplot 0.3.1</h2>
+    <div id="triplot-031" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.1">
+<a href="#triplot-031" class="anchor"></a>triplot 0.3.1</h1>
 <ul>
 <li>updated plot_aspects_importance_grouping so it can draw last clusters connection</li>
 <li>add_importance_labels parameter set to FALSE by default</li>
 </ul>
 </div>
-    <div id="triplot-03" class="section level2">
-<h2 class="hasAnchor">
-<a href="#triplot-03" class="anchor"></a>triplot 0.3</h2>
+    <div id="triplot-03" class="section level1">
+<h1 class="page-header" data-toc-text="0.3">
+<a href="#triplot-03" class="anchor"></a>triplot 0.3</h1>
 <ul>
 <li>new feature: triplot can present both: automatic aspect and feature importance grouping (by using ingredients::feature_importance())</li>
 </ul>
 </div>
-    <div id="triplot-02" class="section level2">
-<h2 class="hasAnchor">
-<a href="#triplot-02" class="anchor"></a>triplot 0.2</h2>
+    <div id="triplot-02" class="section level1">
+<h1 class="page-header" data-toc-text="0.2">
+<a href="#triplot-02" class="anchor"></a>triplot 0.2</h1>
 <ul>
 <li>aspectImportance is renamed to triplot</li>
 <li>added second vignette</li>
 </ul>
 </div>
-    <div id="aspectimportance-01" class="section level2">
-<h2 class="hasAnchor">
-<a href="#aspectimportance-01" class="anchor"></a>aspectImportance 0.1</h2>
+    <div id="aspectimportance-01" class="section level1">
+<h1 class="page-header" data-toc-text="0.1">
+<a href="#aspectimportance-01" class="anchor"></a>aspectImportance 0.1</h1>
 <ul>
 <li>aspect_importance is moved out of <code>DALEXtra</code> into standalone package</li>
 </ul>
