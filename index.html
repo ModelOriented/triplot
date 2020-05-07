@@ -158,7 +158,7 @@
 <span id="cb5-4"><a href="#cb5-4"></a><span class="co">## 5        embarked   -0.13525     embarked</span></span>
 <span id="cb5-5"><a href="#cb5-5"></a><span class="co">## 4        personal   -0.06915  age, gender</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">ai_titanic</span>, <span class="kw">add_importance</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-4-1.png" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/unnamed-chunk-4-1.png" style="display: block; margin: auto;"></p>
 </div>
 <div id="triplot-1" class="section level2">
 <h2 class="hasAnchor">
@@ -176,7 +176,7 @@
 <div class="sourceCode" id="cb7"><pre class="r"><span class="no">tri_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/calculate_triplot.html">model_triplot</a></span>(<span class="no">explain_apartments</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>)</pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-6-1.png" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/unnamed-chunk-6-1.png" style="display: block; margin: auto;"></p>
 <p>Afterwards, we are building triplot for single instance and it’s prediction.</p>
 <p>We can observe that for the given appartment <code>surface</code> has also big, positive influence on prediction. Adding <code>number of rooms</code> and then <code>construction year</code> to <code>surface's</code> aspect, increases its contribution.</p>
 <p>We can see notice that <code>floor</code> has the smallest influence on the prediction, unlike in model wise analysis.</p>
@@ -184,7 +184,7 @@
                                   <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>)</pre></div>
-<p><img src="README_files/figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/unnamed-chunk-7-1.png" style="display: block; margin: auto;"></p>
 </div>
 <div id="acknowledgments" class="section level2">
 <h2 class="hasAnchor">
