@@ -41,13 +41,17 @@ devtools::install_github("ModelOriented/triplot")
 
 ## Demo
 
-To illustrate how the function works, we use titanic example. We prepare model, group features into aspects and choose new observation to be explained. Then we build `DALEX` explainer and use it to call aspect importance function. Finally, we print and plot function results. We can observe that `personal` (`age` and `gender`) variables have the biggest contribution to the prediction. This contribution is of a positive type.
-
-```{r}
+```{r include=FALSE}
 library("triplot")
 library("DALEX")
 
 titanic <- titanic_imputed
+
+model_titanic_glm <-
+  glm(survived == 1 ~ class + gender + age + sibsp + parch + fare + embarked,
+      titanic,
+      family = "binomial")
+
 aspects_titanic <-
   list(
     wealth = c("class", "fare"),
@@ -55,44 +59,58 @@ aspects_titanic <-
     personal = c("age", "gender"),
     embarked = "embarked"
   )
-passenger <- titanic[4,-8]
-
-model_titanic_glm <-
-  glm(survived == 1 ~ class + gender + age + sibsp + parch + fare + embarked,
-      titanic,
-      family = "binomial")
-
-passenger
-predict(model_titanic_glm, passenger, type = "response")
 
 ```
 
+For the `titanic` dataset we built logistic regression model that predicts passanger survival and group features into thematical aspects (`wealth` contains ticket' class and fare, `family` information about family members on board, `personal` includes age and gender and `embarked` remain as aspect with single feature). 
+We choose an existing passenger.
+
+```{r }
+passenger <- titanic[2,]
+
+passenger
+
+```
+
+We can check that the model prediction for this passenger's survival is very low, it's `r predict(model_titanic_glm, passenger, type = "response")`. 
+
+Let's see which aspects have the biggest influence on it.
+
+We start by building `DALEX` explainer and use it to call `predict_aspects` function. Afterwards, we print and plot function results. We can observe that `wealth` variables have the biggest contribution to the prediction. This contribution is of a negative type. `Family` variables have positive influence on the prediction, but it is many times smaller. Rest of the aspects have very small contribution to the prediction.  
 
 ```{r}
 explain_titanic <- explain(model_titanic_glm, 
-                               data = titanic[,-8],
-                               y = titanic$survived == "yes", 
-                               predict_function = predict,
-                               verbose = FALSE)
+                           data = titanic[, -8],
+                           y = titanic$survived == "yes",
+                           predict_function = predict,
+                           label = "Logistic Regression",
+                           verbose = FALSE)
+
 ai_titanic <- predict_aspects(x = explain_titanic, 
-                                   new_observation = passenger, 
-                                   variable_groups = aspects_titanic)
-ai_titanic
+                              new_observation = passenger[,-8],
+                              variable_groups = aspects_titanic)
+
+print(ai_titanic, show_features = TRUE)
+
 plot(ai_titanic, add_importance = TRUE)
 ```
 
 ## Triplot
 
-`Triplot` is a tool built on `aspects_importance` function, that allows us to go one step further in our understanding of the inner workings of a black box model. 
+`Triplot` is a tool that allows us to go one step further in our understanding of the inner workings of a black box model. 
 
 It illustrates, in one place: 
 
 * the importance of every single feature,
-* hierarchical aspects importance (explained below), 
+* hierarchical aspects importance, 
 * order of grouping features into aspects in `group_variables()`.
 
+We can use it to illustrate the instance level importance of features (using `predict_aspects` function) or to illustrate the model level importance of features (using `model_parts` function from `DALEX` package).
 
-```{r}
+Triplot function can be only used on numerical features. To showcase it, we will choose only such features from `apartments` dataset, build explainer, calculate `model_triplot` object and then plot it.
+
+
+```{r include=FALSE}
 
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 
@@ -101,22 +119,33 @@ new_observation_apartments <- apartments_num[6,-1]
 model_apartments <- lm(m2.price ~ ., data = apartments_num)
 
 explain_apartments <- explain(model = model_apartments, 
-                              data = apartments_num[, -1], 
+                              data = apartments_num[, -1],
+                              y = apartments_num[, 1],
                               verbose = FALSE)
-
-new_observation_apartments
-
-predict(model_apartments, new_observation_apartments)
-
-
+set.seed(123)
 ```
 
+We can observe that, at the model level, surface and floor have the biggest contribution. Number of rooms and surface are strongly correlated and together have big influence on the prediction. 
 
-```{r}
-tri_apartments <- predict_triplot(explain_apartments,
-                                    new_observation = new_observation_apartments)
-plot(tri_apartments, abbrev_labels = 10, add_last_group = TRUE)
+```{r, fig.width=10}
+tri_apartments <- model_triplot(explain_apartments)
+
+plot(tri_apartments)
 ```
+
+Afterwards, we are building triplot for single instance and it's prediction.
+
+We can observe that for the given appartment `surface` has also big, positive influence on prediction. Adding `number of rooms` and then `construction year` to `surface's` aspect, increases its contribution.
+
+We can see notice that `floor` has the smallest influence on the prediction, unlike in model wise analysis.
+
+```{r, fig.width=10}
+tri_apartments <- predict_triplot(explain_apartments, 
+                                  new_observation = new_observation_apartments)
+
+plot(tri_apartments)
+```
+
 
 ## Acknowledgments
 
