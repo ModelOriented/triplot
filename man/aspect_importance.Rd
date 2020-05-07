@@ -105,9 +105,10 @@ predict_aspects(explain_titanic_glm,
 
 \dontrun{
 library("randomForest")
-model_titanic_rf <- randomForest(factor(survived) ~ class + gender + age + sibsp +
-                                 parch + fare + embarked,
-                                 data = titanic_imputed)
+model_titanic_rf <-
+ randomForest(factor(survived) ~ class + gender + age + sibsp +
+                parch + fare + embarked,
+              data = titanic_imputed)
 
 explain_titanic_rf <- explain(model_titanic_rf,
                               data = titanic_imputed[,-8],

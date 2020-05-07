@@ -32,8 +32,12 @@ test_that("check print of triplot",{
   apartments_tri <- calculate_triplot(x = apartments_explain,
                                       new_observation =
                                         apartments_num_new_observation[-1])
+  apartments_tri_fi <- calculate_triplot(x = apartments_num_lm_model,
+                                      data = apartments_num[,-1],
+                                      y = apartments_num[, 1],
+                                      type = "model")
   expect_output(print(apartments_tri), "Triplot object")
-
+  expect_output(print(apartments_tri_fi), "Triplot object")
 })
 
 test_that("check warning in calculate_triplot.explainer",{
@@ -96,7 +100,7 @@ test_that("check plot.calculate_triplot function for FI",{
 
   apartments_tri <- calculate_triplot(x = apartments_explain,
                                       type = "model")
-  p <- plot(apartments_tri, abbrev_labels = 10)
+  p <- plot(apartments_tri, abbrev_labels = 5)
 
 
   expect_true("gtable" %in% class(p))
