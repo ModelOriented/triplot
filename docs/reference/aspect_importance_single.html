@@ -114,13 +114,13 @@ one feature)." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/vignette_aspect_importance.html">Aspect importance function examples</a>
+      <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of aspect importance method</a>
+      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_fifa.html">Triplot demo - fifa_20</a>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -250,14 +250,14 @@ attribute of the model.</p></td>
                              <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[,-<span class='fl'>8</span>],
                              <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'>aspect_importance_single</span>(<span class='no'>explainer_titanic</span>,
-                         <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,-<span class='fl'>8</span>])</div><div class='output co'>#&gt;   variable_groups importance        new observation
-#&gt; 7           sibsp   0.053090              sibsp = 0
-#&gt; 6            fare   0.050796            fare = 7.11
-#&gt; 4           class  -0.049677            class = 3rd
-#&gt; 2          gender  -0.037957          gender = male
-#&gt; 5        embarked   0.033845 embarked = Southampton
-#&gt; 3             age  -0.007160               age = 42
-#&gt; 8           parch   0.005522              parch = 0</div><div class='input'>
+                         <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,-<span class='fl'>8</span>])</div><div class='output co'>#&gt;   variable_groups importance
+#&gt; 7           sibsp   0.053090
+#&gt; 6            fare   0.050796
+#&gt; 4           class  -0.049677
+#&gt; 2          gender  -0.037957
+#&gt; 5        embarked   0.033845
+#&gt; 3             age  -0.007160
+#&gt; 8           parch   0.005522</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

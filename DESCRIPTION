@@ -26,6 +26,7 @@ Suggests:
     testthat,
     knitr,
     randomForest,
+    mlbench,
     covr
 URL: https://github.com/ModelOriented/triplot
 BugReports: https://github.com/ModelOriented/triplot/issues

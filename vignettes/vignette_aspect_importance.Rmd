@@ -1,10 +1,10 @@
 ---
-title: "Aspect importance function examples"
+title: "Triplot overview"
 author: "Katarzyna Pękala"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Aspect importance function examples}
+  %\VignetteIndexEntry{Triplot overview}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 

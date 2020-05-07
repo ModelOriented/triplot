@@ -1,10 +1,10 @@
 ---
-title: "Triplot demo - fifa_20"
+title: "Usecase with FIFA 20 dataset"
 author: "Katarzyna Pękala"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Triplot demo with FIFA 20 dataset}
+  %\VignetteIndexEntry{Usecase with FIFA 20 dataset}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -36,7 +36,7 @@ fifa[, c("nationality", "overall", "potential", "wage_eur",
          "value_eur")] <- NULL
 
 ```
-# build models 
+# Build models for predicting players value
 
 ```{r build models}
 library("ranger")
@@ -75,7 +75,9 @@ fifa_ols <- ols(LogValue ~ rcs(age) + rcs(weight_kg) + rcs(height_cm) +
 
 
 ```
-# build explainers 
+
+# Build explainers 
+
 ```{r build explainers}
 
 fifa_without_target_column <- fifa[,-38]
@@ -112,6 +114,8 @@ fifa_rms_exp <- DALEX::explain(fifa_ols,
 
 ```
 
+# Check feature importance
+
 ```{r check model parts}
 
 fifa_mp_gbm_shallow <- model_parts(fifa_gbm_exp_shallow)
@@ -130,6 +134,8 @@ plot(fifa_mp_gbm_shallow,
      show_boxplots = FALSE) 
 
 ```
+
+# Triplot for model
 
 ```{r triplot for the whole model}
 
@@ -152,6 +158,8 @@ plot(fifa_gbm_tri_rf, show_axis_y_duplicated_labels = T)
 
 
 ```
+
+# Investigate models for chosen instances (players)
 
 ```{r players}
 

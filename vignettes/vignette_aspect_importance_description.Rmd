@@ -1,10 +1,10 @@
 ---
-title: "Description of aspect importance method"
+title: "Description of predict_aspects method"
 author: "Katarzyna Pękala"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Description of aspect importance method}
+  %\VignetteIndexEntry{Description of predict_aspects method}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
