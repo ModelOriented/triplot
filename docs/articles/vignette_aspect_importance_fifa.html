@@ -101,7 +101,7 @@
       <h1 data-toc-skip>Usecase with FIFA 20 dataset</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-05-07</h4>
+            <h4 class="date">2020-05-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_fifa.Rmd"><code>vignettes/vignette_aspect_importance_fifa.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance_fifa.Rmd</code></div>
@@ -179,9 +179,9 @@
 #&gt;   -&gt; target variable   :  5000  values 
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task regression ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  function(m, x) 10^predict(m, x, n.trees = 250) 
-#&gt;   -&gt; predicted values  :  numerical, min =  259227.7 , mean =  7326140 , max =  102228246  
+#&gt;   -&gt; predicted values  :  numerical, min =  269899.9 , mean =  7317531 , max =  110502698  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -24633773 , mean =  147147.4 , max =  27248493  
+#&gt;   -&gt; residuals         :  numerical, min =  -30860027 , mean =  155756.3 , max =  20664064  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">fifa_gbm_exp_shallow</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">fifa_gbm_shallow</span>,
                                        <span class="kw">data</span> <span class="kw">=</span> <span class="no">fifa_without_target_column</span>,
@@ -197,9 +197,9 @@
 #&gt;   -&gt; target variable   :  5000  values 
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.5 , task regression ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  function(m, x) 10^predict(m, x, n.trees = 250) 
-#&gt;   -&gt; predicted values  :  numerical, min =  430526.4 , mean =  7053124 , max =  83777167  
+#&gt;   -&gt; predicted values  :  numerical, min =  442356.1 , mean =  7060124 , max =  80573767  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -32770228 , mean =  420162.7 , max =  52245083  
+#&gt;   -&gt; residuals         :  numerical, min =  -35689091 , mean =  413162.8 , max =  52047728  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">fifa_rf_exp</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">fifa_rf</span>,
                               <span class="kw">data</span> <span class="kw">=</span> <span class="no">fifa_without_target_column</span>,
@@ -214,9 +214,9 @@
 #&gt;   -&gt; target variable   :  5000  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task regression ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  function(m, x) 10^predict(m, x)$predictions 
-#&gt;   -&gt; predicted values  :  numerical, min =  341687.1 , mean =  7037797 , max =  85545448  
+#&gt;   -&gt; predicted values  :  numerical, min =  317098.1 , mean =  7027632 , max =  86946320  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -5312086 , mean =  435490.5 , max =  24104394  
+#&gt;   -&gt; residuals         :  numerical, min =  -5112645 , mean =  445655.1 , max =  24723511  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">fifa_rms_exp</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">fifa_ols</span>,
                               <span class="kw">data</span> <span class="kw">=</span> <span class="no">fifa_without_target_column</span>,

@@ -39,14 +39,15 @@ The `triplot` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 devtools::install_github("ModelOriented/triplot")
 ```
 
-## Demo
+## Basic example
 
 For the `titanic` dataset we built logistic regression model that
 predicts passanger survival and group features into thematical aspects
 (`wealth` contains ticket’ class and fare, `family` information about
 family members on board, `personal` includes age and gender and
-`embarked` remain as aspect with single feature). We choose an existing
-passenger.
+`embarked` remain as aspect with single feature).
+
+We choose an existing passenger.
 
 ``` r
 passenger <- titanic[2,]
@@ -57,18 +58,27 @@ passenger
     ##   gender age class    embarked  fare sibsp parch survived
     ## 2   male  13   3rd Southampton 20.05     0     2        0
 
-We can check that the model prediction for this passenger’s survival is
-very low, it’s 0.1531932.
+``` r
+predict(model_titanic_glm, passenger, type = "response")
+```
+
+    ##         2 
+    ## 0.1531932
+
+It turns out that the model prediction for this passenger’s survival is
+very low.
 
 Let’s see which aspects have the biggest influence on it.
 
 We start by building `DALEX` explainer and use it to call
 `predict_aspects` function. Afterwards, we print and plot function
-results. We can observe that `wealth` variables have the biggest
-contribution to the prediction. This contribution is of a negative type.
-`Family` variables have positive influence on the prediction, but it is
-many times smaller. Rest of the aspects have very small contribution to
-the prediction.
+results.
+
+We can observe that `wealth` variables have the biggest contribution to
+the prediction. This contribution is of a negative type. `Family`
+variables have positive influence on the prediction, but it is many
+times smaller. Rest of the aspects have very small contribution to the
+prediction.
 
 ``` r
 explain_titanic <- explain(model_titanic_glm, 

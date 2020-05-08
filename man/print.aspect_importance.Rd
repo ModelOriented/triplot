@@ -19,3 +19,27 @@ correlated, (works for numeric features)}
 \description{
 This function prints the results of aspect_importance.
 }
+\examples{
+library("DALEX")
+
+model_titanic_glm <- glm(survived == 1 ~
+                         class+gender+age+sibsp+parch+fare+embarked,
+                         data = titanic_imputed,
+                         family = "binomial")
+
+explain_titanic_glm <- explain(model_titanic_glm,
+                               data = titanic_imputed[,-8],
+                               y = titanic_imputed$survived == 1,
+                               verbose = FALSE)
+
+aspects <- list(wealth = c("class", "fare"),
+                family = c("sibsp", "parch"),
+                personal = c("gender", "age"),
+                embarked = "embarked")
+
+titanic_ai <- predict_aspects(explain_titanic_glm,
+                  new_observation = titanic_imputed[1,],
+                  variable_groups = aspects)
+print(titanic_ai)
+
+}
