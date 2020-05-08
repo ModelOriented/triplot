@@ -90,7 +90,9 @@ test_that("check plot.calculate_triplot function",{
   p <- plot(apartments_tri)
 
 
-  expect_true("gtable" %in% class(p))
+  expect_true("patchwork" %in% class(p))
+  expect_true("gg" %in% class(p))
+  expect_true("ggplot" %in% class(p))
 })
 
 test_that("check plot.calculate_triplot function for FI",{
@@ -100,10 +102,15 @@ test_that("check plot.calculate_triplot function for FI",{
 
   apartments_tri <- calculate_triplot(x = apartments_explain,
                                       type = "model")
-  p <- plot(apartments_tri, abbrev_labels = 5)
+  p <- plot(apartments_tri, 
+            abbrev_labels = 5, 
+            show_axis_y_duplicated_labels = TRUE)
 
 
-  expect_true("gtable" %in% class(p))
+  expect_true("patchwork" %in% class(p))
+  expect_true("gg" %in% class(p))
+  expect_true("ggplot" %in% class(p))
+  
 })
 
 test_that("check triplot aliases",{

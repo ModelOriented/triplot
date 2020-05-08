@@ -24,9 +24,6 @@
 #' @param ... other parameters
 #'
 #' @import stats
-#' @import ggplot2
-#' @importFrom gridExtra grid.arrange
-#' @importFrom graphics plot
 #' @importFrom ingredients feature_importance
 #'
 #' @return triplot object
@@ -200,7 +197,8 @@ print.triplot <- function(x, ...) {
 #' @return plot
 #'
 #' @import ggplot2
-#' @importFrom gridExtra grid.arrange
+#' @import patchwork
+#' @importFrom graphics plot
 #'
 #' @examples
 #' library(DALEX)
@@ -240,7 +238,7 @@ plot.triplot <- function(x,
 
   p2 <- plot(x = hi, new_observation = new_observation,
              absolute_value = absolute_value,
-             show_labels = show_axis_y_duplicated_labels,
+             show_labels = FALSE,
              add_last_group = add_last_group,
              axis_lab_size = axis_lab_size,
              text_size = text_size)
@@ -251,21 +249,20 @@ plot.triplot <- function(x,
     p2$labels$y <- "Hierarchical aspect importance"
   }
 
-  p2 <- p2 + theme(axis.title = element_text(size = axis_lab_size))
+  p2 <- p2 + theme(axis.title = element_text(size = axis_lab_size))  
 
   # Builds third plot -------------------------------------------------------
 
   p3 <- plot(cv, show_labels = show_axis_y_duplicated_labels,
              axis_lab_size = axis_lab_size,
              text_size = text_size)
-  p3 <- p3 + theme(axis.title = element_text(size = axis_lab_size))
-
+  p3 <- p3 + theme(axis.title = element_text(size = axis_lab_size))  
 
   # Builds first plot -------------------------------------------------------
 
   if (type != "predict") {
     p1 <- plot(importance_leaves, show_boxplots = FALSE, subtitle = "",
-               title = "")
+               title = "", bar_width = bar_width)
     p1$theme$text$size <- text_size
 
     p1$labels$y <- "Feature importance"
@@ -276,8 +273,7 @@ plot.triplot <- function(x,
                      strip.text.x = element_blank(),
                      panel.grid.major = element_blank(),
                      panel.grid.minor = element_blank(),
-                     plot.title = element_blank()) +
-      scale_x_discrete(expand = expansion(add = c(0.9, 0)))
+                    plot.title = element_blank()) 
 
     order_mod <-
       attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
@@ -303,13 +299,39 @@ plot.triplot <- function(x,
                                         levels = lev_mod)
     p1$data$variable_groups <- p1$data$`new observation`
     p1 <- p1 + theme(axis.text = element_text(size = axis_lab_size),
-                     axis.title = element_text(size = axis_lab_size)) +
-      scale_x_discrete(expand = expansion(mult = c(0.05, 0.035)))
+                    axis.title = element_text(size = axis_lab_size)) 
   }
 
-  plot_list <- list(p1, p2, p3)
-  do.call("grid.arrange", c(plot_list, nrow = 1, top = "Triplot"))
 
+# change margins ----------------------------------------------------------
+
+  expansion_parameter <- 0.5
+  
+  p1 <- p1 + scale_x_discrete(expand = expansion(add = expansion_parameter)) 
+  p2 <- p2 + scale_x_continuous(expand = expansion(add = expansion_parameter))
+  p3 <- p3 + scale_x_continuous(expand = expansion(add = expansion_parameter))
+  suppressMessages(p1 <- p1 + 
+                     scale_y_continuous(expand = expansion(add = c(0,0.8))))
+  
+  if (!show_axis_y_duplicated_labels) {
+    suppressMessages(p2 <- p2 + 
+                       scale_y_continuous(expand = expansion(mult = c(0.3,0))))
+    suppressMessages(p3 <- p3 + 
+                       scale_y_continuous(expand = expansion(mult = c(0.1,0))))
+  } else {
+    suppressMessages(p2 <- p2 + 
+                       scale_y_continuous(expand = expansion(mult = c(0.3,0))))
+    suppressMessages(p3 <- p3 + 
+                       scale_y_continuous(expand = expansion(mult = c(0.3,0))))
+    
+  }
+
+# plot --------------------------------------------------------------------
+
+  p1 + p2 + p3 + 
+    plot_annotation(title = 'Triplot',
+                    theme = theme(plot.title = element_text(hjust = 0.5),
+                                  text = theme_drwhy()$plot.title))
 }
 
 #' @export
