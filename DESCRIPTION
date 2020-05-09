@@ -21,7 +21,7 @@ Imports:
   ingredients,   
   glmnet,
   ggdendro,
-  gridExtra
+  patchwork
 Suggests:
     testthat,
     knitr,
