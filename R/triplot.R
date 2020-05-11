@@ -139,8 +139,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
     hierarchical_tree_data = hi,
     cluestering_tree_data = cv,
     new_observation = new_observation,
-    triplot_type = type,
-    model = x)
+    triplot_type = type)
 
   class(tri_data) <- c("triplot", "list")
 
@@ -311,11 +310,11 @@ plot.triplot <- function(x,
   p2 <- p2 + scale_x_continuous(expand = expansion(add = expansion_parameter))
   p3 <- p3 + scale_x_continuous(expand = expansion(add = expansion_parameter))
   suppressMessages(p1 <- p1 + 
-                     scale_y_continuous(expand = expansion(add = c(0,0.8))))
+                     scale_y_continuous(expand = expansion(add = c(0,0.5))))
   
   if (!show_axis_y_duplicated_labels) {
     suppressMessages(p2 <- p2 + 
-                       scale_y_continuous(expand = expansion(mult = c(0.3,0))))
+                       scale_y_continuous(expand = expansion(mult = c(0.1,0))))
     suppressMessages(p3 <- p3 + 
                        scale_y_continuous(expand = expansion(mult = c(0.1,0))))
   } else {

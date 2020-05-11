@@ -4,7 +4,8 @@ library(DALEX)
 
 titanic_data <- titanic_imputed
 
-titanic_glm_model <- glm(survived == 1 ~ class+gender+age+sibsp+parch+fare+embarked,
+titanic_glm_model <- glm(survived == 1 ~ class + gender + age + sibsp + 
+                           parch + fare + embarked,
                          titanic_data, family = "binomial")
 
 titanic_new_observation <- data.frame(
