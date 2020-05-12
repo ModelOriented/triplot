@@ -1,5 +1,10 @@
 # triplot 0.3.3
 
+* switched from GridExtra to Patchwork
+* improved plotting of triplot object
+
+# triplot 0.3.3
+
 * renamed prediction_aspect to predict_aspects
 * added aliases predict_triplot and model_triplot
 * added bar_width param to triplot
