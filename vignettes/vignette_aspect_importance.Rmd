@@ -227,9 +227,9 @@ It should be noted that similarly to `group_variables()`, `calculate_triplot()` 
 
 Looking at the triplot, we can observe that for a given observation: 
 
-* ... have biggest impact on prediction,
-* only .. has positive influence on prediction,
-* surface and number of rooms are, unsuprisingly, strongly correlated and together they have .. influence on the predction,
+* surface have biggest impact on prediction,
+* every feature has positive influence on prediction,
+* surface and number of rooms are, unsuprisingly, strongly correlated and together they have strong influence on the prediction,
 
 
 ```{r}

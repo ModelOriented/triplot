@@ -16,8 +16,12 @@ knitr::opts_chunk$set(
   collapse = FALSE,
   comment = "#>",
   warning = FALSE,
-  message = FALSE
+  message = FALSE,
+  fig.align = 'center', 
+  fig.width = 12, 
+  fig.height = 8
 )
+
 ```
 
 
@@ -25,7 +29,7 @@ knitr::opts_chunk$set(
 
 This vignette demonstrates the use of the triplot package on Fifa20 dataset. Dataset was downloaded from the Kaggle website, preprocessed and made available in DALEX package. 
 
-Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro. Target variable is log10 transformed, becuase of the data skewness.
+Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro. Target variable is log10 transformed, because of the data skewness.
 
 
 ```{r}

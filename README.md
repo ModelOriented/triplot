@@ -12,16 +12,13 @@ coverage](https://codecov.io/gh/ModelOriented/triplot/branch/master/graph/badge.
 
 ## Overview
 
-The `triplot` package provides an instance-level explainer for the
-groups of explanatory variables called aspect importance.
-
-Package enables grouping predictors into entities called aspects.
-Afterwards, it calculates the contribution of those aspects to the
-prediction for a given observation.
-
-Furthermore, package delivers functionality called `triplot`. It
-illustrates how the importance of aspects change depending on the size
-of aspects.
+The `triplot` package provides tools for exploration of machine learning
+predictive models. It contains an instance-level explainer called
+`predict_aspects` (AKA `aspects_importance`), that is able to explain
+the contribution of the whole groups of explanatory variables.
+Furthermore, package delivers functionality called `triplot` - it
+illustrates how the importance of aspects (group of predictors) change
+depending on the size of aspects.
 
 Key functions:
 
@@ -32,6 +29,9 @@ Key functions:
   - `group_variables()` for grouping numeric features into aspects.
 
 The `triplot` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
+More information about analysis of machine learning models can be found
+in the [Explanatory Model Analysis. Explore, Explain and Examine
+Predictive Models](https://pbiecek.github.io/ema/) e-book.
 
 ## Installation
 
@@ -41,25 +41,22 @@ devtools::install_github("ModelOriented/triplot")
 
 ## Basic example
 
-For the `titanic` dataset we built logistic regression model that
-predicts passanger survival and group features into thematical aspects
-(`wealth` contains ticket’ class and fare, `family` information about
-family members on board, `personal` includes age and gender and
-`embarked` remain as aspect with single feature).
-
-We choose an existing passenger.
+For the `titanic` dataset we build logistic regression model that
+predicts passenger survival. Afterwards, we group features into
+thematical aspects. We are interested in explaining the model prediction
+for the `chosen_passenger`.
 
 ``` r
-passenger <- titanic[2,]
+chosen_passenger <- titanic[2,]
 
-passenger
+chosen_passenger
 ```
 
     ##   gender age class    embarked  fare sibsp parch survived
     ## 2   male  13   3rd Southampton 20.05     0     2        0
 
 ``` r
-predict(model_titanic_glm, passenger, type = "response")
+predict(model_titanic_glm, chosen_passenger, type = "response")
 ```
 
     ##         2 
@@ -71,7 +68,7 @@ very low.
 Let’s see which aspects have the biggest influence on it.
 
 We start by building `DALEX` explainer and use it to call
-`predict_aspects` function. Afterwards, we print and plot function
+`predict_aspects()` function. Afterwards, we print and plot function
 results.
 
 We can observe that `wealth` variables have the biggest contribution to
@@ -89,7 +86,7 @@ explain_titanic <- explain(model_titanic_glm,
                            verbose = FALSE)
 
 ai_titanic <- predict_aspects(x = explain_titanic, 
-                              new_observation = passenger[,-8],
+                              new_observation = chosen_passenger[,-8],
                               variable_groups = aspects_titanic)
 
 print(ai_titanic, show_features = TRUE)
@@ -112,24 +109,26 @@ plot(ai_titanic, add_importance = TRUE)
 `Triplot` is a tool that allows us to go one step further in our
 understanding of the inner workings of a black box model.
 
-It illustrates, in one place:
+We can use it to investigate the **instance level** importance of
+features (using `predict_aspects` function) or to illustrate the **model
+level** importance of features (using `model_parts` function from
+`DALEX` package).
+
+`Triplot` shows, in one place:
 
   - the importance of every single feature,
   - hierarchical aspects importance,
   - order of grouping features into aspects in `group_variables()`.
 
-We can use it to illustrate the instance level importance of features
-(using `predict_aspects` function) or to illustrate the model level
-importance of features (using `model_parts` function from `DALEX`
-package).
+`Triplot` can be only used on numerical features.
 
-Triplot function can be only used on numerical features. To showcase it,
-we will choose only such features from `apartments` dataset, build
-explainer, calculate `model_triplot` object and then plot it.
+To showcase `triplot`, we will choose numeric features from `apartments`
+dataset, build `DALEX` explainer, `model_triplot()` to calculate
+`triplot` object and then plot it.
 
-We can observe that, at the model level, surface and floor have the
+We can observe that, at the model level, `surface` and `floor` have the
 biggest contribution. Number of rooms and surface are strongly
-correlated and together have big influence on the prediction.
+correlated and together have strong influence on the prediction.
 
 ``` r
 tri_apartments <- model_triplot(explain_apartments)
@@ -142,7 +141,7 @@ plot(tri_apartments)
 Afterwards, we are building triplot for single instance and it’s
 prediction.
 
-We can observe that for the given appartment `surface` has also big,
+We can observe that for the given apartment `surface` has also big,
 positive influence on prediction. Adding `number of rooms` and then
 `construction year` to `surface's` aspect, increases its contribution.
 

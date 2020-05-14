@@ -19,7 +19,7 @@
 #' @param new_observation selected observation with columns that corresponds to
 #'   variables used in the model, should be without target variable
 #' @param N number of rows to be sampled from data
-#' @param loss_function a function thet will be used to assess variable 
+#' @param loss_function a function that will be used to assess variable 
 #'   importance
 #' @param B integer, number of permutation rounds to perform on each variable in 
 #'   feature importance calculation. By default it's \code{10}.
@@ -69,41 +69,41 @@ calculate_triplot.explainer <- function(x,
                                           DALEX::loss_root_mean_square,
                                         B = 10,
                                         ...) {
-
+  
   type <- match.arg(type)
-
-# extracts model, data and predict function from the explainer ------------
-
+  
+  # extracts model, data and predict function from the explainer ------------
+  
   data <- x$data
   model <- x$model
   predict_function <- x$predict_function
   y <- x$y
   label <- x$label
-
-# check if target is in data ----------------------------------------------
-
+  
+  # check if target is in data ----------------------------------------------
+  
   if (!is.null(y)) {
     target_in_data_check <- any(apply(data, 2, function(z) {
       all(as.character(z) == as.character(y))
     }))
-
+    
     if (target_in_data_check) {
       warning("It is recommended to pass `data` without the target variable 
               column")
     }
   }
-
-# calls target function ---------------------------------------------------
-
+  
+  # calls target function ---------------------------------------------------
+  
   calculate_triplot.default(x = model, data = data, y = y,
-                  predict_function = predict_function,
-                  type = type,
-                  new_observation = new_observation,
-                  N = N,
-                  loss_function = loss_function,
-                  B = B,
-                  clust_method = clust_method,
-                  label = label)
+                            predict_function = predict_function,
+                            type = type,
+                            new_observation = new_observation,
+                            N = N,
+                            loss_function = loss_function,
+                            B = B,
+                            clust_method = clust_method,
+                            label = label)
 }
 
 #' @export
@@ -120,12 +120,12 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                       clust_method = "complete",
                                       label = class(x)[1],
                                       ...) {
-
+  
   type <- match.arg(type)
   stopifnot(all(sapply(data, is.numeric)))
-
-# Calculations for second plot -------------------------------------------------
-
+  
+  # Calculations for second plot -------------------------------------------------
+  
   hi <- hierarchical_importance(x = x, data = data, y = y,
                                 predict_function = predict_function,
                                 type = type,
@@ -134,13 +134,13 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                 loss_function = loss_function,
                                 B = B,
                                 clust_method = clust_method)
-
-# Calculations for third plot --------------------------------------------------
-
+  
+  # Calculations for third plot --------------------------------------------------
+  
   cv <- cluster_variables(data, clust_method)
-
-# Calculations for first plot --------------------------------------------------
-
+  
+  # Calculations for first plot --------------------------------------------------
+  
   if (type != "predict") {
     
     explainer <- explain(model = x, data = data, y = y,
@@ -345,7 +345,7 @@ plot.triplot <- function(x,
   suppressMessages(p1 <- p1 + 
                      scale_y_continuous(expand = expansion(add = c(0,0.5))))
   suppressMessages(p2 <- p2 + 
-                       scale_y_continuous(expand = expansion(mult = c(0.1,0))))
+                       scale_y_continuous(expand = expansion(mult = c(0.2,0))))
   suppressMessages(p3 <- p3 + 
                        scale_y_continuous(expand = expansion(mult = c(0.1,0))))
 
