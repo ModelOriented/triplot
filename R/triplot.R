@@ -162,14 +162,18 @@ calculate_triplot.default <- function(x, data, y = NULL,
 print.triplot <- function(x, ...) {
 
   stopifnot("triplot" %in% class(x))
-
+  
+  
+  cat("Triplot object ")
+  cat("for model:", x$label, "\n\n")
+  
   if (x$triplot_type == "model") {
-    print("Triplot object for model.")
+    cat("Triplot is calculated at model level.\n")
   } else {
-    cat("nTriplot object for single prediction:\n\n")
+    cat("Triplot is calculated for single prediction:\n")
     print(x$new_observation)
   }
-
+  
   invisible(x)
 
 }
