@@ -67,6 +67,7 @@ calculate_triplot.explainer <- function(x,
   model <- x$model
   predict_function <- x$predict_function
   y <- x$y
+  label <- x$label
 
 # check if target is in data ----------------------------------------------
 
@@ -88,6 +89,7 @@ calculate_triplot.explainer <- function(x,
                   type = type,
                   new_observation = new_observation,
                   N = N,
+                  label = label,
                   clust_method = clust_method)
 }
 
@@ -99,6 +101,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                       type = c("predict", "model"),
                                       new_observation = NULL,
                                       N = 1000,
+                                      label = class(x)[1],
                                       clust_method = "complete",
                                       ...) {
 
@@ -139,7 +142,8 @@ calculate_triplot.default <- function(x, data, y = NULL,
     hierarchical_tree_data = hi,
     cluestering_tree_data = cv,
     new_observation = new_observation,
-    triplot_type = type)
+    triplot_type = type,
+    label = label)
 
   class(tri_data) <- c("triplot", "list")
 
@@ -160,9 +164,9 @@ print.triplot <- function(x, ...) {
   stopifnot("triplot" %in% class(x))
 
   if (x$triplot_type == "model") {
-    print("\nTriplot object for model.\n\n")
+    print("Triplot object for model.")
   } else {
-    cat("\nTriplot object for single prediction:\n\n")
+    cat("nTriplot object for single prediction:\n\n")
     print(x$new_observation)
   }
 
@@ -220,6 +224,7 @@ plot.triplot <- function(x,
                          absolute_value = FALSE,
                          add_importance_labels = FALSE,
                          show_axis_y_duplicated_labels = FALSE,
+                         show_model_label = FALSE,
                          abbrev_labels = 0,
                          add_last_group = FALSE,
                          axis_lab_size = 10,
@@ -232,6 +237,7 @@ plot.triplot <- function(x,
   cv <- x[[3]]
   new_observation <- x[[4]]
   type <- x[[5]]
+  model_label <- x[[6]]
 
   # Builds second plot ------------------------------------------------------
 
@@ -309,10 +315,12 @@ plot.triplot <- function(x,
   p1 <- p1 + scale_x_discrete(expand = expansion(add = expansion_parameter)) 
   p2 <- p2 + scale_x_continuous(expand = expansion(add = expansion_parameter))
   p3 <- p3 + scale_x_continuous(expand = expansion(add = expansion_parameter))
+  
+  
   suppressMessages(p1 <- p1 + 
                      scale_y_continuous(expand = expansion(add = c(0,0.5))))
   
-  if (!show_axis_y_duplicated_labels) {
+  if (!show_axis_y_duplicated_labels) { 
     suppressMessages(p2 <- p2 + 
                        scale_y_continuous(expand = expansion(mult = c(0.1,0))))
     suppressMessages(p3 <- p3 + 
@@ -322,15 +330,21 @@ plot.triplot <- function(x,
                        scale_y_continuous(expand = expansion(mult = c(0.3,0))))
     suppressMessages(p3 <- p3 + 
                        scale_y_continuous(expand = expansion(mult = c(0.3,0))))
-    
   }
 
 # plot --------------------------------------------------------------------
 
-  p1 + p2 + p3 + 
+  p <- p1 + p2 + p3 + 
     plot_annotation(title = 'Triplot',
                     theme = theme(plot.title = element_text(hjust = 0.5),
                                   text = theme_drwhy()$plot.title))
+  
+  if (show_model_label) {
+    p <- p + plot_annotation(subtitle = model_label)
+  }
+  
+  p
+  
 }
 
 #' @export
