@@ -18,7 +18,6 @@ RoxygenNote: 7.1.0
 Imports: 
   ggplot2,
   DALEX (>= 1.0),
-  ingredients,   
   glmnet,
   ggdendro,
   patchwork

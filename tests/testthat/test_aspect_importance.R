@@ -48,14 +48,14 @@ test_that("check warning of aspects importance",{
 test_that("check output for aspects importance (lm, binom)",{
   library("DALEX")
   library("triplot")
-
+  
   if (getRversion() >= "3.6")
   {
-    suppressWarnings(set.seed(123, sample.kind = "Rounding"))
+    suppressWarnings(set.seed(1313, sample.kind = "Rounding"))
   } else {
-    set.seed(123)
+    set.seed(1313)
   }
-
+  
   ai_apartments <- aspect_importance(apartments_lm_model,
                                      apartments,
                                      new_observation = 
@@ -71,7 +71,7 @@ test_that("check output for aspects importance (lm, binom)",{
 test_that("check output for aspects importance (additional parameters)",{
   library("DALEX")
   library("triplot")
-
+  
   if (getRversion() >= "3.6")
   {
     suppressWarnings(set.seed(123, sample.kind = "Rounding"))
@@ -87,12 +87,12 @@ test_that("check output for aspects importance (additional parameters)",{
     aspect_importance(apartments_lm_model, apartments,
                       new_observation = apartments_new_observation,
                       variable_groups =  apartments_aspects, N = 500, f = 3)
-
+  
   res_1 <- ai_apartments_1000[
     ai_apartments_1000$variable_groups == "district",]$importance
   res_2 <- ai_apartments_500[
     ai_apartments_500$variable_groups == "district",]$importance
-
+  
   expect_true(res_1 != res_2)
 })
 
@@ -249,6 +249,14 @@ test_that("check for aspect_importance with show_cor",{
   library("DALEX")
   library("triplot")
 
+  
+  if (getRversion() >= "3.6")
+  {
+    suppressWarnings(set.seed(1313, sample.kind = "Rounding"))
+  } else {
+    set.seed(1313)
+  }
+  
   aspect_list_apartments_num <- group_variables(
     apartments_num[,!colnames(apartments_num) == "m2.price"], 0.5)
 

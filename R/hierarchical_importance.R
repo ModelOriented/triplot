@@ -15,6 +15,9 @@
 #'   variables used in the model (it should be without target variable),
 #'   if NULL feature_importance will be calculated
 #' @param N number of observations to be sampled (with replacement) from data
+#' @param loss_function a function thet will be used to assess variable importance
+#' @param B integer, number of permutation rounds to perform on each variable in 
+#'   feature importance calculation. By default it's \code{10}.
 #' @param clust_method the agglomeration method to be used, see
 #'   \code{\link[stats]{hclust}} methods
 #' @param absolute_value if TRUE, aspect importance values will be drawn as
@@ -34,7 +37,8 @@
 #' @importFrom ggdendro segment
 #' @importFrom ggdendro label
 #' @importFrom DALEX theme_drwhy
-#' @importFrom ingredients feature_importance
+#' @importFrom DALEX feature_importance
+#' @importFrom DALEX explain
 #'
 #' @examples
 #' library(DALEX)
@@ -55,42 +59,49 @@ hierarchical_importance <- function(x, data, y = NULL,
                                     type = "predict",
                                     new_observation = NULL,
                                     N = 1000,
+                                    loss_function = 
+                                      DALEX::loss_root_mean_square,
+                                    B = 10,
                                     clust_method = "complete",
                                     ...) {
-
+  
   if (all(type != "predict", is.null(y))) {
     stop("Target is needed for hierarchical_importance calculated at model 
          level")
   }
-
+  
   # Building helper objects ---------------------------------------------
-
+  
   x_hc <- hclust(as.dist(1 - abs(cor(data, method = "spearman"))),
                  method = clust_method)
   cutting_heights <- x_hc$height
   aspects_list_previous <-  list_variables(x_hc, 1)
   int_node_importance <- as.data.frame(NULL)
-
+  
   # Calculating aspect importance -------------------------------------------
-
+  
   for (i in c(1:(length(cutting_heights) - 1))) {
-
+    
     aspects_list_current <- list_variables(x_hc, 1 - cutting_heights[i])
-
+    
     t1 <- match(aspects_list_current, setdiff(aspects_list_current,
                                               aspects_list_previous))
     t2 <- which(t1 == 1)
     t3 <- aspects_list_current[t2]
     group_name <- names(t3)
-
+    
     if (type != "predict") {
-      res_ai <- feature_importance(x = x, data = data, y = y,
-                                   predict_function = predict_function,
+      explainer <- explain(model = x, data = data, y = y,
+                           predict_function = predict_function,
+                           verbose = FALSE)
+      res_ai <- feature_importance(explainer = explainer,
                                    variable_groups = aspects_list_current,
-                                   n_sample = N)
+                                   n_sample = N,
+                                   loss_function = loss_function,
+                                   B = B)
       res_ai <- res_ai[!(substr(res_ai$variable, 1, 1) == "_"), ]
       res_ai <- res_ai[res_ai$permutation == "0", ]
-
+      
       int_node_importance[i, 1] <-
         res_ai[res_ai$variable == group_name, ]$dropout_loss
     } else {
@@ -101,16 +112,16 @@ hierarchical_importance <- function(x, data, y = NULL,
       int_node_importance[i, 1] <-
         res_ai[res_ai$variable_groups == group_name, ]$importance
     }
-
+    
     int_node_importance[i, 2] <- group_name
     int_node_importance[i, 3] <- cutting_heights[i]
     aspects_list_previous <- aspects_list_current
   }
-
+  
   int_node_importance[length(cutting_heights), 1] <- NA
-
+  
   # Inserting importance values into x_hc tree ------------------------------
-
+  
   x_hc$height <- int_node_importance$V1
   hi <- list(x_hc, type, new_observation)
   class(hi) <- c("hierarchical_importance")
@@ -128,33 +139,33 @@ plot.hierarchical_importance <- function(x,
                                          add_last_group = FALSE,
                                          axis_lab_size = 10,
                                          text_size = 3, ...) {
-
+  
   x_hc <- x[[1]]
   type <- x[[2]]
   new_observation <- x[[3]]
   x <- y <- xend <- yend <- yend_val <- NULL
-
+  
   # Building dendogram ------------------------------------------------------
-
+  
   dend_mod <- NULL
   dend_mod <- as.dendrogram(x_hc, hang = -1)
   ddata <- dendro_data(dend_mod, type = "rectangle")
-
+  
   # Modifing importance -----------------------------------------------------
-
+  
   if (absolute_value == TRUE) {
     ddata$segments$y <- abs(ddata$segments$y)
     ddata$segments$yend <- abs(ddata$segments$yend)
   }
-
+  
   # Preparing labels --------------------------------------------------------
-
+  
   ai_labels <-  na.omit(segment(ddata))
   ai_labels <- ai_labels[ai_labels$yend != 0, ]
   ai_labels$yend_val <- ai_labels$yend
-
+  
   # replace NAs      --------------------------------------------------------
-
+  
   if (add_last_group) {
     ifelse(max(abs(ai_labels$yend)) > max(ai_labels$yend),
            last_val <- -max(abs(ai_labels$yend)) * 1.05,
@@ -168,9 +179,9 @@ plot.hierarchical_importance <- function(x,
     ddata$segments[min(which(cc_vector == TRUE)) + 1, c(1, 3)] <-
       max(ddata$labels$x)
   }
-
+  
   # Adding new observation values to labels ---------------------------------
-
+  
   if (type == "predict") {
     ddata$labels[, 3] <- as.character(ddata$labels[, 3])
     for (i in seq_along(ddata$labels[, 3])) {
@@ -179,14 +190,14 @@ plot.hierarchical_importance <- function(x,
                                          digits = 2))
     }
   }
-
+  
   # Moving labels -----------------------------------------------------------
-
+  
   nudge_value <- ifelse(min(ddata$segments$yend) == 0, -0.2,
                         min(ddata$segments$yend) * 1.35)
-
+  
   # Building plot -----------------------------------------------------------
-
+  
   p <- ggplot(segment(ddata)) +
     geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
     geom_text(data = ai_labels, aes(x = x, y = yend_val,
@@ -207,14 +218,14 @@ plot.hierarchical_importance <- function(x,
       panel.grid = element_blank()
     ) +
     labs(y = "Aspect importance for correlated variables")
-
+  
   if (show_labels) {
     p <- p + geom_text(aes(x = x, y = y, label = label, hjust = 1),
                        data = label(ddata),
                        colour = theme_drwhy()$axis.title$colour,
                        size = axis_lab_size / .pt, nudge_y = nudge_value)
   }
-
+  
   return(p)
-
+  
 }

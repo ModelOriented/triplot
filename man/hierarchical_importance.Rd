@@ -13,6 +13,8 @@ hierarchical_importance(
   type = "predict",
   new_observation = NULL,
   N = 1000,
+  loss_function = DALEX::loss_root_mean_square,
+  B = 10,
   clust_method = "complete",
   ...
 )
@@ -46,6 +48,11 @@ variables used in the model (it should be without target variable),
 if NULL feature_importance will be calculated}
 
 \item{N}{number of observations to be sampled (with replacement) from data}
+
+\item{loss_function}{a function thet will be used to assess variable importance}
+
+\item{B}{integer, number of permutation rounds to perform on each variable in 
+feature importance calculation. By default it's \code{10}.}
 
 \item{clust_method}{the agglomeration method to be used, see
 \code{\link[stats]{hclust}} methods}

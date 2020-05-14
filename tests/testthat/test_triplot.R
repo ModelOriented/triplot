@@ -58,7 +58,6 @@ test_that("check warning in calculate_triplot.explainer",{
 test_that("check calculate_triplot.default function for FI",{
   library("DALEX")
   library("triplot")
-  library("ingredients")
 
   apartments_tri <- calculate_triplot(x = apartments_num_lm_model,
                                       data = apartments_num[,-1],
@@ -70,8 +69,6 @@ test_that("check calculate_triplot.default function for FI",{
 test_that("check calculate_triplot.explainer function for FI",{
   library("DALEX")
   library("triplot")
-  library("ingredients")
-
   apartments_tri <- calculate_triplot(x = apartments_explain,
                                       type = "model")
 
@@ -82,7 +79,6 @@ test_that("check calculate_triplot.explainer function for FI",{
 test_that("check plot.calculate_triplot function",{
   library("DALEX")
   library("triplot")
-  library("ingredients")
 
   apartments_tri <- calculate_triplot(x = apartments_explain,
                                       new_observation =
@@ -98,7 +94,6 @@ test_that("check plot.calculate_triplot function",{
 test_that("check plot.calculate_triplot function for FI",{
   library("DALEX")
   library("triplot")
-  library("ingredients")
 
   apartments_tri <- calculate_triplot(x = apartments_explain,
                                       type = "model")
@@ -116,7 +111,6 @@ test_that("check plot.calculate_triplot function for FI",{
 test_that("check triplot aliases",{
   library("DALEX")
   library("triplot")
-  library("ingredients")
 
   apartments_tri_model <- model_triplot(x = apartments_explain)
 
@@ -132,7 +126,6 @@ test_that("check triplot aliases",{
 test_that("check for triplot error",{
   library("DALEX")
   library("triplot")
-  library("ingredients")
 
   expect_error(predict_triplot(x = apartments_explain))
 

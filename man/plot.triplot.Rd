@@ -8,7 +8,7 @@
   x,
   absolute_value = FALSE,
   add_importance_labels = FALSE,
-  show_axis_y_duplicated_labels = FALSE,
+  show_model_label = FALSE,
   abbrev_labels = 0,
   add_last_group = FALSE,
   axis_lab_size = 10,
@@ -26,8 +26,7 @@ absolute values}
 \item{add_importance_labels}{if TRUE, first plot is annotated with values of
 aspects importance}
 
-\item{show_axis_y_duplicated_labels}{if TRUE, every plot will have annotated
-axis Y}
+\item{show_model_label}{if TRUE, adds subtitle with model label}
 
 \item{abbrev_labels}{if greater than 0, labels for axis Y in single aspect
 importance plot will be abbreviated according to this parameter}

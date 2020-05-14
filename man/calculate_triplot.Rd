@@ -17,6 +17,8 @@ calculate_triplot(x, ...)
   new_observation = NULL,
   N = 1000,
   clust_method = "complete",
+  loss_function = DALEX::loss_root_mean_square,
+  B = 10,
   ...
 )
 
@@ -28,7 +30,10 @@ calculate_triplot(x, ...)
   type = c("predict", "model"),
   new_observation = NULL,
   N = 1000,
+  loss_function = DALEX::loss_root_mean_square,
+  B = 10,
   clust_method = "complete",
+  label = class(x)[1],
   ...
 )
 
@@ -55,6 +60,12 @@ variables used in the model, should be without target variable}
 \item{clust_method}{the agglomeration method to be used, see
 \code{\link[stats]{hclust}} methods}
 
+\item{loss_function}{a function thet will be used to assess variable 
+importance}
+
+\item{B}{integer, number of permutation rounds to perform on each variable in 
+feature importance calculation. By default it's \code{10}.}
+
 \item{data}{dataset, it will be extracted from \code{x} if it's an explainer
 NOTE: Target variable shouldn't be present in the \code{data}}
 
@@ -63,6 +74,9 @@ if it's an explainer}
 
 \item{predict_function}{predict function, it will be extracted from \code{x}
 if it's an explainer}
+
+\item{label}{name of the model. By default it's extracted from the 'class'
+attribute of the model.}
 }
 \value{
 triplot object

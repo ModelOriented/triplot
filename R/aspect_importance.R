@@ -34,7 +34,6 @@
 #' @importFrom stats coef
 #' @importFrom stats model.matrix
 #' @importFrom glmnet glmnet
-#' @importFrom ingredients select_sample
 #'
 #'
 #' @examples
@@ -94,30 +93,30 @@ aspect_importance.explainer <- function(x, new_observation,
                                         sample_method = "default",
                                         n_var = 0,
                                         f = 2, ...) {
-
-
-# extracts model, data and predict function from the explainer ------------
-
+  
+  
+  # extracts model, data and predict function from the explainer ------------
+  
   data <- x$data
   model <- x$model
   predict_function <- x$predict_function
   label <- x$label
-
-# check if target is in data ----------------------------------------------
-
+  
+  # check if target is in data ----------------------------------------------
+  
   if (!is.null(x$y)) {
     target_in_data_check <- any(apply(data, 2, function(z) {
       all(as.character(z) == as.character(x$y))
     }))
-
+    
     if (target_in_data_check) {
       warning("It is recommended to pass `data` without the target variable 
               column")
     }
   }
-
-# calls target function ---------------------------------------------------
-
+  
+  # calls target function ---------------------------------------------------
+  
   aspect_importance.default(x = model,
                             data = data,
                             predict_function = predict_function,
@@ -146,46 +145,47 @@ aspect_importance.default <- function(x, data,
                                       n_var = 0,
                                       f = 2,
                                       ...) {
-
+  
   # look only for common variables in data and new observation --------------
-
+  
   if ("data.frame" %in% class(data)) {
     common_variables <- intersect(colnames(new_observation), colnames(data))
     new_observation <- new_observation[, common_variables, drop = FALSE]
     data <- data[, common_variables, drop = FALSE]
   }
-
+  
   # stop if no common variables are found -----------------------------------
-
+  
   stopifnot(length(common_variables) > 0,
             length(setdiff(unlist(variable_groups),
                            colnames(new_observation))) == 0)
-
+  
   # number of expected coefficients cannot be negative ----------------------
-
+  
   stopifnot(n_var >= 0)
-
+  
   # create empty matrix and data frames -------------------------------------
-
-  n_sample <- select_sample(data, n = N)
+  
+  ids <- sample.int(nrow(data), N, replace = TRUE)
+  n_sample <- data[ids,]
   n_sample_changed <- n_sample
-
+  
   # sample and replace aspects  ---------------------------------------------
-
+  
   new_X <- get_sample(N, length(variable_groups), sample_method, f)
-
+  
   for (i in seq_len(nrow(n_sample))) {
     vars <- unlist(variable_groups[new_X[i, ] == 1])
     n_sample_changed[i, vars] <- new_observation[vars]
   }
-
+  
   # calculate change in predictions -----------------------------------------
-
+  
   y_changed <- predict_function(x, n_sample_changed) -
     predict_function(x, n_sample)
-
+  
   # fit linear model/lasso to estimate aspects importance -------------------
-
+  
   colnames(new_X) <- names(variable_groups)
   new_df <- data.frame(y_changed, new_X)
 
@@ -199,14 +199,14 @@ aspect_importance.default <- function(x, data,
     indx <- max(which(glmnet_model$df <= n_var))
     model_coef <- coef(glmnet_model)[, indx]
   }
-
+  
   # prepare dataframe with results ------------------------------------------
-
+  
   res <- data.frame(names(model_coef), unname(model_coef))
   colnames(res) <- c("variable_groups", "importance")
   res <- res[!res$variable_groups == "(Intercept)", ]
   res <- res[order(-abs(res$importance)), ]
-
+  
   for (i in seq_along(variable_groups)) {
     res$features[i] <- variable_groups[as.character(res[i, 1])]
     vars <- unlist(res$features[i])
@@ -220,12 +220,12 @@ aspect_importance.default <- function(x, data,
       res$sign[i] <- ""
     }
   }
-
+  
   res$importance <- as.numeric(format(res$importance, digits = 4))
   class(res) <- c("aspect_importance", "data.frame")
-
+  
   attr(res, "label") <- rep(label, length.out = nrow(res))
-
+  
   return(res)
 }
 

@@ -19,12 +19,20 @@
 #' @param new_observation selected observation with columns that corresponds to
 #'   variables used in the model, should be without target variable
 #' @param N number of rows to be sampled from data
+#' @param loss_function a function thet will be used to assess variable 
+#'   importance
+#' @param B integer, number of permutation rounds to perform on each variable in 
+#'   feature importance calculation. By default it's \code{10}.
 #' @param clust_method the agglomeration method to be used, see
 #'   \code{\link[stats]{hclust}} methods
+#' @param label name of the model. By default it's extracted from the 'class'
+#'   attribute of the model.
 #' @param ... other parameters
 #'
 #' @import stats
-#' @importFrom ingredients feature_importance
+#' @importFrom DALEX feature_importance
+#' @importFrom DALEX explain 
+#' 
 #'
 #' @return triplot object
 #'
@@ -57,6 +65,9 @@ calculate_triplot.explainer <- function(x,
                                         new_observation = NULL,
                                         N = 1000,
                                         clust_method = "complete",
+                                        loss_function = 
+                                          DALEX::loss_root_mean_square,
+                                        B = 10,
                                         ...) {
 
   type <- match.arg(type)
@@ -89,8 +100,10 @@ calculate_triplot.explainer <- function(x,
                   type = type,
                   new_observation = new_observation,
                   N = N,
-                  label = label,
-                  clust_method = clust_method)
+                  loss_function = loss_function,
+                  B = B,
+                  clust_method = clust_method,
+                  label = label)
 }
 
 #' @export
@@ -101,8 +114,11 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                       type = c("predict", "model"),
                                       new_observation = NULL,
                                       N = 1000,
-                                      label = class(x)[1],
+                                      loss_function = 
+                                        DALEX::loss_root_mean_square,
+                                      B = 10,
                                       clust_method = "complete",
+                                      label = class(x)[1],
                                       ...) {
 
   type <- match.arg(type)
@@ -115,6 +131,8 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                 type = type,
                                 new_observation = new_observation,
                                 N = N,
+                                loss_function = loss_function,
+                                B = B,
                                 clust_method = clust_method)
 
 # Calculations for third plot --------------------------------------------------
@@ -124,9 +142,15 @@ calculate_triplot.default <- function(x, data, y = NULL,
 # Calculations for first plot --------------------------------------------------
 
   if (type != "predict") {
-    importance_leaves <- feature_importance(x = x, data = data, y = y,
-                                            predict_function = predict_function,
-                                            n_sample = N)
+    
+    explainer <- explain(model = x, data = data, y = y,
+                         predict_function = predict_function,
+                         verbose = FALSE)
+    
+    importance_leaves <- feature_importance(explainer = explainer,
+                                            n_sample = N,
+                                            loss_function = loss_function,
+                                            B = B)
   } else {
 
     importance_leaves <- aspect_importance_single(x, data,
@@ -189,8 +213,7 @@ print.triplot <- function(x, ...) {
 #'   absolute values
 #' @param add_importance_labels if TRUE, first plot is annotated with values of
 #'   aspects importance
-#' @param show_axis_y_duplicated_labels if TRUE, every plot will have annotated
-#'   axis Y
+#' @param show_model_label if TRUE, adds subtitle with model label
 #' @param abbrev_labels if greater than 0, labels for axis Y in single aspect
 #'   importance plot will be abbreviated according to this parameter
 #' @param add_last_group if TRUE, second plot will draw connecting line between
@@ -227,7 +250,6 @@ print.triplot <- function(x, ...) {
 plot.triplot <- function(x,
                          absolute_value = FALSE,
                          add_importance_labels = FALSE,
-                         show_axis_y_duplicated_labels = FALSE,
                          show_model_label = FALSE,
                          abbrev_labels = 0,
                          add_last_group = FALSE,
@@ -262,7 +284,7 @@ plot.triplot <- function(x,
 
   # Builds third plot -------------------------------------------------------
 
-  p3 <- plot(cv, show_labels = show_axis_y_duplicated_labels,
+  p3 <- plot(cv, show_labels = FALSE,
              axis_lab_size = axis_lab_size,
              text_size = text_size)
   p3 <- p3 + theme(axis.title = element_text(size = axis_lab_size))  
@@ -320,21 +342,12 @@ plot.triplot <- function(x,
   p2 <- p2 + scale_x_continuous(expand = expansion(add = expansion_parameter))
   p3 <- p3 + scale_x_continuous(expand = expansion(add = expansion_parameter))
   
-  
   suppressMessages(p1 <- p1 + 
                      scale_y_continuous(expand = expansion(add = c(0,0.5))))
-  
-  if (!show_axis_y_duplicated_labels) { 
-    suppressMessages(p2 <- p2 + 
+  suppressMessages(p2 <- p2 + 
                        scale_y_continuous(expand = expansion(mult = c(0.1,0))))
-    suppressMessages(p3 <- p3 + 
+  suppressMessages(p3 <- p3 + 
                        scale_y_continuous(expand = expansion(mult = c(0.1,0))))
-  } else {
-    suppressMessages(p2 <- p2 + 
-                       scale_y_continuous(expand = expansion(mult = c(0.3,0))))
-    suppressMessages(p3 <- p3 + 
-                       scale_y_continuous(expand = expansion(mult = c(0.3,0))))
-  }
 
 # plot --------------------------------------------------------------------
 
