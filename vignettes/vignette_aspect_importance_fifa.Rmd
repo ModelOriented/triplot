@@ -23,6 +23,10 @@ knitr::opts_chunk$set(
 
 # Data 
 
+This vignette demonstrates the use of the triplot package on Fifa20 dataset. Dataset was downloaded from the Kaggle website, preprocessed and made available in DALEX package. 
+
+Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro. Target variable is log10 transformed, becuase of the data skewness.
+
 
 ```{r}
 library("DALEX")
@@ -35,22 +39,31 @@ fifa$LogValue <- log10(fifa$value_eur)
 fifa[, c("nationality", "overall", "potential", "wage_eur",
          "value_eur")] <- NULL
 
+head(fifa[,c(1:6)])
+
 ```
+
 # Build models for predicting players value
+
+For the further analysis, we prepare 4 models: 
+
+* random forest,
+* tuned random forest,
+* gradient boosting machine,
+* linear model with spline transformations.
 
 ```{r}
 library("ranger")
-library("gbm")
 library("rms")
+library("gbm")
 
-fifa_gbm_shallow <- gbm(LogValue~., data = fifa, n.trees = 250,
-                        interaction.depth = 1, distribution = "gaussian")
+fifa_rf <- ranger(LogValue~., data = fifa)
 
-fifa_gbm_deep <- gbm(LogValue~., data = fifa, n.trees = 250,
+fifa_rf_mod <- ranger(LogValue~., data = fifa,
+                      mtry = 18, splitrule = "variance", min.node.size = 5)
+
+fifa_gbm <- gbm(LogValue~., data = fifa, n.trees = 250,
                      interaction.depth = 4, distribution = "gaussian")
-
-fifa_rf <- ranger(LogValue~., data = fifa, num.trees = 250)
-
 
 fifa_ols <- ols(LogValue ~ rcs(age) + rcs(weight_kg) + rcs(height_cm) + 
                   rcs(attacking_crossing) + rcs(attacking_finishing) +
@@ -72,108 +85,73 @@ fifa_ols <- ols(LogValue ~ rcs(age) + rcs(weight_kg) + rcs(height_cm) +
                   rcs(goalkeeping_handling) + rcs(goalkeeping_kicking) +
                   rcs(goalkeeping_positioning) + rcs(goalkeeping_reflexes), 
                 data = fifa)
-
-
 ```
 
 # Build explainers 
 
+For each of those models, we build DALEX explainer. Using explainers, simplifies further models analysis.
+
+
 ```{r}
 
-fifa_without_target_column <- fifa[,-38]
+fifa_rf_exp <- DALEX::explain(fifa_rf,
+                              data = fifa[,-38], #without target coulmn
+                              y = 10 ^ fifa$LogValue,
+                              predict_function = function(m, x) 
+                                10 ^ predict(m, x)$predictions,
+                              label = "RF")
 
-fifa_gbm_exp_deep <- DALEX::explain(fifa_gbm_deep,
-                                    data = fifa_without_target_column,
+fifa_rf_m_exp <- DALEX::explain(fifa_rf_mod,
+                              data = fifa[,-38], #without target coulmn
+                              y = 10 ^ fifa$LogValue,
+                              predict_function = function(m, x) 
+                                10 ^ predict(m, x)$predictions,
+                              label = "RF tuned")
+
+fifa_gbm_exp <- DALEX::explain(fifa_gbm,
+                                    data = fifa[,-38], #without target coulmn
                                     y = 10 ^ fifa$LogValue,
                                     predict_function =
                                       function(m, x)
                                         10 ^ predict(m, x, n.trees = 250),
-                                    label = "GBM deep"
-)
-fifa_gbm_exp_shallow <- DALEX::explain(fifa_gbm_shallow,
-                                       data = fifa_without_target_column,
-                                       y = 10 ^ fifa$LogValue,
-                                       predict_function =
-                                         function(m, x)
-                                           10 ^ predict(m, x, n.trees = 250),
-                                       label = "GBM shallow"
-)
-fifa_rf_exp <- DALEX::explain(fifa_rf,
-                              data = fifa_without_target_column,
-                              y = 10 ^ fifa$LogValue,
-                              predict_function = function(m, x) 
-                                10 ^ predict(m, x)$predictions,
-                              label = "RF"
-)
+                                    label = "GBM")
+                                    
 fifa_rms_exp <- DALEX::explain(fifa_ols,
-                              data = fifa_without_target_column,
+                              data = fifa[,-38], #without target coulmn
                               y = 10 ^ fifa$LogValue,
                               predict_function = function(m,x) 10^predict(m, x),
-                              label = "RMS"
-)
-
-```
-
-# Check feature importance
-
-```{r}
-
-fifa_mp_gbm_shallow <- model_parts(fifa_gbm_exp_shallow)
-
-fifa_mp_gbm_deep <- model_parts(fifa_gbm_exp_deep)
-
-fifa_mp_rf <- model_parts(fifa_rf_exp)
-
-fifa_mp_rms <- model_parts(fifa_rms_exp)
-
-plot(fifa_mp_gbm_shallow, 
-     fifa_mp_gbm_deep, 
-     fifa_mp_rf, 
-     max_vars = 20, 
-     bar_width = 4, 
-     show_boxplots = FALSE) 
+                              label = "RMS")
 
 ```
 
 # Triplot for model
 
+'Triplot' objects allow us to investigate the importance of each feature (plot on the left), features correlation (plot on the right) as well as the change hierarchical aspects importance (plot in the middle).
+
 ```{r}
 
-# fifa_gbm_tri_shallow <- model_triplot(fifa_gbm_exp_shallow)
-# 
-# fifa_gbm_tri_deep <- model_triplot(fifa_gbm_exp_deep)
-# 
-fifa_gbm_tri_rf <- model_triplot(fifa_rf_exp)
-# 
-# fifa_gbm_tri_rms <- model_triplot(fifa_rms_exp)
-# 
-# 
-# plot(fifa_gbm_tri_shallow, show_axis_y_duplicated_labels = T)
-# 
-# plot(fifa_gbm_tri_deep, show_axis_y_duplicated_labels = T)
-# 
-plot(fifa_gbm_tri_rf, show_axis_y_duplicated_labels = T)
-# 
-# plot(fifa_gbm_tri_rms, show_axis_y_duplicated_labels = T)
+fifa_rf_tri <- model_triplot(fifa_rf_exp)
 
+fifa_rf_m_tri <- model_triplot(fifa_rf_m_exp)
+
+fifa_gbm_tri <- model_triplot(fifa_gbm_exp)
+
+fifa_rms_tri <- model_triplot(fifa_rms_exp)
+
+plot(fifa_rf_tri, show_model_label = TRUE)
+
+plot(fifa_rf_m_tri, show_model_label = TRUE)
+
+plot(fifa_gbm_tri, show_model_label = TRUE)
+
+plot(fifa_rms_tri, show_model_label = TRUE)
 
 ```
 
-# Investigate models for chosen instances (players)
 
 ```{r}
 
-player_gk <- fifa["J. Oblak",]
-
-player_mid <- fifa["L. Modric",]
-
-player_attack <- fifa["R. Lewandowski",]
-
-```
-
-```{r}
-
-fifa_variable_groups <- list(
+fifa_vg <- list(
   "age" = "age",
   "body" = c("height_cm", "weight_kg"),
   "attacking" = c("attacking_crossing",
@@ -197,84 +175,75 @@ fifa_variable_groups <- list(
 
 ```
 
-# Predict aspects
+# Investigate models for chosen instances (players)
+
+For the instance level model analysis, we choose top player (value wise).
 
 ```{r}
+top_player <- fifa[order(fifa$LogValue, decreasing = TRUE),][1,]
 
-pa_fifa_gbm_attack_deep <- predict_aspects(x = fifa_gbm_exp_deep,
-                                     new_observation = player_attack,
-                                     variable_groups = fifa_variable_groups)
+print(top_player)
 
-pa_fifa_gbm_attack_shallow <- predict_aspects(x = fifa_gbm_exp_shallow,
-                                     new_observation = player_attack,
-                                     variable_groups = fifa_variable_groups)
+aspects_top_player_rf <- predict_aspects(fifa_rf_exp, 
+                new_observation = top_player, 
+                variable_groups = fifa_vg)
 
-pa_fifa_rf_attack <- predict_aspects(x = fifa_rf_exp,
-                                     new_observation = player_attack,
-                                     variable_groups = fifa_variable_groups)
+aspects_top_player_rf_m <- predict_aspects(fifa_rf_m_exp, 
+                new_observation = top_player, 
+                variable_groups = fifa_vg)
 
-pa_fifa_rms_attack <- predict_aspects(x = fifa_rms_exp,
-                                     new_observation = player_attack,
-                                     variable_groups = fifa_variable_groups)
+aspects_top_player_gbm <- predict_aspects(fifa_gbm_exp, 
+                new_observation = top_player, 
+                variable_groups = fifa_vg)
 
-plot(pa_fifa_gbm_attack_deep, pa_fifa_gbm_attack_shallow,
-     pa_fifa_rf_attack, pa_fifa_rms_attack)
+aspects_top_player_rms <- predict_aspects(fifa_rms_exp, 
+                new_observation = top_player, 
+                variable_groups = fifa_vg)
+
+plot(aspects_top_player_rf,
+      aspects_top_player_rf_m,
+      aspects_top_player_gbm,
+      aspects_top_player_rms)
+
+fifa_rf_m_tri_player <- predict_triplot(fifa_rf_m_exp, top_player)
+
+fifa_rms_tri_player <- predict_triplot(fifa_rms_exp, top_player)
+
+plot(fifa_rf_m_tri_player, show_model_label = TRUE)
+
+plot(fifa_rms_tri_player, show_model_label = TRUE)
 
 
 ```
 
-```{r}
-
-pa_fifa_gbm_mid_deep <- predict_aspects(x = fifa_gbm_exp_deep,
-                                     new_observation = player_mid,
-                                     variable_groups = fifa_variable_groups)
-
-pa_fifa_gbm_mid_shallow <- predict_aspects(x = fifa_gbm_exp_shallow,
-                                     new_observation = player_mid,
-                                     variable_groups = fifa_variable_groups)
-
-pa_fifa_rf_mid <- predict_aspects(x = fifa_rf_exp,
-                                     new_observation = player_mid,
-                                     variable_groups = fifa_variable_groups)
-
-pa_fifa_rms_mid <- predict_aspects(x = fifa_rms_exp,
-                                     new_observation = player_mid,
-                                     variable_groups = fifa_variable_groups)
-
-plot(pa_fifa_gbm_mid_deep, pa_fifa_gbm_mid_shallow,
-     pa_fifa_rf_mid, pa_fifa_rms_mid)
-
-
-```
-
+For comparison, for next analysis we pick one of the goal keeper's prediction to be explained.
 
 ```{r}
+player_gk <- fifa["J. Oblak",]
 
-pa_fifa_gbm_gk_deep <- predict_aspects(x = fifa_gbm_exp_deep,
-                                     new_observation = player_gk,
-                                     variable_groups = fifa_variable_groups)
+print(player_gk)
 
-pa_fifa_gbm_gk_shallow <- predict_aspects(x = fifa_gbm_exp_shallow,
-                                     new_observation = player_gk,
-                                     variable_groups = fifa_variable_groups)
+aspects_gk_rf <- predict_aspects(fifa_rf_exp, 
+                new_observation = player_gk, 
+                variable_groups = fifa_vg)
 
-pa_fifa_rf_gk <- predict_aspects(x = fifa_rf_exp,
-                                     new_observation = player_gk,
-                                     variable_groups = fifa_variable_groups)
+aspects_gk_rf_m <- predict_aspects(fifa_rf_m_exp, 
+                new_observation = player_gk, 
+                variable_groups = fifa_vg)
 
-pa_fifa_rms_gk <- predict_aspects(x = fifa_rms_exp,
-                                     new_observation = player_gk,
-                                     variable_groups = fifa_variable_groups)
+aspects_gk_gbm <- predict_aspects(fifa_gbm_exp, 
+                new_observation = player_gk, 
+                variable_groups = fifa_vg)
 
-plot(pa_fifa_gbm_gk_deep, pa_fifa_gbm_gk_shallow,
-     pa_fifa_rf_gk, pa_fifa_rms_gk)
+aspects_gk_rms <- predict_aspects(fifa_rms_exp, 
+                new_observation = player_gk, 
+                variable_groups = fifa_vg)
 
+plot(aspects_gk_rms)
 
-```
-
-```{r}
-plot(pa_fifa_gbm_gk_deep, pa_fifa_gbm_gk_shallow,
-     pa_fifa_rf_gk)
+plot(aspects_gk_rf,
+      aspects_gk_rf_m,
+      aspects_gk_gbm)
 
 ```
 
