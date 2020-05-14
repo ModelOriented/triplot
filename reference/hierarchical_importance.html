@@ -164,6 +164,8 @@ importance or feature importance values of every newly created aspect.</p>
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"predict"</span>,
   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw pkg'>DALEX</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/DALEX/man/loss_functions.html'>loss_root_mean_square</a></span>,
+  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
   <span class='no'>...</span>
 )
@@ -214,6 +216,15 @@ if NULL feature_importance will be calculated</p></td>
     <tr>
       <th>N</th>
       <td><p>number of observations to be sampled (with replacement) from data</p></td>
+    </tr>
+    <tr>
+      <th>loss_function</th>
+      <td><p>a function thet will be used to assess variable importance</p></td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td><p>integer, number of permutation rounds to perform on each variable in 
+feature importance calculation. By default it's <code>10</code>.</p></td>
     </tr>
     <tr>
       <th>clust_method</th>
