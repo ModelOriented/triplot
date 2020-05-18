@@ -14,7 +14,8 @@ knitr::opts_chunk$set(
   collapse = FALSE,
   comment = "#>",
   warning = FALSE,
-  message = FALSE
+  message = FALSE,
+  fig.align = 'center'
 )
 ```
 
@@ -88,8 +89,6 @@ library(mlbench)
 library(randomForest)
 library(DALEX)
 
-set.seed(123)
-
 data("BostonHousing2")   
 
 Boston <- BostonHousing2[,-c(1:5, 10)]
@@ -117,9 +116,11 @@ In the beginning, we have to build an aspect list. Then we will call `aspects_im
 
 Finally, we will plot `aspects_importance()` results for both models. 
 
-We can notice that in random forest model, almost every group of features (except single feature `b`) have positive influence on the prediction. `Wealth` (`rm` and `lstat`) has the most important contribution, it's significantly bigger than the rest. On the other hand, in linear model we can observe that some features have negative impact (`geo`, `structure`, `ptartio`). Nonetheless, positive contribution of `wealth` is still the most important, as in random forest model. After seeing this results, we can now understand why the prediction in linear model case is smaller than in random forest one.
+We can notice that in random forest model, almost every group of features (except `b` and `crim`) have positive influence on the prediction. `Wealth` (`rm` and `lstat`) has the most important contribution, it's significantly bigger than the rest. On the other hand, in linear model we can observe that some features have negative impact (`geo`, `structure`, `ptartio`). Nonetheless, positive contribution of `wealth` is still the most important, as in random forest model. After seeing this results, we can now understand why the prediction in linear model case is smaller than in random forest one.
 
 ```{r aspect importance with manual aspects}
+set.seed(123)
+
 Boston_aspects_m <- list(geo = c("dis", "nox", "rad"),
                          wealth = c("rm", "lstat"),
                          structure = c("indus", "age", "zn"),
@@ -143,19 +144,19 @@ Boston_ai_lm <- predict_aspects(x = explain_Boston_lm,
                                   show_cor = TRUE, 
                                   label = "LM")
 
-Boston_ai_rf <- predict_aspects(x = explain_Boston_lm,
+Boston_ai_rf <- predict_aspects(x = explain_Boston_rf,
                                   new_observation = new_observation, 
                                   variable_groups = Boston_aspects_m, 
                                   N = 5000, 
                                   show_cor = TRUE, 
-                                  label = "LM")
+                                  label = "RF")
 
 
 print(Boston_ai_lm, show_features = TRUE)
 
 print(Boston_ai_rf, show_features = TRUE)
 
-plot(Boston_ai_lm, Boston_ai_rf, add_importance = TRUE)
+plot(Boston_ai_lm, Boston_ai_rf)
 
 ```
 
@@ -166,6 +167,8 @@ Below we will use `group_variables()` function with a cut off level set on 0.6. 
 Since `group_variables()` built different list that us, we can observe a little bit different results. However, the final image still allow us to see that what we established as geographical and structure features, in general, have negative contribution on the prediction in linear case, while positive in the random forest one.
 
 ```{r aspect importance with automated aspects}
+set.seed(123)
+
 Boston_aspects_a <- group_variables(Boston_no_target, 0.6)
 
 Boston_ai_lm_2 <- predict_aspects(x = explain_Boston_lm,
@@ -186,7 +189,7 @@ print(Boston_ai_lm_2, show_features = TRUE)
 
 print(Boston_ai_rf_2, show_features = TRUE)
 
-plot(Boston_ai_lm_2, Boston_ai_rf_2, aspects_on_axis = FALSE, add_importance = TRUE)
+plot(Boston_ai_lm_2, Boston_ai_rf_2, aspects_on_axis = FALSE)
 
 ```
 
@@ -204,23 +207,24 @@ Hierarchical aspects importance allows us to check the values of aspects importa
 
 It should be noted that similarly to `group_variables()`, `calculate_triplot()` works for the datasets with only numerical variables. 
 
-```{r triplot}
+```{r triplot, fig.width = 12, fig.height = 8}
+set.seed(123)
+
 tri_lm <- predict_triplot(x = explain_Boston_lm, 
                             new_observation = new_observation, 
                             N = 10000)
 
 plot(tri_lm,
-     add_importance_labels = TRUE,
-     axis_lab_size = 8,
-     text_size = 3)
+     margin_mid = 0.2, 
+     show_model_label = TRUE)
 
 tri_rf <- predict_triplot(x = explain_Boston_rf, 
                             new_observation = new_observation, 
                             N = 10000)
 plot(tri_rf,
-     add_importance_labels = TRUE,
-     axis_lab_size = 8,
-     text_size = 3)
+     margin_mid = 0.2,
+     add_last_group = TRUE,
+     show_model_label = TRUE)
 
 ```
 
@@ -234,11 +238,14 @@ In result, we get what we expected - three nonzero aspect importance values. We 
 
 
 ```{r lasso demo}
+set.seed(123)
+
 ai_Boston_rf <- predict_aspects(x = explain_Boston_rf, 
                                 new_observation = new_observation,
                                 variable_groups = Boston_aspects_a,
                                 N = 10000,
                                 n_var = 3)
+
 print(ai_Boston_rf, show_features = TRUE, show_cor = TRUE)
 ```
 

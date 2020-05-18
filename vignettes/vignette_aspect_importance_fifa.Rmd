@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r setup, include = FALSE}
@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 This vignette demonstrates the use of the triplot package on Fifa20 dataset. Dataset was downloaded from the Kaggle website, preprocessed and made available in DALEX package. 
 
-Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro. Target variable is log10 transformed, because of the data skewness.
+Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro (in milions). 
 
 
 ```{r}
@@ -38,10 +38,10 @@ library("triplot")
 
 data(fifa)
 
-fifa$LogValue <- log10(fifa$value_eur)
+fifa$value_eur <- fifa$value_eur/10^6
 
-fifa[, c("nationality", "overall", "potential", "wage_eur",
-         "value_eur")] <- NULL
+fifa[, c("nationality", "overall", "potential", 
+         "wage_eur")] <- NULL
 
 head(fifa[,c(1:6)])
 
@@ -61,15 +61,15 @@ library("ranger")
 library("rms")
 library("gbm")
 
-fifa_rf <- ranger(LogValue~., data = fifa)
+fifa_rf <- ranger(value_eur~., data = fifa)
 
-fifa_rf_mod <- ranger(LogValue~., data = fifa,
+fifa_rf_mod <- ranger(value_eur~., data = fifa,
                       mtry = 18, splitrule = "variance", min.node.size = 5)
 
-fifa_gbm <- gbm(LogValue~., data = fifa, n.trees = 250,
+fifa_gbm <- gbm(value_eur~., data = fifa, n.trees = 250,
                      interaction.depth = 4, distribution = "gaussian")
 
-fifa_ols <- ols(LogValue ~ rcs(age) + rcs(weight_kg) + rcs(height_cm) + 
+fifa_ols <- ols(value_eur ~ rcs(age) + rcs(weight_kg) + rcs(height_cm) + 
                   rcs(attacking_crossing) + rcs(attacking_finishing) +
                   rcs(attacking_heading_accuracy) + 
                   rcs(attacking_short_passing) + rcs(attacking_volleys) +
@@ -99,34 +99,29 @@ For each of those models, we build DALEX explainer. Using explainers, simplifies
 ```{r}
 
 fifa_rf_exp <- DALEX::explain(fifa_rf,
-                              data = fifa[,-38], #without target coulmn
-                              y = 10 ^ fifa$LogValue,
-                              predict_function = function(m, x) 
-                                10 ^ predict(m, x)$predictions,
-                              label = "RF",
+                              data = fifa[,-1], #without target coulmn
+                              y = fifa$value_eur,
+                              label = "RF", 
                               verbose = FALSE)
 
 fifa_rf_m_exp <- DALEX::explain(fifa_rf_mod,
-                              data = fifa[,-38], #without target coulmn
-                              y = 10 ^ fifa$LogValue,
-                              predict_function = function(m, x) 
-                                10 ^ predict(m, x)$predictions,
+                              data = fifa[,-1], 
+                              y = fifa$value_eur,
                               label = "RF tuned",
                               verbose = FALSE)
 
 fifa_gbm_exp <- DALEX::explain(fifa_gbm,
-                                    data = fifa[,-38], #without target coulmn
-                                    y = 10 ^ fifa$LogValue,
-                                    predict_function =
-                                      function(m, x)
-                                        10 ^ predict(m, x, n.trees = 250),
-                                    label = "GBM",
-                              verbose = FALSE)
+                               data = fifa[, -1], 
+                               y = fifa$value_eur,
+                               predict_function =
+                                 function(m, x)
+                                   predict(m, x, n.trees = 250),
+                               label = "GBM",
+                               verbose = FALSE)
                                     
 fifa_rms_exp <- DALEX::explain(fifa_ols,
-                              data = fifa[,-38], #without target coulmn
-                              y = 10 ^ fifa$LogValue,
-                              predict_function = function(m,x) 10^predict(m, x),
+                              data = fifa[,-1], 
+                              y = fifa$value_eur,
                               label = "RMS",
                               verbose = FALSE)
 
@@ -138,21 +133,21 @@ fifa_rms_exp <- DALEX::explain(fifa_ols,
 
 ```{r}
 
-fifa_rf_tri <- model_triplot(fifa_rf_exp)
+fifa_rf_tri <- model_triplot(fifa_rf_exp, B = 1, N = 5000)
 
-fifa_rf_m_tri <- model_triplot(fifa_rf_m_exp)
+fifa_rf_m_tri <- model_triplot(fifa_rf_m_exp, B = 1, N = 5000)
 
-fifa_gbm_tri <- model_triplot(fifa_gbm_exp)
+fifa_gbm_tri <- model_triplot(fifa_gbm_exp, B = 1, N = 5000)
 
-fifa_rms_tri <- model_triplot(fifa_rms_exp)
+fifa_rms_tri <- model_triplot(fifa_rms_exp, B = 1, N = 5000)
 
-plot(fifa_rf_tri, show_model_label = TRUE)
+plot(fifa_rf_tri, show_model_label = TRUE, margin_mid = 0)
 
-plot(fifa_rf_m_tri, show_model_label = TRUE)
+plot(fifa_rf_m_tri, show_model_label = TRUE, margin_mid = 0)
 
-plot(fifa_gbm_tri, show_model_label = TRUE)
+plot(fifa_gbm_tri, show_model_label = TRUE, margin_mid = 0)
 
-plot(fifa_rms_tri, show_model_label = TRUE)
+plot(fifa_rms_tri, show_model_label = TRUE, margin_mid = 0)
 
 ```
 
@@ -187,8 +182,10 @@ fifa_vg <- list(
 
 For the instance level model analysis, we choose top player (value wise).
 
-```{r}
-top_player <- fifa[order(fifa$LogValue, decreasing = TRUE),][1,]
+```{r fig.height = 4}
+set.seed(123)
+
+top_player <- fifa[order(fifa$value_eur, decreasing = TRUE),][1,]
 
 print(top_player)
 
@@ -213,20 +210,28 @@ plot(aspects_top_player_rf,
       aspects_top_player_gbm,
       aspects_top_player_rms)
 
-fifa_rf_m_tri_player <- predict_triplot(fifa_rf_m_exp, top_player)
-
-fifa_rms_tri_player <- predict_triplot(fifa_rms_exp, top_player)
-
-plot(fifa_rf_m_tri_player, show_model_label = TRUE)
-
-plot(fifa_rms_tri_player, show_model_label = TRUE)
 
 
 ```
 
+```{r}
+fifa_rf_m_tri_player <- predict_triplot(fifa_rf_m_exp, top_player)
+
+fifa_rms_tri_player <- predict_triplot(fifa_rms_exp, top_player)
+
+plot(fifa_rf_m_tri_player, show_model_label = TRUE, margin_mid = 0.2)
+
+plot(fifa_rms_tri_player, show_model_label = TRUE, margin_mid = 0.2)
+
+
+```
+
+
 For comparison, for next analysis we pick one of the goal keeper's prediction to be explained.
 
-```{r}
+```{r fig.height = 4}
+set.seed(123)
+
 player_gk <- fifa["J. Oblak",]
 
 print(player_gk)
@@ -257,7 +262,6 @@ plot(aspects_gk_rf,
 
 
 
-#  ...
 
 # Session info
 
