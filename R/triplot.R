@@ -222,6 +222,7 @@ print.triplot <- function(x, ...) {
 #' @param text_size size of labels annotating values of aspects importance and
 #'   correlations
 #' @param bar_width bar width in the first plot
+#' @param margin_mid size of a right margin of a middle plot
 #' @param ... other parameters
 #'
 #' @return plot
@@ -256,6 +257,7 @@ plot.triplot <- function(x,
                          axis_lab_size = 10,
                          text_size = 3,
                          bar_width = 5,
+                         margin_mid = 0.3,
                          ...) {
 
   importance_leaves <- x[[1]]
@@ -345,7 +347,8 @@ plot.triplot <- function(x,
   suppressMessages(p1 <- p1 + 
                      scale_y_continuous(expand = expansion(add = c(0,0.5))))
   suppressMessages(p2 <- p2 + 
-                       scale_y_continuous(expand = expansion(mult = c(0.2,0))))
+                       scale_y_continuous(expand = 
+                                            expansion(mult = c(margin_mid,0))))
   suppressMessages(p3 <- p3 + 
                        scale_y_continuous(expand = expansion(mult = c(0.1,0))))
 
