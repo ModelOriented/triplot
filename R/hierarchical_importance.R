@@ -23,8 +23,9 @@
 #' @param absolute_value if TRUE, aspect importance values will be drawn as
 #'   absolute values
 #' @param show_labels if TRUE, plot will have annotated axis Y
-#' @param add_last_group if TRUE, plot will draw connecting line between last
-#' two groups
+#' @param add_last_group if TRUE and \code{type} is \code{predict}, plot will 
+#'   draw connecting line between last two groups at the level of 105% of the 
+#'   biggest importance value, for \code{model} this line is always drawn
 #' @param axis_lab_size size of labels on axis Y, if applicable
 #' @param text_size size of labels annotating values of aspects importance
 #' @param ... other parameters
@@ -44,7 +45,6 @@
 #' library(DALEX)
 #' apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 #' apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
-#' apartments_num_new_observation <- apartments_num[2,]
 #' hi <- hierarchical_importance(x = apartments_num_lm_model,
 #'  data = apartments_num[,-1],
 #'  y = apartments_num[,1],
@@ -99,7 +99,6 @@ hierarchical_importance <- function(x, data, y = NULL,
                                    n_sample = N,
                                    loss_function = loss_function,
                                    B = B)
-      res_ai <- res_ai[!(substr(res_ai$variable, 1, 1) == "_"), ]
       res_ai <- res_ai[res_ai$permutation == "0", ]
       
       int_node_importance[i, 1] <-
@@ -117,8 +116,23 @@ hierarchical_importance <- function(x, data, y = NULL,
     int_node_importance[i, 3] <- cutting_heights[i]
     aspects_list_previous <- aspects_list_current
   }
-  
-  int_node_importance[length(cutting_heights), 1] <- NA
+
+  if (type != "predict") {
+    res <- feature_importance(explainer = explainer,
+                                       variable_groups = list_variables(x_hc, 0),
+                                       n_sample = N,
+                                       loss_function = loss_function,
+                                       B = B)
+    res <- res[res$permutation == "0", ]
+    baseline_val <-
+      res[res$variable == "aspect.group1", ]$dropout_loss
+    
+    int_node_importance[length(cutting_heights), 1] <- baseline_val
+  } else {
+    int_node_importance[length(cutting_heights), 1] <- NA
+  }
+    
+
   
   # Inserting importance values into x_hc tree ------------------------------
   
@@ -136,9 +150,11 @@ hierarchical_importance <- function(x, data, y = NULL,
 plot.hierarchical_importance <- function(x,
                                          absolute_value = FALSE,
                                          show_labels = TRUE,
-                                         add_last_group = FALSE,
+                                         add_last_group = TRUE,
                                          axis_lab_size = 10,
                                          text_size = 3, ...) {
+  
+  stopifnot("hierarchical_importance" %in% class(x))
   
   x_hc <- x[[1]]
   type <- x[[2]]
@@ -166,18 +182,14 @@ plot.hierarchical_importance <- function(x,
   
   # replace NAs      --------------------------------------------------------
   
-  if (add_last_group) {
+  if (type == "predict" & add_last_group) {
     ifelse(max(abs(ai_labels$yend)) > max(ai_labels$yend),
            last_val <- -max(abs(ai_labels$yend)) * 1.05,
            last_val <- max(ai_labels$yend) * 1.05)
     ddata$segments[is.na(ddata$segments)] <- last_val
-  } else {
+  } else if (type == "predict" & !add_last_group) {
     cc_vector <- !complete.cases(ddata$segments)
     ddata$segments[cc_vector, ] <- 1
-    ddata$segments[min(which(cc_vector == TRUE)), c(1, 3)] <-
-      min(ddata$labels$x)
-    ddata$segments[min(which(cc_vector == TRUE)) + 1, c(1, 3)] <-
-      max(ddata$labels$x)
   }
   
   # Adding new observation values to labels ---------------------------------

@@ -23,7 +23,7 @@ hierarchical_importance(
   x,
   absolute_value = FALSE,
   show_labels = TRUE,
-  add_last_group = FALSE,
+  add_last_group = TRUE,
   axis_lab_size = 10,
   text_size = 3,
   ...
@@ -64,8 +64,9 @@ absolute values}
 
 \item{show_labels}{if TRUE, plot will have annotated axis Y}
 
-\item{add_last_group}{if TRUE, plot will draw connecting line between last
-two groups}
+\item{add_last_group}{if TRUE and \code{type} is \code{predict}, plot will 
+draw connecting line between last two groups at the level of 105% of the 
+biggest importance value, for \code{model} this line is always drawn}
 
 \item{axis_lab_size}{size of labels on axis Y, if applicable}
 
@@ -82,7 +83,6 @@ importance or feature importance values of every newly created aspect.
 library(DALEX)
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
-apartments_num_new_observation <- apartments_num[2,]
 hi <- hierarchical_importance(x = apartments_num_lm_model,
  data = apartments_num[,-1],
  y = apartments_num[,1],

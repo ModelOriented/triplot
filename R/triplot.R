@@ -216,8 +216,9 @@ print.triplot <- function(x, ...) {
 #' @param show_model_label if TRUE, adds subtitle with model label
 #' @param abbrev_labels if greater than 0, labels for axis Y in single aspect
 #'   importance plot will be abbreviated according to this parameter
-#' @param add_last_group if TRUE, second plot will draw connecting line between
-#'   last two groups
+#' @param add_last_group if TRUE and \code{type} is \code{predict}, plot will 
+#'   draw connecting line between last two groups at the level of 105% of the 
+#'   biggest importance value, for \code{model} this line is always drawn
 #' @param axis_lab_size size of labels on axis
 #' @param text_size size of labels annotating values of aspects importance and
 #'   correlations
@@ -253,7 +254,7 @@ plot.triplot <- function(x,
                          add_importance_labels = FALSE,
                          show_model_label = FALSE,
                          abbrev_labels = 0,
-                         add_last_group = FALSE,
+                         add_last_group = TRUE,
                          axis_lab_size = 10,
                          text_size = 3,
                          bar_width = 5,

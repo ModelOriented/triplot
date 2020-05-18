@@ -10,10 +10,11 @@
   add_importance_labels = FALSE,
   show_model_label = FALSE,
   abbrev_labels = 0,
-  add_last_group = FALSE,
+  add_last_group = TRUE,
   axis_lab_size = 10,
   text_size = 3,
   bar_width = 5,
+  margin_mid = 0.3,
   ...
 )
 }
@@ -31,8 +32,9 @@ aspects importance}
 \item{abbrev_labels}{if greater than 0, labels for axis Y in single aspect
 importance plot will be abbreviated according to this parameter}
 
-\item{add_last_group}{if TRUE, second plot will draw connecting line between
-last two groups}
+\item{add_last_group}{if TRUE and \code{type} is \code{predict}, plot will 
+draw connecting line between last two groups at the level of 105% of the 
+biggest importance value, for \code{model} this line is always drawn}
 
 \item{axis_lab_size}{size of labels on axis}
 
@@ -40,6 +42,8 @@ last two groups}
 correlations}
 
 \item{bar_width}{bar width in the first plot}
+
+\item{margin_mid}{size of a right margin of a middle plot}
 
 \item{...}{other parameters}
 }
