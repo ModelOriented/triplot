@@ -161,10 +161,11 @@
   <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show_model_label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>abbrev_labels</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>margin_mid</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -196,8 +197,9 @@ importance plot will be abbreviated according to this parameter</p></td>
     </tr>
     <tr>
       <th>add_last_group</th>
-      <td><p>if TRUE, second plot will draw connecting line between
-last two groups</p></td>
+      <td><p>if TRUE and <code>type</code> is <code>predict</code>, plot will 
+draw connecting line between last two groups at the level of 105<!-- % of the  -->
+biggest importance value, for <code>model</code> this line is always drawn</p></td>
     </tr>
     <tr>
       <th>axis_lab_size</th>
@@ -211,6 +213,10 @@ correlations</p></td>
     <tr>
       <th>bar_width</th>
       <td><p>bar width in the first plot</p></td>
+    </tr>
+    <tr>
+      <th>margin_mid</th>
+      <td><p>size of a right margin of a middle plot</p></td>
     </tr>
     <tr>
       <th>...</th>

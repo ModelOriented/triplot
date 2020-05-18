@@ -175,7 +175,7 @@ importance or feature importance values of every newly created aspect.</p>
   <span class='no'>x</span>,
   <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='no'>...</span>
@@ -219,7 +219,7 @@ if NULL feature_importance will be calculated</p></td>
     </tr>
     <tr>
       <th>loss_function</th>
-      <td><p>a function thet will be used to assess variable importance</p></td>
+      <td><p>a function that will be used to assess variable importance</p></td>
     </tr>
     <tr>
       <th>B</th>
@@ -246,8 +246,9 @@ absolute values</p></td>
     </tr>
     <tr>
       <th>add_last_group</th>
-      <td><p>if TRUE, plot will draw connecting line between last
-two groups</p></td>
+      <td><p>if TRUE and <code>type</code> is <code>predict</code>, plot will 
+draw connecting line between last two groups at the level of 105<!-- % of the  -->
+biggest importance value, for <code>model</code> this line is always drawn</p></td>
     </tr>
     <tr>
       <th>axis_lab_size</th>
@@ -267,7 +268,6 @@ two groups</p></td>
     <pre class="examples"><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
 <span class='no'>apartments_num</span> <span class='kw'>&lt;-</span> <span class='no'>apartments</span>[,<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>apartments</span>, <span class='no'>is.numeric</span>))]
 <span class='no'>apartments_num_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>)
-<span class='no'>apartments_num_new_observation</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[<span class='fl'>2</span>,]
 <span class='no'>hi</span> <span class='kw'>&lt;-</span> <span class='fu'>hierarchical_importance</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[,-<span class='fl'>1</span>],
  <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[,<span class='fl'>1</span>],
