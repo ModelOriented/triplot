@@ -128,9 +128,13 @@ Boston_aspects_m <- list(geo = c("dis", "nox", "rad"),
                          tax = "tax",
                          crim = "crim")
 
-explain_Boston_lm <- explain(Boston_lm, Boston_no_target)
+explain_Boston_lm <- explain(Boston_lm, 
+                             Boston_no_target, 
+                             verbose = FALSE)
 
-explain_Boston_rf <- explain(Boston_rf, Boston_no_target)
+explain_Boston_rf <- explain(Boston_rf, 
+                             Boston_no_target,
+                             verbose = FALSE)
 
 Boston_ai_lm <- predict_aspects(x = explain_Boston_lm,
                                   new_observation = new_observation, 

@@ -103,14 +103,16 @@ fifa_rf_exp <- DALEX::explain(fifa_rf,
                               y = 10 ^ fifa$LogValue,
                               predict_function = function(m, x) 
                                 10 ^ predict(m, x)$predictions,
-                              label = "RF")
+                              label = "RF",
+                              verbose = FALSE)
 
 fifa_rf_m_exp <- DALEX::explain(fifa_rf_mod,
                               data = fifa[,-38], #without target coulmn
                               y = 10 ^ fifa$LogValue,
                               predict_function = function(m, x) 
                                 10 ^ predict(m, x)$predictions,
-                              label = "RF tuned")
+                              label = "RF tuned",
+                              verbose = FALSE)
 
 fifa_gbm_exp <- DALEX::explain(fifa_gbm,
                                     data = fifa[,-38], #without target coulmn
@@ -118,13 +120,15 @@ fifa_gbm_exp <- DALEX::explain(fifa_gbm,
                                     predict_function =
                                       function(m, x)
                                         10 ^ predict(m, x, n.trees = 250),
-                                    label = "GBM")
+                                    label = "GBM",
+                              verbose = FALSE)
                                     
 fifa_rms_exp <- DALEX::explain(fifa_ols,
                               data = fifa[,-38], #without target coulmn
                               y = 10 ^ fifa$LogValue,
                               predict_function = function(m,x) 10^predict(m, x),
-                              label = "RMS")
+                              label = "RMS",
+                              verbose = FALSE)
 
 ```
 

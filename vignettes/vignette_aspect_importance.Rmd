@@ -77,11 +77,13 @@ predict(model_titanic_glm, passenger, type = "response")
 
 # Calculating aspect importance (logistic regression)
 
-Now we can call predict_aspects() function and see that features included in `wealth` (that is `class` and `fare`) have the biggest contribution on survival prediction for the passenger. That contribution is of negative type. Rest of the aspects have significantly smaller influence. However, in case of `family` and `personal`, it's a positive type of influence.
+Now we can call predict_aspects() function and see that features included in `wealth` (that is `class` and `fare`) have the biggest contribution on survival prediction for the passenger. That contribution is of negative type. `Personal` and `family` have smaller, positive influence. Aspect `embarked` with single feature has very small contribution.
 
 ```{r Calculating aspect importance (logistic regression)}
 library("ggplot2")
 library("triplot")
+
+set.seed(123)
 
 titanic_without_target <- titanic[,colnames(titanic) != "survived"]
 
@@ -179,7 +181,7 @@ apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))] #excluding
 
 head(apartments_num)
 
-new_observation_apartments <- apartments_num[20,]
+new_observation_apartments <- apartments_num[6,]
 
 model_apartments <- lm(m2.price ~ ., data = apartments_num)
 
@@ -233,6 +235,8 @@ Looking at the triplot, we can observe that for a given observation:
 
 
 ```{r}
+set.seed(123)
+
 apartments_tri <- predict_triplot(explain_apartments_lm, 
                          new_observation = new_observation_apartments[-1], 
                          N = 1000,
@@ -243,7 +247,8 @@ plot(apartments_tri,
      cumulative_max = FALSE,
      add_importance_labels = FALSE,
      abbrev_labels = 15,
-     add_last_group = TRUE)
+     add_last_group = TRUE,
+     margin_mid = 0)
 
 ```
 

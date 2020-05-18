@@ -1,4 +1,9 @@
-# triplot 0.3.3
+# triplot 0.3.5
+
+* modified triplot object and methods
+* removed ingredients dependency
+
+# triplot 0.3.4
 
 * switched from GridExtra to Patchwork
 * improved plotting of triplot object

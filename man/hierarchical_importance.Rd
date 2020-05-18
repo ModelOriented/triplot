@@ -49,7 +49,7 @@ if NULL feature_importance will be calculated}
 
 \item{N}{number of observations to be sampled (with replacement) from data}
 
-\item{loss_function}{a function thet will be used to assess variable importance}
+\item{loss_function}{a function that will be used to assess variable importance}
 
 \item{B}{integer, number of permutation rounds to perform on each variable in 
 feature importance calculation. By default it's \code{10}.}

@@ -60,7 +60,7 @@ variables used in the model, should be without target variable}
 \item{clust_method}{the agglomeration method to be used, see
 \code{\link[stats]{hclust}} methods}
 
-\item{loss_function}{a function thet will be used to assess variable 
+\item{loss_function}{a function that will be used to assess variable 
 importance}
 
 \item{B}{integer, number of permutation rounds to perform on each variable in 
