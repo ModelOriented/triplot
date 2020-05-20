@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instance-level explainer for the groups of features • triplot</title>
+<title>Tools for explaining models with correlated values • triplot</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,12 +13,14 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- dalexverse --><link href="dalexverse.css" rel="stylesheet">
 <link href="dalexverse-2.css" rel="stylesheet">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Instance-level explainer for the groups of features">
-<meta property="og:description" content="Aspect importance’s aim is to increase the interpretability of the 
-    black box model by providing instance-level explainer for the groups of 
-    explanatory variables. It enables grouping predictors into entities called 
-    aspects. Afterwards, it can calculate the contribution of those aspects to 
-    the prediction.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Tools for explaining models with correlated values">
+<meta property="og:description" content="Tools for exploration of machine learning predictive models. 
+    Focuses on increasing interpretability of black box models that contain many 
+    correlated values. Delivers an instance-level explainer that  
+    supports calculating the importance of the whole groups of explanatory 
+    variables. Package also provides triplot - tool that illustrates how the 
+    importance of groups of predictors changes depending on the size of those 
+    groups.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -47,7 +49,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -117,7 +119,7 @@
 <li>
 <code><a href="reference/calculate_triplot.html">predict_triplot()</a></code> and <code><a href="reference/calculate_triplot.html">model_triplot()</a></code> for summary of automatic aspect importance grouping,</li>
 <li>
-<code><a href="reference/group_variables.html">group_variables()</a></code> for grouping numeric features into aspects.</li>
+<code><a href="reference/group_variables.html">group_variables()</a></code> for correlated numeric features into aspects.</li>
 </ul>
 <p>The <code>triplot</code> package is a part of <a href="http://DrWhy.AI">DrWhy.AI</a> universe. More information about analysis of machine learning models can be found in the <a href="https://pbiecek.github.io/ema/">Explanatory Model Analysis. Explore, Explain and Examine Predictive Models</a> e-book.</p>
 </div>
@@ -126,23 +128,78 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"ModelOriented/triplot"</span>)</pre></div>
 </div>
-<div id="basic-example" class="section level2">
+<div id="overview-triplot" class="section level2">
 <h2 class="hasAnchor">
-<a href="#basic-example" class="anchor"></a>Basic example</h2>
-<p>For the <code>titanic</code> dataset we build logistic regression model that predicts passenger survival. Afterwards, we group features into thematical aspects. We are interested in explaining the model prediction for the <code>chosen_passenger</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="no">chosen_passenger</span> <span class="kw">&lt;-</span> <span class="no">titanic</span>[<span class="fl">2</span>,]
+<a href="#overview-triplot" class="anchor"></a>Overview (triplot)</h2>
+<p><code>triplot</code> shows, in one place:</p>
+<ul>
+<li>the importance of every single feature,</li>
+<li>hierarchical aspects importance,</li>
+<li>order of grouping features into aspects.</li>
+</ul>
+<p>We can use it to investigate the <strong>instance level</strong> importance of features (using <code><a href="reference/aspect_importance.html">predict_aspects()</a></code> function) or to illustrate the <strong>model level</strong> importance of features (using <code><a href="https://rdrr.io/pkg/DALEX/man/model_parts.html">model_parts()</a></code> function from DALEX package). <code>triplot</code> can be only used on numerical features. More information about this functionality can be found in <a href="https://modeloriented.github.io/triplot/articles/vignette_aspect_importance.html#hierarchical-aspects-importance-1">triplot overview</a>.</p>
+<div id="basic-example-triplot-for-model" class="section level3">
+<h3 class="hasAnchor">
+<a href="#basic-example-triplot-for-model" class="anchor"></a>Basic example (triplot for model)</h3>
+<p>To showcase <code>triplot</code>, we will choose <code>apartments</code> dataset from DALEX, use it’s numeric features to build a model, create DALEX <a href="https://modeloriented.github.io/DALEX/reference/explain.html">explainer</a>, <code><a href="reference/calculate_triplot.html">model_triplot()</a></code> to calculate <code>triplot</code> object and then plot it.</p>
+<details><p><summary>Importing dataset and building a model</summary></p>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DALEX</span>)
 
-<span class="no">chosen_passenger</span></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">##   gender age class    embarked  fare sibsp parch survived</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">## 2   male  13   3rd Southampton 20.05     0     2        0</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">model_titanic_glm</span>, <span class="no">chosen_passenger</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"response"</span>)</pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">##         2 </span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">## 0.1531932</span></span></code></pre></div>
-<p>It turns out that the model prediction for this passenger’s survival is very low.</p>
-<p>Let’s see which aspects have the biggest influence on it.</p>
-<p>We start by building <code>DALEX</code> explainer and use it to call <code><a href="reference/aspect_importance.html">predict_aspects()</a></code> function. Afterwards, we print and plot function results.</p>
-<p>We can observe that <code>wealth</code> variables have the biggest contribution to the prediction. This contribution is of a negative type. <code>Family</code> variables have positive influence on the prediction, but it is many times smaller. Rest of the aspects have very small contribution to the prediction.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">explain_titanic</span> <span class="kw">&lt;-</span> <span class="fu">explain</span>(<span class="no">model_titanic_glm</span>,
+<span class="no">apartments_num</span> <span class="kw">&lt;-</span> <span class="no">apartments</span>[,<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">apartments</span>, <span class="no">is.numeric</span>))]
+
+<span class="no">model_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">m2.price</span> ~ <span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">apartments_num</span>)</pre></div>
+</details><div class="sourceCode" id="cb3"><pre class="r"><span class="no">explain_apartments</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">model</span> <span class="kw">=</span> <span class="no">model_apartments</span>,
+                              <span class="kw">data</span> <span class="kw">=</span> <span class="no">apartments_num</span>[, -<span class="fl">1</span>],
+                              <span class="kw">y</span> <span class="kw">=</span> <span class="no">apartments_num</span>[, <span class="fl">1</span>],
+                              <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+
+<span class="no">tri_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/calculate_triplot.html">model_triplot</a></span>(<span class="no">explain_apartments</span>)
+
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>)</pre></div>
+<p><img src="reference/figures/unnamed-chunk-4-1.png" style="display: block; margin: auto;"></p>
+<p>We can observe that, at the model level, <code>surface</code> and <code>floor</code> have the biggest contribution. <code>Number of rooms</code> and <code>surface</code> are strongly correlated and together have strong influence on the prediction.<code>Construction year</code> has small influence on the prediction, is not correlated with <code>number of rooms</code> nor <code>surface</code> variables. Adding <code>construction year</code> to them, only slightly increases the importance of this group.</p>
+</div>
+<div id="basic-example-triplot-for-observation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#basic-example-triplot-for-observation" class="anchor"></a>Basic example (triplot for observation)</h3>
+<p>Afterwards, we are building triplot for single instance and it’s prediction.</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">new_observation_apartments</span> <span class="kw">&lt;-</span> <span class="no">apartments_num</span>[<span class="fl">6</span>,-<span class="fl">1</span>]
+
+<span class="no">tri_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/calculate_triplot.html">predict_triplot</a></span>(<span class="no">explain_apartments</span>,
+                                  <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>)
+
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>, <span class="kw">add_last_group</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></div>
+<p><img src="reference/figures/unnamed-chunk-5-1.png" style="display: block; margin: auto;"></p>
+<p>We can observe that for the given apartment <code>surface</code> has also significant, positive influence on the prediction. Adding <code>number of rooms</code>, increases its contribution. However, adding <code>construction year</code> to those two features, decreases the group importance.</p>
+<p>We can notice that <code>floor</code> has the small influence on the prediction of this observation, unlike in the model wise analysis.</p>
+</div>
+</div>
+<div id="basic-example-predict_aspects" class="section level2">
+<h2 class="hasAnchor">
+<a href="#basic-example-predict_aspects" class="anchor"></a>Basic example (predict_aspects)</h2>
+<p>For this example we use <code>titanic</code> dataset with a logistic regression model that predicts passenger survival. Features are combined into thematic aspects.</p>
+<details><p><summary>Importing dataset and building a model</summary></p>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">titanic</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="no"><a href="https://rdrr.io/pkg/DALEX/man/titanic.html">titanic_imputed</a></span>
+
+<span class="no">model_titanic_glm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">survived</span> <span class="kw">==</span> <span class="fl">1</span> ~ <span class="no">.</span>, <span class="no">titanic</span>, <span class="kw">family</span> <span class="kw">=</span> <span class="st">"binomial"</span>)
+
+<span class="no">aspects_titanic</span> <span class="kw">&lt;-</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+    <span class="kw">wealth</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"class"</span>, <span class="st">"fare"</span>),
+    <span class="kw">family</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sibsp"</span>, <span class="st">"parch"</span>),
+    <span class="kw">personal</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"age"</span>, <span class="st">"gender"</span>),
+    <span class="kw">embarked</span> <span class="kw">=</span> <span class="st">"embarked"</span>
+  )
+  (<span class="no">chosen_passenger</span> <span class="kw">&lt;-</span> <span class="no">titanic</span>[<span class="fl">2</span>,])</pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">##   gender age class    embarked  fare sibsp parch survived</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">## 2   male  13   3rd Southampton 20.05     0     2        0</span></span></code></pre></div>
+</details><p>We are interested in explaining the model prediction for the <code>chosen_passenger</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">model_titanic_glm</span>, <span class="no">chosen_passenger</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"response"</span>)</pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">##         2 </span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co">## 0.1531932</span></span></code></pre></div>
+<p>It turns out that the model prediction for this passenger’s survival is very low. Let’s see which aspects have the biggest influence on it.</p>
+<p>We start by building DALEX <a href="https://modeloriented.github.io/DALEX/reference/explain.html">explainer</a> and use it to call <code><a href="reference/aspect_importance.html">predict_aspects()</a></code> function. Afterwards, we print and plot function results.</p>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="no">explain_titanic</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">model_titanic_glm</span>,
                            <span class="kw">data</span> <span class="kw">=</span> <span class="no">titanic</span>[, -<span class="fl">8</span>],
                            <span class="kw">y</span> <span class="kw">=</span> <span class="no">titanic</span>$<span class="no">survived</span> <span class="kw">==</span> <span class="st">"yes"</span>,
                            <span class="kw">predict_function</span> <span class="kw">=</span> <span class="no">predict</span>,
@@ -154,40 +211,14 @@
                               <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">aspects_titanic</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">ai_titanic</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">##   variable_groups importance     features</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">## 2          wealth   -0.68985  class, fare</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co">## 3          family    0.14762 sibsp, parch</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co">## 5        embarked   -0.13525     embarked</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="co">## 4        personal   -0.06915  age, gender</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">ai_titanic</span>, <span class="kw">add_importance</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
-<p><img src="reference/figures/unnamed-chunk-4-1.png" style="display: block; margin: auto;"></p>
-</div>
-<div id="triplot-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#triplot-1" class="anchor"></a>Triplot</h2>
-<p><code>Triplot</code> is a tool that allows us to go one step further in our understanding of the inner workings of a black box model.</p>
-<p>We can use it to investigate the <strong>instance level</strong> importance of features (using <code>predict_aspects</code> function) or to illustrate the <strong>model level</strong> importance of features (using <code>model_parts</code> function from <code>DALEX</code> package).</p>
-<p><code>Triplot</code> shows, in one place:</p>
-<ul>
-<li>the importance of every single feature,</li>
-<li>hierarchical aspects importance,</li>
-<li>order of grouping features into aspects in <code><a href="reference/group_variables.html">group_variables()</a></code>.</li>
-</ul>
-<p><code>Triplot</code> can be only used on numerical features.</p>
-<p>To showcase <code>triplot</code>, we will choose numeric features from <code>apartments</code> dataset, build <code>DALEX</code> explainer, <code><a href="reference/calculate_triplot.html">model_triplot()</a></code> to calculate <code>triplot</code> object and then plot it.</p>
-<p>We can observe that, at the model level, <code>surface</code> and <code>floor</code> have the biggest contribution. Number of rooms and surface are strongly correlated and together have strong influence on the prediction.</p>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="no">tri_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/calculate_triplot.html">model_triplot</a></span>(<span class="no">explain_apartments</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>)</pre></div>
-<p><img src="reference/figures/unnamed-chunk-6-1.png" style="display: block; margin: auto;"></p>
-<p>Afterwards, we are building triplot for single instance and it’s prediction.</p>
-<p>We can observe that for the given apartment <code>surface</code> has also big, positive influence on prediction. Adding <code>number of rooms</code> and then <code>construction year</code> to <code>surface's</code> aspect, increases its contribution.</p>
-<p>We can see notice that <code>floor</code> has the smallest influence on the prediction, unlike in model wise analysis.</p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="no">tri_apartments</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/calculate_triplot.html">predict_triplot</a></span>(<span class="no">explain_apartments</span>,
-                                  <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation_apartments</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>)</pre></div>
-<p><img src="reference/figures/unnamed-chunk-7-1.png" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">##   variable_groups importance     features</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co">## 2          wealth   -0.73757  class, fare</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="co">## 4        personal    0.16740  age, gender</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co">## 3          family    0.15002 sibsp, parch</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co">## 5        embarked   -0.02766     embarked</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">ai_titanic</span>)</pre></div>
+<p><img src="reference/figures/unnamed-chunk-9-1.png" style="display: block; margin: auto;"></p>
+<p>We can observe that <code>wealth</code> variables have the biggest contribution to the prediction. This contribution is of a negative type. <code>Personal</code> and <code>Family</code> variables have positive influence on the prediction, but it is much smaller. <code>Embarked</code> feature has very small, negative contribution to the prediction.</p>
 </div>
 <div id="acknowledgments" class="section level2">
 <h2 class="hasAnchor">
@@ -227,6 +258,7 @@
 <li><a href="https://cran.r-project.org/package=triplot"><img src="https://www.r-pkg.org/badges/version/triplot" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://github.com/ModelOriented/triplot/actions?query=workflow%3AR-CMD-check"><img src="https://github.com/ModelOriented/triplot/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
 <li><a href="https://codecov.io/gh/ModelOriented/triplot?branch=master"><img src="https://codecov.io/gh/ModelOriented/triplot/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="http://drwhy.ai/#eXtraAI"><img src="https://img.shields.io/badge/DrWhy-eXtrAI-4378bf" alt="DrWhy-eXtrAI"></a></li>
 </ul>
 </div>
 </div>

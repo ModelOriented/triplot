@@ -43,7 +43,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -101,7 +101,7 @@
       <h1 data-toc-skip>Description of predict_aspects method</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-05-18</h4>
+            <h4 class="date">2020-05-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_description.Rmd"><code>vignettes/vignette_aspect_importance_description.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance_description.Rmd</code></div>
@@ -188,8 +188,8 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <pre><code>#&gt;        4 
 #&gt; 28.78676</code></pre>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">Boston_rf</span>, <span class="no">new_observation</span>)</pre></body></html></div>
-<pre><code>#&gt;       4 
-#&gt; 34.4925</code></pre>
+<pre><code>#&gt;        4 
+#&gt; 34.57115</code></pre>
 <p>As we observe that those two models’ predictions for the <code>new_observation</code> are different, we would like to understand which groups of the observation’s features contribute to this differences. For that, we will use <code>aspects_importance()</code>.</p>
 <p>In the beginning, we have to build an aspect list. Then we will call <code>aspects_importance()</code> for both of those models to check:</p>
 <ul>
@@ -243,13 +243,13 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 5         ptratio    -0.1824        ptratio</code></pre>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">Boston_ai_rf</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance       features
-#&gt; 3          wealth   11.56396      rm, lstat
-#&gt; 7             tax    0.81945            tax
-#&gt; 4       structure    0.79103 indus, age, zn
-#&gt; 2             geo    0.20003  dis, nox, rad
-#&gt; 5         ptratio    0.14840        ptratio
-#&gt; 6               b   -0.04485              b
-#&gt; 8            crim    0.03391           crim</code></pre>
+#&gt; 3          wealth  11.775967      rm, lstat
+#&gt; 4       structure   0.803920 indus, age, zn
+#&gt; 7             tax   0.770318            tax
+#&gt; 2             geo   0.183659  dis, nox, rad
+#&gt; 5         ptratio   0.166829        ptratio
+#&gt; 8            crim  -0.003545           crim
+#&gt; 6               b  -0.001308              b</code></pre>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">Boston_ai_lm</span>, <span class="no">Boston_ai_rf</span>)</pre></body></html></div>
 <p><img src="vignette_aspect_importance_description_files/figure-html/aspect%20importance%20with%20manual%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>In some cases, manually grouping features into aspects may present some challenges. For that reason, we added function that can do that for us. Function <code><a href="../reference/group_variables.html">group_variables()</a></code> groups correlated features into aspects, given a correlation cut-off level.</p>
@@ -283,12 +283,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 7   aspect.group6     0.2445                          b</code></pre>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">Boston_ai_rf_2</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance                   features
-#&gt; 4   aspect.group3   11.44084                  rm, lstat
-#&gt; 2   aspect.group1    1.28621 crim, indus, nox, age, dis
-#&gt; 5   aspect.group4    0.70360                   rad, tax
-#&gt; 6   aspect.group5    0.23056                    ptratio
-#&gt; 3   aspect.group2    0.06257                         zn
-#&gt; 7   aspect.group6   -0.02208                          b</code></pre>
+#&gt; 4   aspect.group3   11.67271                  rm, lstat
+#&gt; 2   aspect.group1    1.13936 crim, indus, nox, age, dis
+#&gt; 5   aspect.group4    0.69892                   rad, tax
+#&gt; 6   aspect.group5    0.25611                    ptratio
+#&gt; 3   aspect.group2    0.07087                         zn
+#&gt; 7   aspect.group6    0.05453                          b</code></pre>
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">Boston_ai_lm_2</span>, <span class="no">Boston_ai_rf_2</span>, <span class="kw">aspects_on_axis</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p><img src="vignette_aspect_importance_description_files/figure-html/aspect%20importance%20with%20automated%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
@@ -339,12 +339,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">ai_Boston_rf</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">show_cor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance                   features   min_cor sign
-#&gt; 4   aspect.group3   10.80149                  rm, lstat 0.6408316  neg
-#&gt; 2   aspect.group1    0.40999 crim, indus, nox, age, dis 0.6794867  neg
-#&gt; 7   aspect.group6   -0.02479                          b        NA     
+#&gt; 4   aspect.group3   11.14640                  rm, lstat 0.6408316  neg
+#&gt; 2   aspect.group1    0.39733 crim, indus, nox, age, dis 0.6794867  neg
+#&gt; 5   aspect.group4    0.08928                   rad, tax 0.7048757  pos
 #&gt; 3   aspect.group2    0.00000                         zn        NA     
-#&gt; 5   aspect.group4    0.00000                   rad, tax 0.7048757  pos
-#&gt; 6   aspect.group5    0.00000                    ptratio        NA</code></pre>
+#&gt; 6   aspect.group5    0.00000                    ptratio        NA     
+#&gt; 7   aspect.group6    0.00000                          b        NA</code></pre>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
@@ -372,14 +372,14 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 
 #&gt; other attached packages:
 #&gt; [1] DALEX_1.2.1         randomForest_4.6-14 mlbench_2.1-1      
-#&gt; [4] triplot_0.1.0      
+#&gt; [4] triplot_1.2.0      
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.4.6       compiler_4.0.0     pillar_1.4.4       iterators_1.0.12  
 #&gt;  [5] tools_4.0.0        digest_0.6.25      lattice_0.20-41    evaluate_0.14     
 #&gt;  [9] memoise_1.1.0      lifecycle_0.2.0    tibble_3.0.1       gtable_0.3.0      
 #&gt; [13] pkgconfig_2.0.3    rlang_0.4.6        foreach_1.5.0      Matrix_1.2-18     
-#&gt; [17] patchwork_1.0.0    yaml_2.2.1         pkgdown_1.5.1.9000 xfun_0.13         
+#&gt; [17] patchwork_1.0.0    yaml_2.2.1         pkgdown_1.5.1.9000 xfun_0.14         
 #&gt; [21] ggdendro_0.1-20    stringr_1.4.0      knitr_1.28         desc_1.2.0        
 #&gt; [25] fs_1.4.1           vctrs_0.3.0        rprojroot_1.3-2    grid_4.0.0        
 #&gt; [29] glmnet_4.0         glue_1.4.1         R6_2.4.1           rmarkdown_2.1     

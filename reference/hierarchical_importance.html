@@ -46,8 +46,8 @@
 
 
 <meta property="og:title" content="Calculates importance of hierarchically grouped aspects — hierarchical_importance" />
-<meta property="og:description" content="This function plots tree that shows order of feature grouping and aspect
-importance or feature importance values of every newly created aspect." />
+<meta property="og:description" content="This function preapres a tree that shows order of feature grouping and
+calculates importance of every newly created aspect." />
 
 
 
@@ -91,7 +91,7 @@ importance or feature importance values of every newly created aspect." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -152,8 +152,8 @@ importance or feature importance values of every newly created aspect." />
     </div>
 
     <div class="ref-description">
-    <p>This function plots tree that shows order of feature grouping and aspect
-importance or feature importance values of every newly created aspect.</p>
+    <p>This function preapres a tree that shows order of feature grouping and
+calculates importance of every newly created aspect.</p>
     </div>
 
     <pre class="usage"><span class='fu'>hierarchical_importance</span>(
@@ -166,6 +166,7 @@ importance or feature importance values of every newly created aspect.</p>
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw pkg'>DALEX</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/DALEX/man/loss_functions.html'>loss_root_mean_square</a></span>,
   <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>fi_type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"raw"</span>, <span class='st'>"ratio"</span>, <span class='st'>"difference"</span>),
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
   <span class='no'>...</span>
 )
@@ -186,17 +187,16 @@ importance or feature importance values of every newly created aspect.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a model to be explained</p></td>
+      <td><p>a model to be explained.</p></td>
     </tr>
     <tr>
       <th>data</th>
-      <td><p>dataset, should be without target variable</p></td>
+      <td><p>dataset
+NOTE: Target variable shouldn't be present in the <code>data</code></p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>true labels for <code>data</code>, will be extracted from <code>x</code>
-if it's an explainer,
-  need to be provided if feature importance is to be calculated</p></td>
+      <td><p>true labels for <code>data</code></p></td>
     </tr>
     <tr>
       <th>predict_function</th>
@@ -204,27 +204,34 @@ if it's an explainer,
     </tr>
     <tr>
       <th>type</th>
-      <td><p>if <code>predict</code> aspect_importance is used, if
-<code>model</code> is used, than feature_importance is calculated</p></td>
+      <td><p>if <code>predict</code> then aspect_importance is used, if
+<code>model</code> than feature_importance is calculated</p></td>
     </tr>
     <tr>
       <th>new_observation</th>
       <td><p>selected observation with columns that corresponds to
-variables used in the model (it should be without target variable),
-if NULL feature_importance will be calculated</p></td>
+variables used in the model, should be without target variable</p></td>
     </tr>
     <tr>
       <th>N</th>
-      <td><p>number of observations to be sampled (with replacement) from data</p></td>
+      <td><p>number of rows to be sampled from data
+NOTE: Small <code>N</code> may cause unstable results.</p></td>
     </tr>
     <tr>
       <th>loss_function</th>
-      <td><p>a function that will be used to assess variable importance</p></td>
+      <td><p>a function that will be used to assess variable
+importance, if <code>type = model</code></p></td>
     </tr>
     <tr>
       <th>B</th>
-      <td><p>integer, number of permutation rounds to perform on each variable in 
-feature importance calculation. By default it's <code>10</code>.</p></td>
+      <td><p>integer, number of permutation rounds to perform on each variable
+in feature importance calculation, if <code>type = model</code></p></td>
+    </tr>
+    <tr>
+      <th>fi_type</th>
+      <td><p>character, type of transformation that should be applied for
+dropout loss, if <code>type = model</code>. "raw" results raw drop losses,
+"ratio" returns <code>drop_loss/drop_loss_full_model</code>.</p></td>
     </tr>
     <tr>
       <th>clust_method</th>
@@ -246,9 +253,8 @@ absolute values</p></td>
     </tr>
     <tr>
       <th>add_last_group</th>
-      <td><p>if TRUE and <code>type</code> is <code>predict</code>, plot will 
-draw connecting line between last two groups at the level of 105<!-- % of the  -->
-biggest importance value, for <code>model</code> this line is always drawn</p></td>
+      <td><p>if TRUE, plot will draw connecting line between last
+two groups</p></td>
     </tr>
     <tr>
       <th>axis_lab_size</th>

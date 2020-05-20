@@ -43,7 +43,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -101,7 +101,7 @@
       <h1 data-toc-skip>Triplot overview</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-05-18</h4>
+            <h4 class="date">2020-05-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance.Rmd"><code>vignettes/vignette_aspect_importance.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance.Rmd</code></div>
@@ -198,7 +198,7 @@
 #&gt; 3          family    0.16723 sibsp, parch
 #&gt; 5        embarked   -0.02766     embarked</code></pre>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">titanic_glm_ai</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Aspect importance for the selected passenger"</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_files/figure-html/Calculating%20aspect%20importance%20(logistic%20regression)-1.png" width="700"></p>
+<p><img src="vignette_aspect_importance_files/figure-html/Calculating%20aspect%20importance%20(logistic%20regression)-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="random-forest-model-for-titanic-survival" class="section level1">
 <h1 class="hasAnchor">
@@ -239,7 +239,7 @@
 #&gt; 5        embarked  -0.044127     embarked
 #&gt; 3          family   0.002889 sibsp, parch</code></pre>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">titanic_rf_ai</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Aspect importance for the selected passenger"</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_files/figure-html/Calculating%20aspect%20importance%20(random%20forest)-1.png" width="700"></p>
+<p><img src="vignette_aspect_importance_files/figure-html/Calculating%20aspect%20importance%20(random%20forest)-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="using-lasso-in-predict_aspects-function" class="section level1">
 <h1 class="hasAnchor">
@@ -327,7 +327,7 @@
 <ul>
 <li>surface have biggest impact on prediction,</li>
 <li>every feature has positive influence on prediction,</li>
-<li>surface and number of rooms are, unsuprisingly, strongly correlated and together they have strong influence on the prediction,</li>
+<li>surface and number of rooms are, unsurprisingly, strongly correlated and together they have strong influence on the prediction,</li>
 </ul>
 <div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">123</span>)
 
@@ -343,7 +343,7 @@
      <span class="kw">abbrev_labels</span> <span class="kw">=</span> <span class="fl">15</span>,
      <span class="kw">add_last_group</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
      <span class="kw">margin_mid</span> <span class="kw">=</span> <span class="fl">0</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p><img src="vignette_aspect_importance_files/figure-html/unnamed-chunk-2-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
@@ -364,7 +364,7 @@
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] randomForest_4.6-14 triplot_0.1.0       ggplot2_3.3.0      
+#&gt; [1] randomForest_4.6-14 triplot_1.2.0       ggplot2_3.3.0      
 #&gt; [4] DALEX_1.2.1        
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
@@ -372,7 +372,7 @@
 #&gt;  [5] tools_4.0.0        digest_0.6.25      lattice_0.20-41    evaluate_0.14     
 #&gt;  [9] memoise_1.1.0      lifecycle_0.2.0    tibble_3.0.1       gtable_0.3.0      
 #&gt; [13] pkgconfig_2.0.3    rlang_0.4.6        foreach_1.5.0      Matrix_1.2-18     
-#&gt; [17] patchwork_1.0.0    yaml_2.2.1         pkgdown_1.5.1.9000 xfun_0.13         
+#&gt; [17] patchwork_1.0.0    yaml_2.2.1         pkgdown_1.5.1.9000 xfun_0.14         
 #&gt; [21] ggdendro_0.1-20    withr_2.2.0        stringr_1.4.0      knitr_1.28        
 #&gt; [25] desc_1.2.0         fs_1.4.1           vctrs_0.3.0        glmnet_4.0        
 #&gt; [29] rprojroot_1.3-2    grid_4.0.0         glue_1.4.1         R6_2.4.1          

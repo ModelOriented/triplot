@@ -90,7 +90,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -184,7 +184,7 @@ absolute values</p></td>
     <tr>
       <th>add_importance_labels</th>
       <td><p>if TRUE, first plot is annotated with values of
-aspects importance</p></td>
+aspects importance on the bars</p></td>
     </tr>
     <tr>
       <th>show_model_label</th>
@@ -197,9 +197,10 @@ importance plot will be abbreviated according to this parameter</p></td>
     </tr>
     <tr>
       <th>add_last_group</th>
-      <td><p>if TRUE and <code>type</code> is <code>predict</code>, plot will 
-draw connecting line between last two groups at the level of 105<!-- % of the  -->
-biggest importance value, for <code>model</code> this line is always drawn</p></td>
+      <td><p>if TRUE and <code>type = predict</code>, plot will
+draw connecting line between last two groups at the level of 105<!-- % of the -->
+biggest importance value, for <code>model</code> this line is always drawn at
+the baseline value</p></td>
     </tr>
     <tr>
       <th>axis_lab_size</th>

@@ -47,10 +47,12 @@
 
 <meta property="og:title" content="Function for getting binary matrix — get_sample" />
 <meta property="og:description" content="Function creates binary matrix, to be used in aspect_importance method. It
-starts with a zero matrix. Then it replaces some zeros with ones. It either
-randomly replaces one or two zeros per row. Or replace random number of zeros
-per row - average number of replaced zeros can be controlled by parameter f.
-Function doesn't allow the returned matrix to have rows with only zeros." />
+starts with a zero matrix. Then it replaces some zeros with ones. If 
+sample_method = &quot;default&quot; it randomly replaces one or two zeros per 
+row. If sample_method = &quot;binom&quot; it replaces random number of zeros
+per row - average number of replaced zeros can be controlled by parameter 
+sample_method = &quot;f&quot;. Function doesn't allow the returned matrix to 
+have rows with only zeros." />
 
 
 
@@ -94,7 +96,7 @@ Function doesn't allow the returned matrix to have rows with only zeros." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -156,10 +158,12 @@ Function doesn't allow the returned matrix to have rows with only zeros." />
 
     <div class="ref-description">
     <p>Function creates binary matrix, to be used in aspect_importance method. It
-starts with a zero matrix. Then it replaces some zeros with ones. It either
-randomly replaces one or two zeros per row. Or replace random number of zeros
-per row - average number of replaced zeros can be controlled by parameter f.
-Function doesn't allow the returned matrix to have rows with only zeros.</p>
+starts with a zero matrix. Then it replaces some zeros with ones. If 
+<code>sample_method = "default"</code> it randomly replaces one or two zeros per 
+row. If <code>sample_method = "binom"</code> it replaces random number of zeros
+per row - average number of replaced zeros can be controlled by parameter 
+<code>sample_method = "f"</code>. Function doesn't allow the returned matrix to 
+have rows with only zeros.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_sample</span>(<span class='no'>n</span>, <span class='no'>p</span>, <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"default"</span>, <span class='st'>"binom"</span>), <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>

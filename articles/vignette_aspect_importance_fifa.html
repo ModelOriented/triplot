@@ -43,7 +43,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -101,7 +101,7 @@
       <h1 data-toc-skip>Usecase with FIFA 20 dataset</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-05-18</h4>
+            <h4 class="date">2020-05-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_fifa.Rmd"><code>vignettes/vignette_aspect_importance_fifa.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance_fifa.Rmd</code></div>
@@ -114,7 +114,7 @@
 <h1 class="hasAnchor">
 <a href="#data" class="anchor"></a>Data</h1>
 <p>This vignette demonstrates the use of the triplot package on Fifa20 dataset. Dataset was downloaded from the Kaggle website, preprocessed and made available in DALEX package.</p>
-<p>Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro (in milions).</p>
+<p>Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro (in millions).</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"DALEX"</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"triplot"</span>)
 
@@ -366,11 +366,11 @@
                 <span class="kw">variable_groups</span> <span class="kw">=</span> <span class="no">fifa_vg</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">aspects_gk_rms</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-8-1.png" width="1152" style="display: block; margin: auto;"></p>
+<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">aspects_gk_rf</span>,
       <span class="no">aspects_gk_rf_m</span>,
       <span class="no">aspects_gk_gbm</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-8-2.png" width="1152" style="display: block; margin: auto;"></p>
+<p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-9-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
@@ -393,7 +393,7 @@
 #&gt; other attached packages:
 #&gt;  [1] gbm_2.1.5       rms_5.1-4       SparseM_1.78    Hmisc_4.4-0    
 #&gt;  [5] ggplot2_3.3.0   Formula_1.2-3   survival_3.1-12 lattice_0.20-41
-#&gt;  [9] ranger_0.12.1   triplot_0.1.0   DALEX_1.2.1    
+#&gt;  [9] ranger_0.12.1   triplot_1.2.0   DALEX_1.2.1    
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] ggdendro_0.1-20     splines_4.0.0       foreach_1.5.0      
@@ -420,7 +420,7 @@
 #&gt; [64] knitr_1.28          rprojroot_1.3-2     shape_1.4.4        
 #&gt; [67] desc_1.2.0          stringi_1.4.6       Rcpp_1.0.4.6       
 #&gt; [70] vctrs_0.3.0         rpart_4.1-15        acepack_1.4.1      
-#&gt; [73] png_0.1-7           xfun_0.13</code></pre>
+#&gt; [73] png_0.1-7           xfun_0.14</code></pre>
 </div>
   </div>
 
