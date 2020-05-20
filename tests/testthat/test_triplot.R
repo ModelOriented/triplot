@@ -120,6 +120,21 @@ test_that("check plot.calculate_triplot function for FI",{
   
 })
 
+test_that("",{
+  library("DALEX")
+  library("triplot")
+  
+  apartments_tri <- calculate_triplot(x = apartments_explain,
+                                      type = "model")
+
+  expect_true(dim(apartments_tri[[1]])[1] == 66)
+  expect_true(class(apartments_tri[[2]]) == "hierarchical_importance")
+  expect_true("hclust" %in% class(apartments_tri[[3]]))
+  expect_true(apartments_tri[[5]] == "model")
+  
+})
+
+
 test_that("check triplot aliases",{
   library("DALEX")
   library("triplot")
