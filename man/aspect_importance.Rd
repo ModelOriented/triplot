@@ -26,10 +26,10 @@ aspect_importance(x, ...)
   x,
   data,
   predict_function = predict,
+  label = class(x)[1],
   new_observation,
   variable_groups,
   N = 100,
-  label = class(x)[1],
   sample_method = "default",
   n_var = 0,
   f = 2,
@@ -51,7 +51,8 @@ variables used in the model}
 
 \item{variable_groups}{list containing grouping of features into aspects}
 
-\item{N}{number of observations to be sampled (with replacement) from data}
+\item{N}{number of observations to be sampled (with replacement) from data
+NOTE: Small \code{N} may cause unstable results.}
 
 \item{sample_method}{sampling method in \code{\link{get_sample}}}
 

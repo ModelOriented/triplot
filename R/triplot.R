@@ -1,9 +1,8 @@
 #' Calculate triplot that sums up automatic aspect/feature importance grouping
 #'
-#' This function shows: \itemize{ \item plot for aspect_importance or
-#' feature_importance with
-#' single aspect \item tree that shows aspect_importance for every newly
-#' expanded aspect
+#' This function shows:
+#' \itemize{ \item plot for the importance of single variables,
+#' \item tree that shows importance for every newly expanded group of variables,
 #' \item clustering tree. }
 #'
 #' @param x an explainer created with the \code{DALEX::explain()} function
@@ -14,26 +13,29 @@
 #' if it's an explainer
 #' @param predict_function predict function, it will be extracted from \code{x}
 #'   if it's an explainer
-#' @param type if \code{predict} aspect_importance is used, if
-#'   \code{model} is used, than feature_importance is calculated
+#' @param label name of the model. By default it's extracted from the 'class'
+#'   attribute of the model.
+#' @param type if \code{predict} then aspect_importance is used, if
+#'   \code{model} than feature_importance is calculated
 #' @param new_observation selected observation with columns that corresponds to
 #'   variables used in the model, should be without target variable
 #' @param N number of rows to be sampled from data
-#' @param loss_function a function that will be used to assess variable 
-#'   importance
-#' @param B integer, number of permutation rounds to perform on each variable in 
-#'   feature importance calculation. By default it's \code{10}.
+#'   NOTE: Small \code{N} may cause unstable results.
+#' @param loss_function a function that will be used to assess variable
+#'   importance, if \code{type = model}
+#' @param B integer, number of permutation rounds to perform on each variable
+#'   in feature importance calculation, if \code{type = model}
+#' @param fi_type character, type of transformation that should be applied for
+#'   dropout loss, if \code{type = model}. "raw" results raw drop losses,
+#'   "ratio" returns \code{drop_loss/drop_loss_full_model}.
 #' @param clust_method the agglomeration method to be used, see
 #'   \code{\link[stats]{hclust}} methods
-#' @param label name of the model. By default it's extracted from the 'class'
-#'   attribute of the model.
 #' @param ... other parameters
 #'
 #' @import stats
 #' @importFrom DALEX feature_importance
-#' @importFrom DALEX explain 
+#' @importFrom DALEX explain
 #' 
-#'
 #' @return triplot object
 #'
 #' @examples
@@ -51,7 +53,6 @@
 #'                                     new_observation =
 #'                                       apartments_num_new_observation[-1])
 #'
-#'
 #' @export
 
 calculate_triplot <- function(x, ...)
@@ -64,10 +65,12 @@ calculate_triplot.explainer <- function(x,
                                         type = c("predict", "model"),
                                         new_observation = NULL,
                                         N = 1000,
-                                        clust_method = "complete",
-                                        loss_function = 
+                                        loss_function =
                                           DALEX::loss_root_mean_square,
                                         B = 10,
+                                        fi_type =
+                                          c("raw", "ratio", "difference"),
+                                        clust_method = "complete",
                                         ...) {
   
   type <- match.arg(type)
@@ -102,6 +105,7 @@ calculate_triplot.explainer <- function(x,
                             N = N,
                             loss_function = loss_function,
                             B = B,
+                            fi_type = fi_type,
                             clust_method = clust_method,
                             label = label)
 }
@@ -111,20 +115,22 @@ calculate_triplot.explainer <- function(x,
 
 calculate_triplot.default <- function(x, data, y = NULL,
                                       predict_function = predict,
+                                      label = class(x)[1],
                                       type = c("predict", "model"),
                                       new_observation = NULL,
                                       N = 1000,
                                       loss_function = 
                                         DALEX::loss_root_mean_square,
                                       B = 10,
+                                      fi_type = c("raw", "ratio", "difference"),
                                       clust_method = "complete",
-                                      label = class(x)[1],
                                       ...) {
   
   type <- match.arg(type)
+  fi_type <- match.arg(fi_type)
   stopifnot(all(sapply(data, is.numeric)))
   
-  # Calculations for second plot -------------------------------------------------
+  # Calculations for second plot ----------------------------------------------
   
   hi <- hierarchical_importance(x = x, data = data, y = y,
                                 predict_function = predict_function,
@@ -133,13 +139,14 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                 N = N,
                                 loss_function = loss_function,
                                 B = B,
+                                fi_type = fi_type,
                                 clust_method = clust_method)
   
-  # Calculations for third plot --------------------------------------------------
+  # Calculations for third plot -----------------------------------------------
   
   cv <- cluster_variables(data, clust_method)
   
-  # Calculations for first plot --------------------------------------------------
+  # Calculations for first plot -----------------------------------------------
   
   if (type != "predict") {
     
@@ -150,7 +157,8 @@ calculate_triplot.default <- function(x, data, y = NULL,
     importance_leaves <- feature_importance(explainer = explainer,
                                             n_sample = N,
                                             loss_function = loss_function,
-                                            B = B)
+                                            B = B,
+                                            type = fi_type)
   } else {
 
     importance_leaves <- aspect_importance_single(x, data,
@@ -212,13 +220,14 @@ print.triplot <- function(x, ...) {
 #' @param absolute_value if TRUE, aspect importance values will be drawn as
 #'   absolute values
 #' @param add_importance_labels if TRUE, first plot is annotated with values of
-#'   aspects importance
+#'   aspects importance on the bars
 #' @param show_model_label if TRUE, adds subtitle with model label
 #' @param abbrev_labels if greater than 0, labels for axis Y in single aspect
 #'   importance plot will be abbreviated according to this parameter
-#' @param add_last_group if TRUE and \code{type} is \code{predict}, plot will 
-#'   draw connecting line between last two groups at the level of 105% of the 
-#'   biggest importance value, for \code{model} this line is always drawn
+#' @param add_last_group if TRUE and \code{type = predict}, plot will
+#'   draw connecting line between last two groups at the level of 105% of the
+#'   biggest importance value, for \code{model} this line is always drawn at
+#'   the baseline value
 #' @param axis_lab_size size of labels on axis
 #' @param text_size size of labels annotating values of aspects importance and
 #'   correlations
@@ -346,17 +355,17 @@ plot.triplot <- function(x,
   p3 <- p3 + scale_x_continuous(expand = expansion(add = expansion_parameter))
   
   suppressMessages(p1 <- p1 + 
-                     scale_y_continuous(expand = expansion(add = c(0,0.5))))
+                     scale_y_continuous(expand = expansion(add = c(0, 0.5))))
   suppressMessages(p2 <- p2 + 
                        scale_y_continuous(expand = 
-                                            expansion(mult = c(margin_mid,0))))
+                                            expansion(mult = c(margin_mid, 0))))
   suppressMessages(p3 <- p3 + 
-                       scale_y_continuous(expand = expansion(mult = c(0.1,0))))
+                       scale_y_continuous(expand = expansion(mult = c(0.1, 0))))
 
 # plot --------------------------------------------------------------------
 
   p <- p1 + p2 + p3 + 
-    plot_annotation(title = 'Triplot',
+    plot_annotation(title = "Triplot",
                     theme = theme(plot.title = element_text(hjust = 0.5),
                                   text = theme_drwhy()$plot.title))
   

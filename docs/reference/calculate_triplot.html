@@ -47,11 +47,8 @@
 
 <meta property="og:title" content="Calculate triplot that sums up automatic aspect/feature importance grouping — calculate_triplot" />
 <meta property="og:description" content="This function shows:
-plot for aspect_importance or
-feature_importance with
-single aspect
-tree that shows aspect_importance for every newly
-expanded aspect
+plot for the importance of single variables,
+tree that shows importance for every newly expanded group of variables,
 clustering tree.
 
 " />
@@ -98,7 +95,7 @@ clustering tree.
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -128,6 +125,9 @@ clustering tree.
     </li>
     <li>
       <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa_mln.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -160,11 +160,8 @@ clustering tree.
 
     <div class="ref-description">
     <p>This function shows:</p><ul>
-<li><p>plot for aspect_importance or
-feature_importance with
-single aspect</p></li>
-<li><p>tree that shows aspect_importance for every newly
-expanded aspect</p></li>
+<li><p>plot for the importance of single variables,</p></li>
+<li><p>tree that shows importance for every newly expanded group of variables,</p></li>
 <li><p>clustering tree.</p></li>
 </ul>
 
@@ -178,6 +175,9 @@ expanded aspect</p></li>
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"predict"</span>, <span class='st'>"model"</span>),
   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw pkg'>DALEX</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/DALEX/man/loss_functions.html'>loss_root_mean_square</a></span>,
+  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>fi_type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"raw"</span>, <span class='st'>"ratio"</span>, <span class='st'>"difference"</span>),
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
   <span class='no'>...</span>
 )
@@ -188,9 +188,13 @@ expanded aspect</p></li>
   <span class='no'>data</span>,
   <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>,
+  <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)[<span class='fl'>1</span>],
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"predict"</span>, <span class='st'>"model"</span>),
   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw pkg'>DALEX</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/DALEX/man/loss_functions.html'>loss_root_mean_square</a></span>,
+  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>fi_type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"raw"</span>, <span class='st'>"ratio"</span>, <span class='st'>"difference"</span>),
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
   <span class='no'>...</span>
 )
@@ -216,8 +220,8 @@ or a model to be explained.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>if <code>predict</code> aspect_importance is used, if
-<code>model</code> is used, than feature_importance is calculated</p></td>
+      <td><p>if <code>predict</code> then aspect_importance is used, if
+<code>model</code> than feature_importance is calculated</p></td>
     </tr>
     <tr>
       <th>new_observation</th>
@@ -226,7 +230,24 @@ variables used in the model, should be without target variable</p></td>
     </tr>
     <tr>
       <th>N</th>
-      <td><p>number of rows to be sampled from data</p></td>
+      <td><p>number of rows to be sampled from data
+NOTE: Small <code>N</code> may cause unstable results.</p></td>
+    </tr>
+    <tr>
+      <th>loss_function</th>
+      <td><p>a function that will be used to assess variable 
+importance, if <code>type = model</code></p></td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td><p>integer, number of permutation rounds to perform on each variable in 
+feature importance calculation, if <code>type = model</code></p></td>
+    </tr>
+    <tr>
+      <th>fi_type</th>
+      <td><p>character, type of transformation that should be applied for 
+dropout loss, if <code>type = model</code>. "raw" results raw drop losses, 
+"ratio" returns <code>drop_loss/drop_loss_full_model</code>.</p></td>
     </tr>
     <tr>
       <th>clust_method</th>
@@ -247,6 +268,11 @@ if it's an explainer</p></td>
       <th>predict_function</th>
       <td><p>predict function, it will be extracted from <code>x</code>
 if it's an explainer</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>name of the model. By default it's extracted from the 'class'
+attribute of the model.</p></td>
     </tr>
     </table>
 

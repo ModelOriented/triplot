@@ -11,7 +11,7 @@ aspect_importance_single(x, ...)
 \method{aspect_importance_single}{explainer}(
   x,
   new_observation,
-  N = 100,
+  N = 1000,
   sample_method = "default",
   n_var = 0,
   f = 2,
@@ -22,9 +22,9 @@ aspect_importance_single(x, ...)
   x,
   data,
   predict_function = predict,
-  new_observation,
-  N = 100,
   label = class(x)[1],
+  new_observation,
+  N = 1000,
   sample_method = "default",
   n_var = 0,
   f = 2,
@@ -40,7 +40,8 @@ or a model to be explained.}
 \item{new_observation}{selected observation with columns that corresponds to
 variables used in the model, should be without target variable}
 
-\item{N}{number of observations to be sampled (with replacement) from data}
+\item{N}{number of observations to be sampled (with replacement) from data
+NOTE: Small \code{N} may cause unstable results.}
 
 \item{sample_method}{sampling method in \code{\link{get_sample}}}
 

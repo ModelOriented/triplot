@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 This vignette demonstrates the use of the triplot package on Fifa20 dataset. Dataset was downloaded from the Kaggle website, preprocessed and made available in DALEX package. 
 
-Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro (in milions). 
+Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro (in millions). 
 
 
 ```{r}
@@ -229,7 +229,7 @@ plot(fifa_rms_tri_player, show_model_label = TRUE, margin_mid = 0.2)
 
 For comparison, for next analysis we pick one of the goal keeper's prediction to be explained.
 
-```{r fig.height = 4}
+```{r fig.height = 4, fig.width = 8}
 set.seed(123)
 
 player_gk <- fifa["J. Oblak",]
@@ -254,10 +254,14 @@ aspects_gk_rms <- predict_aspects(fifa_rms_exp,
 
 plot(aspects_gk_rms)
 
+
+```
+
+```{r fig.height = 4, fig.width = 12}
+
 plot(aspects_gk_rf,
       aspects_gk_rf_m,
       aspects_gk_gbm)
-
 ```
 
 

@@ -12,7 +12,7 @@
 \item{show_features}{show list of features for every aspect}
 
 \item{show_corr}{show if all features in aspect are pairwise positively
-correlated, (works for numeric features)}
+correlated (for numeric features only)}
 
 \item{...}{other parameters}
 }

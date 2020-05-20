@@ -46,8 +46,8 @@
 
 
 <meta property="og:title" content="Calculates importance of hierarchically grouped aspects — hierarchical_importance" />
-<meta property="og:description" content="This function plots tree that shows order of feature grouping and aspect
-importance or feature importance values of every newly created aspect." />
+<meta property="og:description" content="This function preapres a tree that shows order of feature grouping and 
+calculates importance of every newly created aspect." />
 
 
 
@@ -91,7 +91,7 @@ importance or feature importance values of every newly created aspect." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -121,6 +121,9 @@ importance or feature importance values of every newly created aspect." />
     </li>
     <li>
       <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa_mln.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -152,8 +155,8 @@ importance or feature importance values of every newly created aspect." />
     </div>
 
     <div class="ref-description">
-    <p>This function plots tree that shows order of feature grouping and aspect
-importance or feature importance values of every newly created aspect.</p>
+    <p>This function preapres a tree that shows order of feature grouping and 
+calculates importance of every newly created aspect.</p>
     </div>
 
     <pre class="usage"><span class='fu'>hierarchical_importance</span>(
@@ -164,6 +167,9 @@ importance or feature importance values of every newly created aspect.</p>
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"predict"</span>,
   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>loss_function</span> <span class='kw'>=</span> <span class='kw pkg'>DALEX</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/DALEX/man/loss_functions.html'>loss_root_mean_square</a></span>,
+  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>fi_type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"raw"</span>, <span class='st'>"ratio"</span>, <span class='st'>"difference"</span>),
   <span class='kw'>clust_method</span> <span class='kw'>=</span> <span class='st'>"complete"</span>,
   <span class='no'>...</span>
 )
@@ -173,7 +179,7 @@ importance or feature importance values of every newly created aspect.</p>
   <span class='no'>x</span>,
   <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='no'>...</span>
@@ -184,17 +190,16 @@ importance or feature importance values of every newly created aspect.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>a model to be explained</p></td>
+      <td><p>a model to be explained.</p></td>
     </tr>
     <tr>
       <th>data</th>
-      <td><p>dataset, should be without target variable</p></td>
+      <td><p>dataset
+NOTE: Target variable shouldn't be present in the <code>data</code></p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>true labels for <code>data</code>, will be extracted from <code>x</code>
-if it's an explainer,
-  need to be provided if feature importance is to be calculated</p></td>
+      <td><p>true labels for <code>data</code></p></td>
     </tr>
     <tr>
       <th>predict_function</th>
@@ -202,18 +207,34 @@ if it's an explainer,
     </tr>
     <tr>
       <th>type</th>
-      <td><p>if <code>predict</code> aspect_importance is used, if
-<code>model</code> is used, than feature_importance is calculated</p></td>
+      <td><p>if <code>predict</code> then aspect_importance is used, if
+<code>model</code> than feature_importance is calculated</p></td>
     </tr>
     <tr>
       <th>new_observation</th>
       <td><p>selected observation with columns that corresponds to
-variables used in the model (it should be without target variable),
-if NULL feature_importance will be calculated</p></td>
+variables used in the model, should be without target variable</p></td>
     </tr>
     <tr>
       <th>N</th>
-      <td><p>number of observations to be sampled (with replacement) from data</p></td>
+      <td><p>number of rows to be sampled from data
+NOTE: Small <code>N</code> may cause unstable results.</p></td>
+    </tr>
+    <tr>
+      <th>loss_function</th>
+      <td><p>a function that will be used to assess variable 
+importance, if <code>type = model</code></p></td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td><p>integer, number of permutation rounds to perform on each variable in 
+feature importance calculation, if <code>type = model</code></p></td>
+    </tr>
+    <tr>
+      <th>fi_type</th>
+      <td><p>character, type of transformation that should be applied for 
+dropout loss, if <code>type = model</code>. "raw" results raw drop losses, 
+"ratio" returns <code>drop_loss/drop_loss_full_model</code>.</p></td>
     </tr>
     <tr>
       <th>clust_method</th>
@@ -223,28 +244,6 @@ if NULL feature_importance will be calculated</p></td>
     <tr>
       <th>...</th>
       <td><p>other parameters</p></td>
-    </tr>
-    <tr>
-      <th>absolute_value</th>
-      <td><p>if TRUE, aspect importance values will be drawn as
-absolute values</p></td>
-    </tr>
-    <tr>
-      <th>show_labels</th>
-      <td><p>if TRUE, plot will have annotated axis Y</p></td>
-    </tr>
-    <tr>
-      <th>add_last_group</th>
-      <td><p>if TRUE, plot will draw connecting line between last
-two groups</p></td>
-    </tr>
-    <tr>
-      <th>axis_lab_size</th>
-      <td><p>size of labels on axis Y, if applicable</p></td>
-    </tr>
-    <tr>
-      <th>text_size</th>
-      <td><p>size of labels annotating values of aspects importance</p></td>
     </tr>
     </table>
 
@@ -256,7 +255,6 @@ two groups</p></td>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
 <span class='no'>apartments_num</span> <span class='kw'>&lt;-</span> <span class='no'>apartments</span>[,<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>apartments</span>, <span class='no'>is.numeric</span>))]
 <span class='no'>apartments_num_lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>m2.price</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>)
-<span class='no'>apartments_num_new_observation</span> <span class='kw'>&lt;-</span> <span class='no'>apartments_num</span>[<span class='fl'>2</span>,]
 <span class='no'>hi</span> <span class='kw'>&lt;-</span> <span class='fu'>hierarchical_importance</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>apartments_num_lm_model</span>,
  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[,-<span class='fl'>1</span>],
  <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>apartments_num</span>[,<span class='fl'>1</span>],

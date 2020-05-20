@@ -90,7 +90,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -120,6 +120,9 @@
     </li>
     <li>
       <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa_mln.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -159,12 +162,13 @@
   <span class='no'>x</span>,
   <span class='kw'>absolute_value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>add_importance_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show_axis_y_duplicated_labels</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show_model_label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>abbrev_labels</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add_last_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>axis_lab_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>bar_width</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>margin_mid</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -183,12 +187,11 @@ absolute values</p></td>
     <tr>
       <th>add_importance_labels</th>
       <td><p>if TRUE, first plot is annotated with values of
-aspects importance</p></td>
+aspects importance on the bars</p></td>
     </tr>
     <tr>
-      <th>show_axis_y_duplicated_labels</th>
-      <td><p>if TRUE, every plot will have annotated
-axis Y</p></td>
+      <th>show_model_label</th>
+      <td><p>if TRUE, adds subtitle with model label</p></td>
     </tr>
     <tr>
       <th>abbrev_labels</th>
@@ -197,8 +200,10 @@ importance plot will be abbreviated according to this parameter</p></td>
     </tr>
     <tr>
       <th>add_last_group</th>
-      <td><p>if TRUE, second plot will draw connecting line between
-last two groups</p></td>
+      <td><p>if TRUE and <code>type = predict</code>, plot will 
+draw connecting line between last two groups at the level of 105<!-- % of the  -->
+biggest importance value, for <code>model</code> this line is always drawn at 
+the baseline value</p></td>
     </tr>
     <tr>
       <th>axis_lab_size</th>
@@ -212,6 +217,10 @@ correlations</p></td>
     <tr>
       <th>bar_width</th>
       <td><p>bar width in the first plot</p></td>
+    </tr>
+    <tr>
+      <th>margin_mid</th>
+      <td><p>size of a right margin of a middle plot</p></td>
     </tr>
     <tr>
       <th>...</th>

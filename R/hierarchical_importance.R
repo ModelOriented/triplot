@@ -1,33 +1,28 @@
 #' Calculates importance of hierarchically grouped aspects
 #'
-#' This function plots tree that shows order of feature grouping and aspect
-#' importance or feature importance values of every newly created aspect.
+#' This function preapres a tree that shows order of feature grouping and
+#' calculates importance of every newly created aspect.
 #'
-#' @param x a model to be explained
-#' @param data dataset, should be without target variable
-#' @param y true labels for \code{data}, will be extracted from \code{x}
-#' if it's an explainer,
-#'   need to be provided if feature importance is to be calculated
+#' @param x a model to be explained.
+#' @param data dataset
+#' NOTE: Target variable shouldn't be present in the \code{data}
+#' @param y true labels for \code{data}
 #' @param predict_function predict function
-#' @param type if \code{predict} aspect_importance is used, if
-#'   \code{model} is used, than feature_importance is calculated
+#' @param type if \code{predict} then aspect_importance is used, if
+#'   \code{model} than feature_importance is calculated
 #' @param new_observation selected observation with columns that corresponds to
-#'   variables used in the model (it should be without target variable),
-#'   if NULL feature_importance will be calculated
-#' @param N number of observations to be sampled (with replacement) from data
-#' @param loss_function a function that will be used to assess variable importance
-#' @param B integer, number of permutation rounds to perform on each variable in 
-#'   feature importance calculation. By default it's \code{10}.
+#'   variables used in the model, should be without target variable
+#' @param N number of rows to be sampled from data
+#'   NOTE: Small \code{N} may cause unstable results.
+#' @param loss_function a function that will be used to assess variable
+#'   importance, if \code{type = model}
+#' @param B integer, number of permutation rounds to perform on each variable
+#'   in feature importance calculation, if \code{type = model}
+#' @param fi_type character, type of transformation that should be applied for
+#'   dropout loss, if \code{type = model}. "raw" results raw drop losses,
+#'   "ratio" returns \code{drop_loss/drop_loss_full_model}.
 #' @param clust_method the agglomeration method to be used, see
 #'   \code{\link[stats]{hclust}} methods
-#' @param absolute_value if TRUE, aspect importance values will be drawn as
-#'   absolute values
-#' @param show_labels if TRUE, plot will have annotated axis Y
-#' @param add_last_group if TRUE and \code{type} is \code{predict}, plot will 
-#'   draw connecting line between last two groups at the level of 105% of the 
-#'   biggest importance value, for \code{model} this line is always drawn
-#' @param axis_lab_size size of labels on axis Y, if applicable
-#' @param text_size size of labels annotating values of aspects importance
 #' @param ... other parameters
 #'
 #' @return ggplot
@@ -59,9 +54,10 @@ hierarchical_importance <- function(x, data, y = NULL,
                                     type = "predict",
                                     new_observation = NULL,
                                     N = 1000,
-                                    loss_function = 
+                                    loss_function =
                                       DALEX::loss_root_mean_square,
                                     B = 10,
+                                    fi_type = c("raw", "ratio", "difference"),
                                     clust_method = "complete",
                                     ...) {
   
@@ -69,6 +65,8 @@ hierarchical_importance <- function(x, data, y = NULL,
     stop("Target is needed for hierarchical_importance calculated at model 
          level")
   }
+  
+  fi_type <- match.arg(fi_type)
   
   # Building helper objects ---------------------------------------------
   
@@ -98,7 +96,8 @@ hierarchical_importance <- function(x, data, y = NULL,
                                    variable_groups = aspects_list_current,
                                    n_sample = N,
                                    loss_function = loss_function,
-                                   B = B)
+                                   B = B,
+                                   type = fi_type)
       res_ai <- res_ai[res_ai$permutation == "0", ]
       
       int_node_importance[i, 1] <-
@@ -119,10 +118,10 @@ hierarchical_importance <- function(x, data, y = NULL,
 
   if (type != "predict") {
     res <- feature_importance(explainer = explainer,
-                                       variable_groups = list_variables(x_hc, 0),
-                                       n_sample = N,
-                                       loss_function = loss_function,
-                                       B = B)
+                              variable_groups = list_variables(x_hc, 0),
+                              n_sample = N,
+                              loss_function = loss_function,
+                              B = B)
     res <- res[res$permutation == "0", ]
     baseline_val <-
       res[res$variable == "aspect.group1", ]$dropout_loss

@@ -25,16 +25,17 @@
 absolute values}
 
 \item{add_importance_labels}{if TRUE, first plot is annotated with values of
-aspects importance}
+aspects importance on the bars}
 
 \item{show_model_label}{if TRUE, adds subtitle with model label}
 
 \item{abbrev_labels}{if greater than 0, labels for axis Y in single aspect
 importance plot will be abbreviated according to this parameter}
 
-\item{add_last_group}{if TRUE and \code{type} is \code{predict}, plot will 
-draw connecting line between last two groups at the level of 105% of the 
-biggest importance value, for \code{model} this line is always drawn}
+\item{add_last_group}{if TRUE and \code{type = predict}, plot will
+draw connecting line between last two groups at the level of 105% of the
+biggest importance value, for \code{model} this line is always drawn at
+the baseline value}
 
 \item{axis_lab_size}{size of labels on axis}
 

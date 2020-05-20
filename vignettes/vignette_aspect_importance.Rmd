@@ -231,7 +231,7 @@ Looking at the triplot, we can observe that for a given observation:
 
 * surface have biggest impact on prediction,
 * every feature has positive influence on prediction,
-* surface and number of rooms are, unsuprisingly, strongly correlated and together they have strong influence on the prediction,
+* surface and number of rooms are, unsurprisingly, strongly correlated and together they have strong influence on the prediction,
 
 
 ```{r}

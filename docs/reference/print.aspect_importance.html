@@ -90,7 +90,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -120,6 +120,9 @@
     </li>
     <li>
       <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa_mln.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -171,7 +174,7 @@
     <tr>
       <th>show_corr</th>
       <td><p>show if all features in aspect are pairwise positively
-correlated, (works for numeric features)</p></td>
+correlated (for numeric features only)</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -202,10 +205,10 @@ correlated, (works for numeric features)</p></td>
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
                   <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>titanic_ai</span>)</div><div class='output co'>#&gt;   variable_groups importance
-#&gt; 4        personal   -0.16814
-#&gt; 2          wealth   -0.09473
-#&gt; 5        embarked   -0.02441
-#&gt; 3          family    0.02205</div><div class='input'>
+#&gt; 4        personal  -0.155420
+#&gt; 2          wealth  -0.108106
+#&gt; 3          family   0.017395
+#&gt; 5        embarked   0.005352</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

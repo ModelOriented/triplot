@@ -1,15 +1,17 @@
 Package: triplot
-Title: Instance-level explainer for the groups of features
-Version: 0.1.0
+Title: Tools for explaining models with correlated values
+Version: 1.2.0
 Authors@R:
     c(person("Katarzyna", "Pekala", email = "katarzyna.pekala@gmail.com", 
     role = c("aut", "cre")), person("Przemyslaw", "Biecek", role = c("aut"), 
     comment = c(ORCID = "0000-0001-8423-1823")))
-Description: Aspect importance’s aim is to increase the interpretability of the 
-    black box model by providing instance-level explainer for the groups of 
-    explanatory variables. It enables grouping predictors into entities called 
-    aspects. Afterwards, it can calculate the contribution of those aspects to 
-    the prediction.
+Description: Tools for exploration of machine learning predictive models. 
+    Focuses on increasing interpretability of black box models that contain many 
+    correlated values. Delivers an instance-level explainer that  
+    supports calculating the importance of the whole groups of explanatory 
+    variables. Package also provides triplot - tool that illustrates how the 
+    importance of groups of predictors changes depending on the size of those 
+    groups.
 Depends: R (>= 3.6)
 License: GPL-3
 Encoding: UTF-8

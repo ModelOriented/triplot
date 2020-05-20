@@ -44,7 +44,7 @@ cluster_variables.default <- function(x, clust_method = "complete", ...) {
 #'
 #' Plots tree that illustrates the results of cluster_variables function.
 #'
-#' @param x cluster_variables or hclust object
+#' @param x \code{cluster_variables} or \code{hclust} object
 #' @param p correlation value for cutoff level, if not NULL, cutoff line will
 #'   be drawn
 #' @param show_labels if TRUE, plot will have annotated axis Y

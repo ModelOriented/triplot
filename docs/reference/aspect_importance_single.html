@@ -91,7 +91,7 @@ one feature)." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -121,6 +121,9 @@ one feature)." />
     </li>
     <li>
       <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+    </li>
+    <li>
+      <a href="../articles/vignette_aspect_importance_fifa_mln.html">Usecase with FIFA 20 dataset</a>
     </li>
   </ul>
 </li>
@@ -162,7 +165,7 @@ one feature).</p>
 <span class='fu'>aspect_importance_single</span>(
   <span class='no'>x</span>,
   <span class='no'>new_observation</span>,
-  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
@@ -174,9 +177,9 @@ one feature).</p>
   <span class='no'>x</span>,
   <span class='no'>data</span>,
   <span class='kw'>predict_function</span> <span class='kw'>=</span> <span class='no'>predict</span>,
-  <span class='no'>new_observation</span>,
-  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)[<span class='fl'>1</span>],
+  <span class='no'>new_observation</span>,
+  <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
@@ -202,7 +205,8 @@ variables used in the model, should be without target variable</p></td>
     </tr>
     <tr>
       <th>N</th>
-      <td><p>number of observations to be sampled (with replacement) from data</p></td>
+      <td><p>number of observations to be sampled (with replacement) from data
+NOTE: Small <code>N</code> may cause unstable results.</p></td>
     </tr>
     <tr>
       <th>sample_method</th>
@@ -251,13 +255,13 @@ attribute of the model.</p></td>
                              <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'>aspect_importance_single</span>(<span class='no'>explainer_titanic</span>,
                          <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,-<span class='fl'>8</span>])</div><div class='output co'>#&gt;   variable_groups importance
-#&gt; 7           sibsp   0.053090
-#&gt; 6            fare   0.050796
-#&gt; 4           class  -0.049677
-#&gt; 2          gender  -0.037957
-#&gt; 5        embarked   0.033845
-#&gt; 3             age  -0.007160
-#&gt; 8           parch   0.005522</div><div class='input'>
+#&gt; 4           class -0.1538073
+#&gt; 2          gender -0.1512352
+#&gt; 3             age -0.1162595
+#&gt; 7           sibsp -0.0811137
+#&gt; 6            fare -0.0276569
+#&gt; 8           parch -0.0233301
+#&gt; 5        embarked  0.0003598</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -15,6 +15,7 @@ hierarchical_importance(
   N = 1000,
   loss_function = DALEX::loss_root_mean_square,
   B = 10,
+  fi_type = c("raw", "ratio", "difference"),
   clust_method = "complete",
   ...
 )
@@ -30,54 +31,45 @@ hierarchical_importance(
 )
 }
 \arguments{
-\item{x}{a model to be explained}
+\item{x}{a model to be explained.}
 
-\item{data}{dataset, should be without target variable}
+\item{data}{dataset
+NOTE: Target variable shouldn't be present in the \code{data}}
 
-\item{y}{true labels for \code{data}, will be extracted from \code{x}
-if it's an explainer,
-  need to be provided if feature importance is to be calculated}
+\item{y}{true labels for \code{data}}
 
 \item{predict_function}{predict function}
 
-\item{type}{if \code{predict} aspect_importance is used, if
-\code{model} is used, than feature_importance is calculated}
+\item{type}{if \code{predict} then aspect_importance is used, if
+\code{model} than feature_importance is calculated}
 
 \item{new_observation}{selected observation with columns that corresponds to
-variables used in the model (it should be without target variable),
-if NULL feature_importance will be calculated}
+variables used in the model, should be without target variable}
 
-\item{N}{number of observations to be sampled (with replacement) from data}
+\item{N}{number of rows to be sampled from data
+NOTE: Small \code{N} may cause unstable results.}
 
-\item{loss_function}{a function that will be used to assess variable importance}
+\item{loss_function}{a function that will be used to assess variable
+importance, if \code{type = model}}
 
-\item{B}{integer, number of permutation rounds to perform on each variable in 
-feature importance calculation. By default it's \code{10}.}
+\item{B}{integer, number of permutation rounds to perform on each variable
+in feature importance calculation, if \code{type = model}}
+
+\item{fi_type}{character, type of transformation that should be applied for
+dropout loss, if \code{type = model}. "raw" results raw drop losses,
+"ratio" returns \code{drop_loss/drop_loss_full_model}.}
 
 \item{clust_method}{the agglomeration method to be used, see
 \code{\link[stats]{hclust}} methods}
 
 \item{...}{other parameters}
-
-\item{absolute_value}{if TRUE, aspect importance values will be drawn as
-absolute values}
-
-\item{show_labels}{if TRUE, plot will have annotated axis Y}
-
-\item{add_last_group}{if TRUE and \code{type} is \code{predict}, plot will 
-draw connecting line between last two groups at the level of 105% of the 
-biggest importance value, for \code{model} this line is always drawn}
-
-\item{axis_lab_size}{size of labels on axis Y, if applicable}
-
-\item{text_size}{size of labels annotating values of aspects importance}
 }
 \value{
 ggplot
 }
 \description{
-This function plots tree that shows order of feature grouping and aspect
-importance or feature importance values of every newly created aspect.
+This function preapres a tree that shows order of feature grouping and
+calculates importance of every newly created aspect.
 }
 \examples{
 library(DALEX)

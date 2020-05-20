@@ -8,19 +8,19 @@
 #' measures the impact of aspects on the change of prediction by using the
 #' linear model or lasso.
 #'
-#'
 #' @param x an explainer created with the \code{DALEX::explain()} function
 #' or a model to be explained.
 #' @param data dataset, it will be extracted from \code{x} if it's an explainer
 #' NOTE: It is best when target variable is not present in the \code{data}
 #' @param predict_function predict function, it will be extracted from \code{x}
 #'   if it's an explainer
+#' @param label name of the model. By default it's extracted from the 'class'
+#'   attribute of the model.
 #' @param new_observation selected observation with columns that corresponds to
 #'   variables used in the model
 #' @param variable_groups list containing grouping of features into aspects
 #' @param N number of observations to be sampled (with replacement) from data
-#' @param label name of the model. By default it's extracted from the 'class'
-#'   attribute of the model.
+#'   NOTE: Small \code{N} may cause unstable results.
 #' @param sample_method sampling method in \code{\link{get_sample}}
 #' @param n_var maximum number of non-zero coefficients after lasso fitting,
 #'   if zero than linear regression is used
@@ -34,7 +34,6 @@
 #' @importFrom stats coef
 #' @importFrom stats model.matrix
 #' @importFrom glmnet glmnet
-#'
 #'
 #' @examples
 #' library("DALEX")
@@ -93,9 +92,8 @@ aspect_importance.explainer <- function(x, new_observation,
                                         sample_method = "default",
                                         n_var = 0,
                                         f = 2, ...) {
-  
-  
-  # extracts model, data and predict function from the explainer ------------
+
+    # extracts model, data and predict function from the explainer ------------
   
   data <- x$data
   model <- x$model
@@ -137,10 +135,10 @@ aspect_importance.explainer <- function(x, new_observation,
 
 aspect_importance.default <- function(x, data,
                                       predict_function = predict,
+                                      label = class(x)[1],
                                       new_observation,
                                       variable_groups,
                                       N = 100,
-                                      label = class(x)[1],
                                       sample_method = "default",
                                       n_var = 0,
                                       f = 2,
@@ -167,7 +165,7 @@ aspect_importance.default <- function(x, data,
   # create empty matrix and data frames -------------------------------------
   
   ids <- sample.int(nrow(data), N, replace = TRUE)
-  n_sample <- data[ids,]
+  n_sample <- data[ids, ]
   n_sample_changed <- n_sample
   
   # sample and replace aspects  ---------------------------------------------
@@ -357,7 +355,7 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 #' @param x object of aspect_importance class
 #' @param show_features show list of features for every aspect
 #' @param show_corr show if all features in aspect are pairwise positively
-#'   correlated, (works for numeric features)
+#'   correlated (for numeric features only)
 #' @param ... other parameters
 #'
 #' @examples
@@ -426,10 +424,12 @@ predict_aspects <- function(x, ...) {
 #' Function for getting binary matrix
 #'
 #' Function creates binary matrix, to be used in aspect_importance method. It
-#' starts with a zero matrix. Then it replaces some zeros with ones. It either
-#' randomly replaces one or two zeros per row. Or replace random number of zeros
-#' per row - average number of replaced zeros can be controlled by parameter f.
-#' Function doesn't allow the returned matrix to have rows with only zeros.
+#' starts with a zero matrix. Then it replaces some zeros with ones. If 
+#' \code{sample_method = "default"} it randomly replaces one or two zeros per 
+#' row. If \code{sample_method = "binom"} it replaces random number of zeros
+#' per row - average number of replaced zeros can be controlled by parameter 
+#' \code{sample_method = "f"}. Function doesn't allow the returned matrix to 
+#' have rows with only zeros.
 #'
 #' @param n number of rows
 #' @param p number of columns

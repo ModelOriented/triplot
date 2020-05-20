@@ -16,9 +16,10 @@ calculate_triplot(x, ...)
   type = c("predict", "model"),
   new_observation = NULL,
   N = 1000,
-  clust_method = "complete",
   loss_function = DALEX::loss_root_mean_square,
   B = 10,
+  fi_type = c("raw", "ratio", "difference"),
+  clust_method = "complete",
   ...
 )
 
@@ -27,13 +28,14 @@ calculate_triplot(x, ...)
   data,
   y = NULL,
   predict_function = predict,
+  label = class(x)[1],
   type = c("predict", "model"),
   new_observation = NULL,
   N = 1000,
   loss_function = DALEX::loss_root_mean_square,
   B = 10,
+  fi_type = c("raw", "ratio", "difference"),
   clust_method = "complete",
-  label = class(x)[1],
   ...
 )
 
@@ -49,22 +51,27 @@ or a model to be explained.}
 
 \item{...}{other parameters}
 
-\item{type}{if \code{predict} aspect_importance is used, if
-\code{model} is used, than feature_importance is calculated}
+\item{type}{if \code{predict} then aspect_importance is used, if
+\code{model} than feature_importance is calculated}
 
 \item{new_observation}{selected observation with columns that corresponds to
 variables used in the model, should be without target variable}
 
-\item{N}{number of rows to be sampled from data}
+\item{N}{number of rows to be sampled from data
+NOTE: Small \code{N} may cause unstable results.}
+
+\item{loss_function}{a function that will be used to assess variable
+importance, if \code{type = model}}
+
+\item{B}{integer, number of permutation rounds to perform on each variable
+in feature importance calculation, if \code{type = model}}
+
+\item{fi_type}{character, type of transformation that should be applied for
+dropout loss, if \code{type = model}. "raw" results raw drop losses,
+"ratio" returns \code{drop_loss/drop_loss_full_model}.}
 
 \item{clust_method}{the agglomeration method to be used, see
 \code{\link[stats]{hclust}} methods}
-
-\item{loss_function}{a function that will be used to assess variable 
-importance}
-
-\item{B}{integer, number of permutation rounds to perform on each variable in 
-feature importance calculation. By default it's \code{10}.}
 
 \item{data}{dataset, it will be extracted from \code{x} if it's an explainer
 NOTE: Target variable shouldn't be present in the \code{data}}
@@ -82,10 +89,9 @@ attribute of the model.}
 triplot object
 }
 \description{
-This function shows: \itemize{ \item plot for aspect_importance or
-feature_importance with
-single aspect \item tree that shows aspect_importance for every newly
-expanded aspect
+This function shows:
+\itemize{ \item plot for the importance of single variables,
+\item tree that shows importance for every newly expanded group of variables,
 \item clustering tree. }
 }
 \examples{
@@ -102,6 +108,5 @@ explainer_apartments <- explain(model = apartments_num_lm_model,
 apartments_tri <- calculate_triplot(x = explainer_apartments,
                                     new_observation =
                                       apartments_num_new_observation[-1])
-
 
 }

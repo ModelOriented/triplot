@@ -7,7 +7,7 @@
 \method{plot}{cluster_variables}(x, p = NULL, show_labels = TRUE, axis_lab_size = 10, text_size = 3, ...)
 }
 \arguments{
-\item{x}{cluster_variables or hclust object}
+\item{x}{\code{cluster_variables} or \code{hclust} object}
 
 \item{p}{correlation value for cutoff level, if not NULL, cutoff line will
 be drawn}
