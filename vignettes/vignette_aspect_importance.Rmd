@@ -15,7 +15,8 @@ knitr::opts_chunk$set(
   collapse = FALSE,
   comment = "#>",
   warning = FALSE,
-  message = FALSE
+  message = FALSE,
+  fig.align = 'center'
 )
 ```
 
@@ -234,7 +235,7 @@ Looking at the triplot, we can observe that for a given observation:
 * surface and number of rooms are, unsurprisingly, strongly correlated and together they have strong influence on the prediction,
 
 
-```{r}
+```{r fig.width = 10}
 set.seed(123)
 
 apartments_tri <- predict_triplot(explain_apartments_lm, 

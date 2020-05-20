@@ -126,9 +126,6 @@ clustering tree.
     <li>
       <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
-    <li>
-      <a href="../articles/vignette_aspect_importance_fifa_mln.html">Usecase with FIFA 20 dataset</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -235,18 +232,18 @@ NOTE: Small <code>N</code> may cause unstable results.</p></td>
     </tr>
     <tr>
       <th>loss_function</th>
-      <td><p>a function that will be used to assess variable 
+      <td><p>a function that will be used to assess variable
 importance, if <code>type = model</code></p></td>
     </tr>
     <tr>
       <th>B</th>
-      <td><p>integer, number of permutation rounds to perform on each variable in 
-feature importance calculation, if <code>type = model</code></p></td>
+      <td><p>integer, number of permutation rounds to perform on each variable
+in feature importance calculation, if <code>type = model</code></p></td>
     </tr>
     <tr>
       <th>fi_type</th>
-      <td><p>character, type of transformation that should be applied for 
-dropout loss, if <code>type = model</code>. "raw" results raw drop losses, 
+      <td><p>character, type of transformation that should be applied for
+dropout loss, if <code>type = model</code>. "raw" results raw drop losses,
 "ratio" returns <code>drop_loss/drop_loss_full_model</code>.</p></td>
     </tr>
     <tr>
