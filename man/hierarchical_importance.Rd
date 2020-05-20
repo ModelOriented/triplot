@@ -63,6 +63,18 @@ dropout loss, if \code{type = model}. "raw" results raw drop losses,
 \code{\link[stats]{hclust}} methods}
 
 \item{...}{other parameters}
+
+\item{absolute_value}{if TRUE, aspect importance values will be drawn as
+absolute values}
+
+\item{show_labels}{if TRUE, plot will have annotated axis Y}
+
+\item{add_last_group}{if TRUE, plot will draw connecting line between last
+two groups}
+
+\item{axis_lab_size}{size of labels on axis Y, if applicable}
+
+\item{text_size}{size of labels annotating values of aspects importance}
 }
 \value{
 ggplot
