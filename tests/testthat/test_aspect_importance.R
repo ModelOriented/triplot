@@ -120,11 +120,12 @@ test_that("check plot for aspects importance",{
   library("DALEX")
   library("triplot")
 
-  aspect_importance_apartments <- aspect_importance(apartments_lm_model,
-                                                    apartments,
-                                                    new_observation = apartments_new_observation,
-                                                    variable_groups =  apartments_aspects,
-                                                    method = "binom")
+  aspect_importance_apartments <- 
+    aspect_importance(apartments_lm_model,
+                      apartments,
+                      new_observation = apartments_new_observation,
+                      variable_groups =  apartments_aspects,
+                      method = "binom")
   
   expect_is(plot(aspect_importance_apartments), "gg")
 })

@@ -84,11 +84,21 @@ test_that("check plot.calculate_triplot function",{
                                       new_observation =
                                         apartments_num_new_observation[-1])
   p <- plot(apartments_tri)
-
+  
+  p2 <- plot(apartments_tri,
+             abbrev_labels = 5,
+             text_size = 4,
+             absolute_value = TRUE,
+             add_importance_labels = TRUE,
+             show_model_label = TRUE,
+             add_last_group = FALSE,
+             axis_lab_size = 4,
+             bar_width = 3,
+             margin_mid = 0.1)
 
   expect_true("patchwork" %in% class(p))
   expect_true("gg" %in% class(p))
-  expect_true("ggplot" %in% class(p))
+  expect_true("ggplot" %in% class(p2))
 })
 
 test_that("check plot.calculate_triplot function for FI",{
@@ -98,13 +108,15 @@ test_that("check plot.calculate_triplot function for FI",{
   apartments_tri <- calculate_triplot(x = apartments_explain,
                                       type = "model")
   p <- plot(apartments_tri, 
-            abbrev_labels = 5, 
-            show_axis_y_duplicated_labels = TRUE)
+            abbrev_labels = 5)
+  
+  p2 <- plot(apartments_tri,
+            add_last_group = FALSE)
 
 
   expect_true("patchwork" %in% class(p))
   expect_true("gg" %in% class(p))
-  expect_true("ggplot" %in% class(p))
+  expect_true("ggplot" %in% class(p2))
   
 })
 
