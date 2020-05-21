@@ -4,8 +4,14 @@
 .Ruserdata
 triplot.Rproj
 doc
+Meta
+
+#vignettes
 vignettes/*.html
 vignettes/*.R
 vignettes/*.md
 
-Meta
+# CRAN
+CRAN-RELEASE
+cran-comments.md
+

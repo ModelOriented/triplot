@@ -1,5 +1,5 @@
 Package: triplot
-Title: Tools for explaining models with correlated values
+Title: Tools for Explaining Models with Correlated Values
 Version: 1.2.0
 Authors@R:
     c(person("Katarzyna", "Pekala", email = "katarzyna.pekala@gmail.com", 

@@ -1,6 +1,6 @@
 #' Calculates importance of hierarchically grouped aspects
 #'
-#' This function preapres a tree that shows order of feature grouping and
+#' This function creates a tree that shows order of feature grouping and
 #' calculates importance of every newly created aspect.
 #'
 #' @param x a model to be explained.

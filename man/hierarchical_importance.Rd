@@ -80,7 +80,7 @@ two groups}
 ggplot
 }
 \description{
-This function preapres a tree that shows order of feature grouping and
+This function creates a tree that shows order of feature grouping and
 calculates importance of every newly created aspect.
 }
 \examples{
