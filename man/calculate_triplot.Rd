@@ -108,5 +108,7 @@ explainer_apartments <- explain(model = apartments_num_lm_model,
 apartments_tri <- calculate_triplot(x = explainer_apartments,
                                     new_observation =
                                       apartments_num_new_observation[-1])
+apartments_tri
+                                   
 
 }
