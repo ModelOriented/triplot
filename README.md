@@ -11,7 +11,7 @@ coverage](https://codecov.io/gh/ModelOriented/triplot/branch/master/graph/badge.
 [![DrWhy-eXtrAI](https://img.shields.io/badge/DrWhy-eXtrAI-4378bf)](http://drwhy.ai/#eXtraAI)
 <!-- badges: end -->
 
-## Overview
+## Introduction
 
 The `triplot` package provides tools for exploration of machine learning
 predictive models. It contains an instance-level explainer called
@@ -25,9 +25,10 @@ Key functions:
 
   - `predict_aspects()` for calculating the feature groups importance
     (called aspects importance) for a selected observation,
-  - `predict_triplot()` and `model_triplot()` for summary of automatic
-    aspect importance grouping,
-  - `group_variables()` for correlated numeric features into aspects.
+  - `predict_triplot()` and `model_triplot()` for instance- and
+    data-level summary of automatic aspect importance grouping,
+  - `group_variables()` for grouping of correlated numeric features into
+    aspects.
 
 The `triplot` package is a part of [DrWhy.AI](http://DrWhy.AI) universe.
 More information about analysis of machine learning models can be found
@@ -40,7 +41,7 @@ Predictive Models](https://pbiecek.github.io/ema/) e-book.
 devtools::install_github("ModelOriented/triplot")
 ```
 
-## Overview (triplot)
+## Overview
 
 `triplot` shows, in one place:
 
@@ -55,63 +56,102 @@ from DALEX package). `triplot` can be only used on numerical features.
 More information about this functionality can be found in [triplot
 overview](https://modeloriented.github.io/triplot/articles/vignette_aspect_importance.html#hierarchical-aspects-importance-1).
 
-### Basic example (triplot for model)
+### Basic triplot for a model
 
 To showcase `triplot`, we will choose `apartments` dataset from DALEX,
 use it’s numeric features to build a model, create DALEX
 [explainer](https://modeloriented.github.io/DALEX/reference/explain.html),
-`model_triplot()` to calculate `triplot` object and then plot it.
+use `model_triplot()` to calculate the `triplot` object and then plot it
+with the generic `plot()` function.
 
-<details>
-
-<summary>Importing dataset and building a model</summary>
+#### Import `apartments` and train a linear model
 
 ``` r
-library(DALEX)
-
+library("DALEX")
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
 
 model_apartments <- lm(m2.price ~ ., data = apartments_num)
 ```
 
-</details>
+#### Create an explainer
 
 ``` r
 explain_apartments <- DALEX::explain(model = model_apartments, 
                               data = apartments_num[, -1],
-                              y = apartments_num[, 1],
+                              y = apartments_num$m2.price,
                               verbose = FALSE)
+```
+
+#### Create a triplot object
+
+``` r
+set.seed(123)
+library("triplot")
 
 tri_apartments <- model_triplot(explain_apartments)
 
-plot(tri_apartments)
+plot(tri_apartments) + 
+  patchwork::plot_annotation(title = "Global triplot for four variables in the linear model")
 ```
 
-<img src="man/figures/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
 
-We can observe that, at the model level, `surface` and `floor` have the
-biggest contribution. `Number of rooms` and `surface` are strongly
-correlated and together have strong influence on the
+<img src="man/figures/model-triplot-1.png" alt="The left panel shows the global importance of individual variables. Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the importance of groups of variables determined by the hierarchical clustering."  />
+
+<p class="caption">
+
+The left panel shows the global importance of individual variables.
+Right panel shows global correlation structure visualized by
+hierarchical clustering The middle panel shows the importance of groups
+of variables determined by the hierarchical clustering.
+
+</p>
+
+</div>
+
+At the model level, `surface` and `floor` have the biggest
+contributions. But we also know that `Number of rooms` and `surface` are
+strongly correlated and together have strong influence on the model
 prediction.`Construction year` has small influence on the prediction, is
 not correlated with `number of rooms` nor `surface` variables. Adding
 `construction year` to them, only slightly increases the importance of
 this group.
 
-### Basic example (triplot for observation)
+### Basic triplot for an observation
 
 Afterwards, we are building triplot for single instance and it’s
 prediction.
 
 ``` r
-new_observation_apartments <- apartments_num[6,-1]
-
-tri_apartments <- predict_triplot(explain_apartments, 
-                                  new_observation = new_observation_apartments)
-
-plot(tri_apartments, add_last_group = FALSE)
+(new_apartment <- apartments_num[6, -1])
 ```
 
-<img src="man/figures/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+    ##   construction.year surface floor no.rooms
+    ## 6              1926      61     6        2
+
+``` r
+tri_apartments <- predict_triplot(explain_apartments, 
+                                  new_observation = new_apartment)
+
+plot(tri_apartments) + 
+  patchwork::plot_annotation(title = "Local triplot for four variables in the linear model")
+```
+
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/predict-triplot-1.png" alt="The left panel shows the local importance of individual variables (similar to LIME). Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the local importance of groups of variables (similar to LIME) determined by the hierarchical clustering."  />
+
+<p class="caption">
+
+The left panel shows the local importance of individual variables
+(similar to LIME). Right panel shows global correlation structure
+visualized by hierarchical clustering The middle panel shows the local
+importance of groups of variables (similar to LIME) determined by the
+hierarchical clustering.
+
+</p>
+
+</div>
 
 We can observe that for the given apartment `surface` has also
 significant, positive influence on the prediction. Adding `number of
@@ -119,23 +159,25 @@ rooms`, increases its contribution. However, adding `construction year`
 to those two features, decreases the group importance.
 
 We can notice that `floor` has the small influence on the prediction of
-this observation, unlike in the model wise analysis.
+this observation, unlike in the model-level analysis.
 
-## Basic example (predict\_aspects)
+## Basic aspect importance
 
 For this example we use `titanic` dataset with a logistic regression
 model that predicts passenger survival. Features are combined into
 thematic aspects.
 
-<details>
-
-<summary>Importing dataset and building a model</summary>
+### Importing dataset and building a logistic regression model
 
 ``` r
-titanic <- DALEX::titanic_imputed
+set.seed(123)
 
-model_titanic_glm <- glm(survived == 1 ~ ., titanic, family = "binomial")
+model_titanic_glm <- glm(survived ~ ., titanic_imputed, family = "binomial")
+```
 
+### Manual selection of aspects
+
+``` r
 aspects_titanic <-
   list(
     wealth = c("class", "fare"),
@@ -143,19 +185,22 @@ aspects_titanic <-
     personal = c("age", "gender"),
     embarked = "embarked"
   )
-  (chosen_passenger <- titanic[2,])
+```
+
+### Select an instance
+
+We are interested in explaining the model prediction for the `johny_d`
+example.
+
+``` r
+(johny_d <- titanic_imputed[2,])
 ```
 
     ##   gender age class    embarked  fare sibsp parch survived
     ## 2   male  13   3rd Southampton 20.05     0     2        0
 
-</details>
-
-We are interested in explaining the model prediction for the
-`chosen_passenger`.
-
 ``` r
-predict(model_titanic_glm, chosen_passenger, type = "response")
+predict(model_titanic_glm, johny_d, type = "response")
 ```
 
     ##         2 
@@ -164,43 +209,47 @@ predict(model_titanic_glm, chosen_passenger, type = "response")
 It turns out that the model prediction for this passenger’s survival is
 very low. Let’s see which aspects have the biggest influence on it.
 
-We start by building DALEX
-[explainer](https://modeloriented.github.io/DALEX/reference/explain.html)
-and use it to call `predict_aspects()` function. Afterwards, we print
-and plot function results.
+We start with DALEX
+[explainer](https://modeloriented.github.io/DALEX/reference/explain.html).
 
 ``` r
 explain_titanic <- DALEX::explain(model_titanic_glm, 
-                           data = titanic[, -8],
-                           y = titanic$survived == "yes",
-                           predict_function = predict,
+                           data = titanic_imputed,
+                           y = titanic_imputed$survived,
                            label = "Logistic Regression",
                            verbose = FALSE)
+```
+
+And use it to call `triplot::predict_aspects()` function. Afterwards, we
+print and plot function results
+
+``` r
+library("triplot")
 
 ai_titanic <- predict_aspects(x = explain_titanic, 
-                              new_observation = chosen_passenger[,-8],
+                              new_observation = johny_d[,-8],
                               variable_groups = aspects_titanic)
 
 print(ai_titanic, show_features = TRUE)
 ```
 
     ##   variable_groups importance     features
-    ## 2          wealth   -0.73757  class, fare
-    ## 4        personal    0.16740  age, gender
-    ## 3          family    0.15002 sibsp, parch
-    ## 5        embarked   -0.02766     embarked
+    ## 2          wealth  -0.122049  class, fare
+    ## 3          family   0.023564 sibsp, parch
+    ## 5        embarked  -0.007929     embarked
+    ## 4        personal   0.004069  age, gender
 
 ``` r
 plot(ai_titanic)
 ```
 
-<img src="man/figures/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/aspect-importance-1.png" style="display: block; margin: auto;" />
 
-We can observe that `wealth` variables have the biggest contribution to
-the prediction. This contribution is of a negative type. `Personal` and
-`Family` variables have positive influence on the prediction, but it is
-much smaller. `Embarked` feature has very small, negative contribution
-to the prediction.
+We can observe that `wealth` (class, fare) variables have the biggest
+contribution to the prediction. This contribution is of a negative type.
+`Personal` (age, gender) and `Family` (sibsp, parch) variables have
+positive influence on the prediction, but it is much smaller. `Embarked`
+feature has very small, negative contribution to the prediction.
 
 ## Acknowledgments
 
