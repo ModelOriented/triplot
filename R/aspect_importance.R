@@ -94,27 +94,27 @@ aspect_importance.explainer <- function(x, new_observation,
                                         f = 2, ...) {
 
     # extracts model, data and predict function from the explainer ------------
-  
+
   data <- x$data
   model <- x$model
   predict_function <- x$predict_function
   label <- x$label
-  
+
   # check if target is in data ----------------------------------------------
-  
+
   if (!is.null(x$y)) {
     target_in_data_check <- any(apply(data, 2, function(z) {
       all(as.character(z) == as.character(x$y))
     }))
-    
+
     if (target_in_data_check) {
-      warning("It is recommended to pass `data` without the target variable 
+      warning("It is recommended to pass `data` without the target variable
               column")
     }
   }
-  
+
   # calls target function ---------------------------------------------------
-  
+
   aspect_importance.default(x = model,
                             data = data,
                             predict_function = predict_function,
@@ -143,47 +143,47 @@ aspect_importance.default <- function(x, data,
                                       n_var = 0,
                                       f = 2,
                                       ...) {
-  
+
   # look only for common variables in data and new observation --------------
-  
+
   if ("data.frame" %in% class(data)) {
     common_variables <- intersect(colnames(new_observation), colnames(data))
     new_observation <- new_observation[, common_variables, drop = FALSE]
     data <- data[, common_variables, drop = FALSE]
   }
-  
+
   # stop if no common variables are found -----------------------------------
-  
+
   stopifnot(length(common_variables) > 0,
             length(setdiff(unlist(variable_groups),
                            colnames(new_observation))) == 0)
-  
+
   # number of expected coefficients cannot be negative ----------------------
-  
+
   stopifnot(n_var >= 0)
-  
+
   # create empty matrix and data frames -------------------------------------
-  
+
   ids <- sample.int(nrow(data), N, replace = TRUE)
   n_sample <- data[ids, ]
   n_sample_changed <- n_sample
-  
+
   # sample and replace aspects  ---------------------------------------------
-  
+
   new_X <- get_sample(N, length(variable_groups), sample_method, f)
-  
+
   for (i in seq_len(nrow(n_sample))) {
     vars <- unlist(variable_groups[new_X[i, ] == 1])
     n_sample_changed[i, vars] <- new_observation[vars]
   }
-  
+
   # calculate change in predictions -----------------------------------------
-  
+
   y_changed <- predict_function(x, n_sample_changed) -
     predict_function(x, n_sample)
-  
+
   # fit linear model/lasso to estimate aspects importance -------------------
-  
+
   colnames(new_X) <- names(variable_groups)
   new_df <- data.frame(y_changed, new_X)
 
@@ -197,14 +197,14 @@ aspect_importance.default <- function(x, data,
     indx <- max(which(glmnet_model$df <= n_var))
     model_coef <- coef(glmnet_model)[, indx]
   }
-  
+
   # prepare dataframe with results ------------------------------------------
-  
+
   res <- data.frame(names(model_coef), unname(model_coef))
   colnames(res) <- c("variable_groups", "importance")
   res <- res[!res$variable_groups == "(Intercept)", ]
   res <- res[order(-abs(res$importance)), ]
-  
+
   for (i in seq_along(variable_groups)) {
     res$features[i] <- variable_groups[as.character(res[i, 1])]
     vars <- unlist(res$features[i])
@@ -218,12 +218,12 @@ aspect_importance.default <- function(x, data,
       res$sign[i] <- ""
     }
   }
-  
+
   res$importance <- as.numeric(format(res$importance, digits = 4))
   class(res) <- c("aspect_importance", "data.frame")
-  
+
   attr(res, "label") <- rep(label, length.out = nrow(res))
-  
+
   return(res)
 }
 
@@ -334,15 +334,13 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
                        vjust = 0.5, color = "#371ea3", size = text_size)
   }
 
-  p <- p + coord_flip() +
+  # plot it -----------------------------------------------------------------
+  p + coord_flip() +
     ylab("Aspects importance") + xlab("") + theme_drwhy_vertical() +
     theme(legend.position = "none",
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank())
 
-# plot it -----------------------------------------------------------------
-
-  p
 }
 
 
@@ -409,26 +407,22 @@ print.aspect_importance <- function(x, show_features = FALSE, show_corr = FALSE,
 #' @export
 #' @rdname aspect_importance
 
-lime <- function(x, ...) {
-  aspect_importance(x, ...)
-}
+lime <- aspect_importance
 
 #' @export
 #' @rdname aspect_importance
 
-predict_aspects <- function(x, ...) {
-  aspect_importance(x, ...)
-}
+predict_aspects <- aspect_importance
 
 
 #' Function for getting binary matrix
 #'
 #' Function creates binary matrix, to be used in aspect_importance method. It
-#' starts with a zero matrix. Then it replaces some zeros with ones. If 
-#' \code{sample_method = "default"} it randomly replaces one or two zeros per 
+#' starts with a zero matrix. Then it replaces some zeros with ones. If
+#' \code{sample_method = "default"} it randomly replaces one or two zeros per
 #' row. If \code{sample_method = "binom"} it replaces random number of zeros
-#' per row - average number of replaced zeros can be controlled by parameter 
-#' \code{sample_method = "f"}. Function doesn't allow the returned matrix to 
+#' per row - average number of replaced zeros can be controlled by parameter
+#' \code{sample_method = "f"}. Function doesn't allow the returned matrix to
 #' have rows with only zeros.
 #'
 #' @param n number of rows

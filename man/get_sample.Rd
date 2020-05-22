@@ -20,11 +20,11 @@ a binary matrix
 }
 \description{
 Function creates binary matrix, to be used in aspect_importance method. It
-starts with a zero matrix. Then it replaces some zeros with ones. If 
-\code{sample_method = "default"} it randomly replaces one or two zeros per 
+starts with a zero matrix. Then it replaces some zeros with ones. If
+\code{sample_method = "default"} it randomly replaces one or two zeros per
 row. If \code{sample_method = "binom"} it replaces random number of zeros
-per row - average number of replaced zeros can be controlled by parameter 
-\code{sample_method = "f"}. Function doesn't allow the returned matrix to 
+per row - average number of replaced zeros can be controlled by parameter
+\code{sample_method = "f"}. Function doesn't allow the returned matrix to
 have rows with only zeros.
 }
 \examples{

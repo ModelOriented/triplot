@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 Aspect importance takes on the challenge of interpreting model built on highly dimensional data. There exist a number of methods for local explanation of black-box models, like Break Down, Shap or LIME. However, the problem arises when the explanatory variables are correlated. 
 
-Aspect importance's aim is to increase the interpretability of the black box model by providing instance-level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.
+Aspect importance's aim is to increase the interpretability of the black box model by providing instance-level and data=level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.
 
 # Intuition
 
