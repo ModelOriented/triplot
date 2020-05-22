@@ -1,17 +1,18 @@
 Package: triplot
-Title: Tools for Explaining Models with Correlated Values
+Title: Tools for Explaining Correlated Features in Machine Learning Models 
 Version: 1.2.0
 Authors@R:
     c(person("Katarzyna", "Pekala", email = "katarzyna.pekala@gmail.com", 
-    role = c("aut", "cre")), person("Przemyslaw", "Biecek", role = c("aut"), 
+    role = c("aut", "cre")), 
+    person("Przemyslaw", "Biecek", role = c("aut"), 
     comment = c(ORCID = "0000-0001-8423-1823")))
-Description: Tools for exploration of machine learning predictive models. 
-    Focuses on increasing interpretability of black box models that contain many 
-    correlated values. Delivers an instance-level explainer that  
-    supports calculating the importance of the whole groups of explanatory 
-    variables. Package also provides triplot - tool that illustrates how the 
-    importance of groups of predictors changes depending on the size of those 
-    groups.
+Description: Tools for exploration and explanation of machine learning models. 
+    Triplots are focused on the effects of correlated features in predictive models. 
+    The predict_triplot() function delivers instance-level explanations that  
+    calculate the importance of the groups of explanatory variables. 
+    The model_triplot() function delivers data-level explanations. 
+    The generic plot function visualises in a concise way importance of 
+    hierarchical groups of predictors.
 Depends: R (>= 3.6)
 License: GPL-3
 Encoding: UTF-8
@@ -19,7 +20,7 @@ LazyData: true
 RoxygenNote: 7.1.0
 Imports: 
   ggplot2,
-  DALEX (>= 1.0),
+  DALEX (>= 1.2),
   glmnet,
   ggdendro,
   patchwork
