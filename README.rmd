@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# triplot 
+# triplot <img src="man/figures/logo.png" align="right" width="150"/>
 
 <!-- badges: start -->
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/triplot)](https://cran.r-project.org/package=triplot)
@@ -164,4 +164,5 @@ We can observe that `wealth` variables have the biggest contribution to the pred
 
 ## Acknowledgments
 
-Work on this package was financially supported by the 
+Work on this package was financially supported by the NCBR Grant POIR.01.01.01-00-0328/17. 
+

@@ -1,5 +1,5 @@
 
-# triplot
+# triplot <img src="man/figures/logo.png" align="right" width="150"/>
 
 <!-- badges: start -->
 
@@ -204,4 +204,5 @@ to the prediction.
 
 ## Acknowledgments
 
-Work on this package was financially supported by the
+Work on this package was financially supported by the NCBR Grant
+POIR.01.01.01-00-0328/17.
