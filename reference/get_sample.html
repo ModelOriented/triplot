@@ -8,6 +8,13 @@
 
 <title>Function for getting binary matrix — get_sample • triplot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -47,12 +54,13 @@
 
 <meta property="og:title" content="Function for getting binary matrix — get_sample" />
 <meta property="og:description" content="Function creates binary matrix, to be used in aspect_importance method. It
-starts with a zero matrix. Then it replaces some zeros with ones. If 
-sample_method = &quot;default&quot; it randomly replaces one or two zeros per 
+starts with a zero matrix. Then it replaces some zeros with ones. If
+sample_method = &quot;default&quot; it randomly replaces one or two zeros per
 row. If sample_method = &quot;binom&quot; it replaces random number of zeros
-per row - average number of replaced zeros can be controlled by parameter 
-sample_method = &quot;f&quot;. Function doesn't allow the returned matrix to 
+per row - average number of replaced zeros can be controlled by parameter
+sample_method = &quot;f&quot;. Function doesn't allow the returned matrix to
 have rows with only zeros." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -158,11 +166,11 @@ have rows with only zeros." />
 
     <div class="ref-description">
     <p>Function creates binary matrix, to be used in aspect_importance method. It
-starts with a zero matrix. Then it replaces some zeros with ones. If 
-<code>sample_method = "default"</code> it randomly replaces one or two zeros per 
+starts with a zero matrix. Then it replaces some zeros with ones. If
+<code>sample_method = "default"</code> it randomly replaces one or two zeros per
 row. If <code>sample_method = "binom"</code> it replaces random number of zeros
-per row - average number of replaced zeros can be controlled by parameter 
-<code>sample_method = "f"</code>. Function doesn't allow the returned matrix to 
+per row - average number of replaced zeros can be controlled by parameter
+<code>sample_method = "f"</code>. Function doesn't allow the returned matrix to
 have rows with only zeros.</p>
     </div>
 
