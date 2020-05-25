@@ -12,8 +12,8 @@ aspect_importance_single(x, ...)
   x,
   new_observation,
   N = 1000,
-  sample_method = "default",
   n_var = 0,
+  sample_method = "default",
   f = 2,
   ...
 )
@@ -25,8 +25,8 @@ aspect_importance_single(x, ...)
   label = class(x)[1],
   new_observation,
   N = 1000,
-  sample_method = "default",
   n_var = 0,
+  sample_method = "default",
   f = 2,
   ...
 )
@@ -43,10 +43,10 @@ variables used in the model, should be without target variable}
 \item{N}{number of observations to be sampled (with replacement) from data
 NOTE: Small \code{N} may cause unstable results.}
 
-\item{sample_method}{sampling method in \code{\link{get_sample}}}
-
 \item{n_var}{how many non-zero coefficients for lasso fitting, if zero than
 linear regression is used}
+
+\item{sample_method}{sampling method in \code{\link{get_sample}}}
 
 \item{f}{frequency in in \code{\link{get_sample}}}
 

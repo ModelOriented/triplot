@@ -16,8 +16,8 @@ aspect_importance(x, ...)
   new_observation,
   variable_groups,
   N = 1000,
-  sample_method = "default",
   n_var = 0,
+  sample_method = "default",
   f = 2,
   ...
 )
@@ -30,8 +30,8 @@ aspect_importance(x, ...)
   new_observation,
   variable_groups,
   N = 100,
-  sample_method = "default",
   n_var = 0,
+  sample_method = "default",
   f = 2,
   ...
 )
@@ -54,10 +54,10 @@ variables used in the model}
 \item{N}{number of observations to be sampled (with replacement) from data
 NOTE: Small \code{N} may cause unstable results.}
 
-\item{sample_method}{sampling method in \code{\link{get_sample}}}
-
 \item{n_var}{maximum number of non-zero coefficients after lasso fitting,
 if zero than linear regression is used}
+
+\item{sample_method}{sampling method in \code{\link{get_sample}}}
 
 \item{f}{frequency in \code{\link{get_sample}}}
 
