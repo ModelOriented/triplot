@@ -15,9 +15,9 @@
 #' variables used in the model, should be without target variable
 #' @param N number of observations to be sampled (with replacement) from data
 #'   NOTE: Small \code{N} may cause unstable results.
-#' @param sample_method sampling method in \code{\link{get_sample}}
 #' @param n_var how many non-zero coefficients for lasso fitting, if zero than
 #'   linear regression is used
+#' @param sample_method sampling method in \code{\link{get_sample}}
 #' @param f frequency in in \code{\link{get_sample}}
 #' @param ... other parameters
 #'
@@ -47,8 +47,10 @@ aspect_importance_single <- function(x, ...)
 
 aspect_importance_single.explainer <- function(x, new_observation,
                                                N = 1000,
+                                               n_var = 0, 
                                                sample_method = "default",
-                                               n_var = 0, f = 2, ...) {
+                                               f = 2, 
+                                               ...) {
 
 # extracts model, data and predict function from the explainer ------------
 
@@ -66,8 +68,8 @@ aspect_importance_single.explainer <- function(x, new_observation,
                                    new_observation = new_observation,
                                    N = N,
                                    label = label,
-                                   sample_method = sample_method,
                                    n_var = n_var,
+                                   sample_method = sample_method,
                                    f = f)
 }
 
@@ -79,8 +81,8 @@ aspect_importance_single.default <- function(x, data,
                                              label = class(x)[1],
                                              new_observation,
                                              N = 1000,
-                                             sample_method = "default",
                                              n_var = 0,
+                                             sample_method = "default",
                                              f = 2, ...) {
 
 

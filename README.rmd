@@ -75,7 +75,7 @@ explain_apartments <- DALEX::explain(model = model_apartments,
 
 #### Create a triplot object
 
-```{r model-triplot, fig.width = 8, fig.height = 2.5, fig.cap="The left panel shows the global importance of individual variables. Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the importance of groups of variables determined by the hierarchical clustering."}
+```{r model-triplot, fig.width = 8, fig.height = 2.5, fig.cap="The left panel shows the global importance of individual variables. Right panel shows global correlation structure visualized by hierarchical clustering. The middle panel shows the importance of groups of variables determined by the hierarchical clustering."}
 set.seed(123)
 library("triplot")
 
@@ -91,7 +91,7 @@ At the model level, `surface` and `floor` have the biggest contributions. But we
 
 Afterwards, we are building triplot for single instance and it's prediction.
 
-```{r predict-triplot, fig.width = 8, fig.height = 2.5, fig.cap="The left panel shows the local importance of individual variables (similar to LIME). Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the local importance of groups of variables (similar to LIME) determined by the hierarchical clustering."}
+```{r predict-triplot, fig.width = 8, fig.height = 2.5, fig.cap="The left panel shows the local importance of individual variables (similar to LIME). Right panel shows global correlation structure visualized by hierarchical clustering. The middle panel shows the local importance of groups of variables (similar to LIME) determined by the hierarchical clustering."}
 (new_apartment <- apartments_num[6, -1])
 
 tri_apartments <- predict_triplot(explain_apartments, 

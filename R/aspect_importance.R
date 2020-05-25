@@ -21,9 +21,9 @@
 #' @param variable_groups list containing grouping of features into aspects
 #' @param N number of observations to be sampled (with replacement) from data
 #'   NOTE: Small \code{N} may cause unstable results.
-#' @param sample_method sampling method in \code{\link{get_sample}}
 #' @param n_var maximum number of non-zero coefficients after lasso fitting,
 #'   if zero than linear regression is used
+#' @param sample_method sampling method in \code{\link{get_sample}}
 #' @param f frequency in \code{\link{get_sample}}
 #' @param ... other parameters
 #'
@@ -89,8 +89,8 @@ aspect_importance <- function(x, ...)
 aspect_importance.explainer <- function(x, new_observation,
                                         variable_groups,
                                         N = 1000,
-                                        sample_method = "default",
                                         n_var = 0,
+                                        sample_method = "default",
                                         f = 2, ...) {
 
     # extracts model, data and predict function from the explainer ------------
@@ -122,8 +122,8 @@ aspect_importance.explainer <- function(x, new_observation,
                             variable_groups = variable_groups,
                             N = N,
                             label = label,
-                            sample_method = sample_method,
                             n_var = n_var,
+                            sample_method = sample_method,
                             f = f)
 }
 
@@ -139,8 +139,8 @@ aspect_importance.default <- function(x, data,
                                       new_observation,
                                       variable_groups,
                                       N = 100,
-                                      sample_method = "default",
                                       n_var = 0,
+                                      sample_method = "default",
                                       f = 2,
                                       ...) {
 
