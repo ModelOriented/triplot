@@ -171,8 +171,8 @@ one feature).</p>
   <span class='no'>x</span>,
   <span class='no'>new_observation</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='no'>...</span>
 )
@@ -185,8 +185,8 @@ one feature).</p>
   <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)[<span class='fl'>1</span>],
   <span class='no'>new_observation</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='no'>...</span>
 )</pre>
@@ -214,13 +214,13 @@ variables used in the model, should be without target variable</p></td>
 NOTE: Small <code>N</code> may cause unstable results.</p></td>
     </tr>
     <tr>
-      <th>sample_method</th>
-      <td><p>sampling method in <code><a href='get_sample.html'>get_sample</a></code></p></td>
-    </tr>
-    <tr>
       <th>n_var</th>
       <td><p>how many non-zero coefficients for lasso fitting, if zero than
 linear regression is used</p></td>
+    </tr>
+    <tr>
+      <th>sample_method</th>
+      <td><p>sampling method in <code><a href='get_sample.html'>get_sample</a></code></p></td>
     </tr>
     <tr>
       <th>f</th>
