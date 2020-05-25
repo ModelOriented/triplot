@@ -366,11 +366,16 @@ plot.triplot <- function(x,
 
 # plot --------------------------------------------------------------------
 
-  p <- p1 + p2 + p3 + 
-    plot_annotation(title = "Triplot",
-                    theme = theme(plot.title = element_text(hjust = 0.5),
-                                  text = theme_drwhy()$plot.title))
+  p <- p1 + p2 + p3
   
+  if (type != "predict")
+    p <- p + plot_annotation(title = "Global triplot",
+                             theme = theme(plot.title = element_text(hjust = 0.5),
+                                           text = theme_drwhy()$plot.title))
+  else 
+    p <- p + plot_annotation(title = "Local triplot",
+                             theme = theme(plot.title = element_text(hjust = 0.5),
+                                           text = theme_drwhy()$plot.title))
   if (show_model_label) {
     p <- p + plot_annotation(subtitle = model_label)
   }
