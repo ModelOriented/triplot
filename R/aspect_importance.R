@@ -270,6 +270,7 @@ aspect_importance.default <- function(x, data,
 #'
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy_vertical
+#' @importFrom DALEX colors_discrete_drwhy
 #'
 #'
 #' @export
@@ -307,6 +308,12 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
   colnames(x)[ncol(x)] <- "label"
   x$a_sign <- ifelse(x$importance > 0, "positive", "negative")
   x$hjust <- ifelse(x$importance > 0, 1.1, -0.1)
+  
+  if (all(x$importance > 0)) {
+    vcol <- colors_discrete_drwhy(3)[c(3)]
+  } else {
+    vcol <- colors_discrete_drwhy(3)[c(2,3)]
+  }
 
 # prep plot ---------------------------------------------------------------
 
@@ -339,7 +346,8 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
     ylab("Aspects importance") + xlab("") + theme_drwhy_vertical() +
     theme(legend.position = "none",
           panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank())
+          panel.grid.minor = element_blank()) +
+    scale_color_manual(values = vcol)
 
 }
 
@@ -414,6 +422,9 @@ lime <- aspect_importance
 
 predict_aspects <- aspect_importance
 
+#' @export
+
+model_aspects <- DALEX::model_parts
 
 #' Function for getting binary matrix
 #'
