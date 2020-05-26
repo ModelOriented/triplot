@@ -3,6 +3,10 @@
 * last vertical line in hierarchical_importance() plot of model_triplot() shows 
 baseline value
 * left margin of middle panel in triplot can be set with "margin_mid" 
+* colors in plot for predict_aspects() changed to match DALEX::colors_discrete_drwhy()
+* changed order or n_var and sample_method parameters in aspect_importance() functions
+* renamed triplot title to Global / Local triplot
+* added model_aspects alias for model_parts (function for feature importance imported from DALEX)
 
 # triplot 1.1.2
 
