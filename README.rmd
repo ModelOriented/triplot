@@ -37,7 +37,7 @@ the [Explanatory Model Analysis. Explore, Explain and Examine Predictive Models]
 
 <center>
 
-![](README_files/triplot_explained.gif)
+![](https://raw.githubusercontent.com/ModelOriented/triplot/master/README_files/triplot_explained.gif)
 
 </center>
 
@@ -177,6 +177,12 @@ plot(ai_titanic)
 ```
 
 We can observe that `wealth` (class, fare) variables have the biggest contribution to the prediction. This contribution is of a negative type. `Personal` (age, gender) and `Family` (sibsp, parch) variables have positive influence on the prediction, but it is much smaller. `Embarked` feature has very small, negative contribution to the prediction.  
+
+## Learn more
+
+- [triplot package overview](https://modeloriented.github.io/triplot/articles/vignette_aspect_importance.html)
+- [usecase with FIFA 20 data set](https://modeloriented.github.io/triplot/articles/vignette_aspect_importance_fifa.html)
+- [description of predict aspects method](https://modeloriented.github.io/triplot/articles/vignette_aspect_importance_indepth.html)
 
 ## Acknowledgments
 

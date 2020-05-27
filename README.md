@@ -37,7 +37,7 @@ Predictive Models](https://pbiecek.github.io/ema/) e-book.
 
 <center>
 
-![](README_files/triplot_explained.gif)
+![](https://raw.githubusercontent.com/ModelOriented/triplot/master/README_files/triplot_explained.gif)
 
 </center>
 
@@ -256,6 +256,15 @@ contribution to the prediction. This contribution is of a negative type.
 `Personal` (age, gender) and `Family` (sibsp, parch) variables have
 positive influence on the prediction, but it is much smaller. `Embarked`
 feature has very small, negative contribution to the prediction.
+
+## Learn more
+
+  - [triplot package
+    overview](https://modeloriented.github.io/triplot/articles/vignette_aspect_importance.html)
+  - [usecase with FIFA 20 data
+    set](https://modeloriented.github.io/triplot/articles/vignette_aspect_importance_fifa.html)
+  - [description of predict aspects
+    method](https://modeloriented.github.io/triplot/articles/vignette_aspect_importance_indepth.html)
 
 ## Acknowledgments
 
