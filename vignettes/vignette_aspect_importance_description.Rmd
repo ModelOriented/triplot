@@ -22,13 +22,13 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Aspect importance takes on the challenge of interpreting model built on highly dimensional data. There exist a number of methods for local explanation of black-box models, like Break Down, Shap or LIME. However, the problem arises when the explanatory variables are correlated. 
+Predict aspects function takes on the challenge of interpreting model built on highly dimensional data. There exist a number of methods for local explanation of black-box models, like Break Down, Shap or LIME. However, the problem arises when the explanatory variables are correlated. 
 
-Aspect importance's aim is to increase the interpretability of the black box model by providing instance-level and data=level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.
+Predict aspects' aim is to increase the interpretability of the black box model by providing instance-level and data=level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.
 
 # Intuition
 
-Let's suppose that we built a model on highly dimensional data and we are using this model to predict an outcome for a new observation. We would like to gain insight which features are contributing more and which less, to this calculated prediction. However, when we calculate such importance of every single feature, the image may be still unclear, because there is so many of them. To gain better understanding, we can group those features. And afterwards, we can calculate the contribution (importance) to the prediction of every group of features (aspects). Hence the method aspect importance.
+Let's suppose that we built a model on highly dimensional data and we are using this model to predict an outcome for a new observation. We would like to gain insight which features are contributing more and which less, to this calculated prediction. However, when we calculate such importance of every single feature, the image may be still unclear, because some of those features maybe correlated. To gain better understanding, we can group those features. And afterwards, we can calculate the contribution (importance) to the prediction of every group of features (aspects). Hence the method predict aspects.
 
 To achieve that goal, the method works in following way: it uses subset of observations from the original dataset and than it modifies it, so every observation will have at least one aspect (meaning at least one group of features) replaced by the data from the observation of interest. Then we will build linear model that will predict how those replacements change the prediction of the modified data. 
 
@@ -38,7 +38,7 @@ We start by having dataset $\mathcal{X}$ and model $f$ built on this dataset. We
 
 Before we can use the method, we need to group the explanatory variables into aspects. We can use two different approaches: we can built the aspect list arbitrarily by using domain expertise or we can use `group_variables()` function that will do the grouping for us by using variables correlations. In the second approach, we are going to get aspects where every absolute value of pair-wise correlation of explanatory variables is no smaller than a given level. It should be noted that `group_variables()` works only for numerical variables.
 
-The aspect importance function algorithm starts with sampling observations from the dataset $\mathcal{X}$ into matrix $A$. 
+The predict_aspects function algorithm starts with sampling observations from the dataset $\mathcal{X}$ into matrix $A$. 
 
 Afterwards, it creates binary matrix $X'$. The number of rows of this matrix is equal to number of sampled observations in $A$. The number of columns is equal to the number of aspects. 
 
@@ -52,7 +52,7 @@ Finally, we use linear model on the binary matrix $X'$ where the difference in p
 
 We can interpret coefficient $\beta_i$ as the average change in prediction caused by replacing in $A$ the variables (grouped in aspect $i$) by the variables from $x_*$. 
 
-Aspect importance algorithm: 
+Predict aspects algorithm: 
 
 * $f$ - model  
 * $\mathcal{X}$ - dataset  
@@ -252,7 +252,7 @@ print(ai_Boston_rf, show_features = TRUE, show_cor = TRUE)
 
 # Summary
 
-Aspect importance allow us to check how the level of prediction is influenced by the different groups of features. We added additional tools to this method that let us group features automatically, control how many nonzero values are in the method results or see how aspect importance values are changing while aspects are one by one increasing in size (hierarchical aspects importance). 
+Predict aspects allow us to check how the level of prediction is influenced by the different groups of features. We added additional tools to this method that let us group features automatically, control how many nonzero values are in the method results or see how aspect importance values are changing while aspects are one by one increasing in size (hierarchical aspects importance). 
 
 However, we still see place for experimenting with stability of the results (size of the subset used by the `predict_aspects`), clarity of triplot and with lasso regression as the method extensions. 
 
