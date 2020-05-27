@@ -6,8 +6,8 @@
 \alias{aspect_importance.default}
 \alias{lime}
 \alias{predict_aspects}
-\title{Calculates importance of variable groups (called aspects importance) for a
-selected observation}
+\title{Calculates importance of variable groups (called aspects) for a selected 
+observation}
 \usage{
 aspect_importance(x, ...)
 
@@ -71,11 +71,11 @@ if it's an explainer}
 attribute of the model.}
 }
 \value{
-An object of the class \code{aspect_importance}. Contains dataframe
+An object of the class \code{aspect_importance}. Contains data frame
   that describes aspects' importance.
 }
 \description{
-Aspect Importance function takes a sample from a given dataset and modifies
+Predict aspects function takes a sample from a given dataset and modifies
 it. Modification is made by replacing part of its aspects by values from the
 observation. Then function is calculating the difference between the
 prediction made on modified sample and the original sample. Finally, it

@@ -1,7 +1,7 @@
-#' Calculates importance of variable groups (called aspects importance) for a
-#' selected observation
+#' Calculates importance of variable groups (called aspects) for a selected 
+#' observation
 #'
-#' Aspect Importance function takes a sample from a given dataset and modifies
+#' Predict aspects function takes a sample from a given dataset and modifies
 #' it. Modification is made by replacing part of its aspects by values from the
 #' observation. Then function is calculating the difference between the
 #' prediction made on modified sample and the original sample. Finally, it
@@ -27,7 +27,7 @@
 #' @param f frequency in \code{\link{get_sample}}
 #' @param ... other parameters
 #'
-#' @return An object of the class \code{aspect_importance}. Contains dataframe
+#' @return An object of the class \code{aspect_importance}. Contains data frame
 #'   that describes aspects' importance.
 #'
 #' @importFrom stats lm
@@ -198,7 +198,7 @@ aspect_importance.default <- function(x, data,
     model_coef <- coef(glmnet_model)[, indx]
   }
 
-  # prepare dataframe with results ------------------------------------------
+  # prepare data frame with results ------------------------------------------
 
   res <- data.frame(names(model_coef), unname(model_coef))
   colnames(res) <- c("variable_groups", "importance")
@@ -422,9 +422,6 @@ lime <- aspect_importance
 
 predict_aspects <- aspect_importance
 
-#' @export
-
-model_aspects <- DALEX::model_parts
 
 #' Function for getting binary matrix
 #'

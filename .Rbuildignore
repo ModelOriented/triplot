@@ -13,3 +13,4 @@ README_files
 README.rmd
 vignettes/
 ^cran-comments\.md$
+LICENSE

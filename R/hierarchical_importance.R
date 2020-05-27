@@ -23,7 +23,7 @@
 #'   "ratio" returns \code{drop_loss/drop_loss_full_model}.
 #' @param clust_method the agglomeration method to be used, see
 #'   \code{\link[stats]{hclust}} methods
-#' @param absolute_value if TRUE, aspect importance values will be drawn as
+#' @param absolute_value if TRUE, aspects importance values will be drawn as
 #'   absolute values
 #' @param show_labels if TRUE, plot will have annotated axis Y
 #' @param add_last_group if TRUE, plot will draw connecting line between last

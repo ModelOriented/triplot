@@ -64,7 +64,7 @@ dropout loss, if \code{type = model}. "raw" results raw drop losses,
 
 \item{...}{other parameters}
 
-\item{absolute_value}{if TRUE, aspect importance values will be drawn as
+\item{absolute_value}{if TRUE, aspects importance values will be drawn as
 absolute values}
 
 \item{show_labels}{if TRUE, plot will have annotated axis Y}
