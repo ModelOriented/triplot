@@ -108,7 +108,7 @@
       <h1 data-toc-skip>Description of predict_aspects method</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-05-25</h4>
+            <h4 class="date">2020-05-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_description.Rmd"><code>vignettes/vignette_aspect_importance_description.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance_description.Rmd</code></div>
@@ -120,13 +120,13 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>Aspect importance takes on the challenge of interpreting model built on highly dimensional data. There exist a number of methods for local explanation of black-box models, like Break Down, Shap or LIME. However, the problem arises when the explanatory variables are correlated.</p>
-<p>Aspect importance’s aim is to increase the interpretability of the black box model by providing instance-level and data=level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.</p>
+<p>Predict aspects function takes on the challenge of interpreting model built on highly dimensional data. There exist a number of methods for local explanation of black-box models, like Break Down, Shap or LIME. However, the problem arises when the explanatory variables are correlated.</p>
+<p>Predict aspects’ aim is to increase the interpretability of the black box model by providing instance-level and data=level explainer for the groups of explanatory variables. It enables grouping predictors into entities called aspects. Afterwards, it can calculate the contribution of those aspects to the prediction.</p>
 </div>
 <div id="intuition" class="section level1">
 <h1 class="hasAnchor">
 <a href="#intuition" class="anchor"></a>Intuition</h1>
-<p>Let’s suppose that we built a model on highly dimensional data and we are using this model to predict an outcome for a new observation. We would like to gain insight which features are contributing more and which less, to this calculated prediction. However, when we calculate such importance of every single feature, the image may be still unclear, because there is so many of them. To gain better understanding, we can group those features. And afterwards, we can calculate the contribution (importance) to the prediction of every group of features (aspects). Hence the method aspect importance.</p>
+<p>Let’s suppose that we built a model on highly dimensional data and we are using this model to predict an outcome for a new observation. We would like to gain insight which features are contributing more and which less, to this calculated prediction. However, when we calculate such importance of every single feature, the image may be still unclear, because some of those features maybe correlated. To gain better understanding, we can group those features. And afterwards, we can calculate the contribution (importance) to the prediction of every group of features (aspects). Hence the method predict aspects.</p>
 <p>To achieve that goal, the method works in following way: it uses subset of observations from the original dataset and than it modifies it, so every observation will have at least one aspect (meaning at least one group of features) replaced by the data from the observation of interest. Then we will build linear model that will predict how those replacements change the prediction of the modified data.</p>
 </div>
 <div id="method" class="section level1">
@@ -134,14 +134,14 @@
 <a href="#method" class="anchor"></a>Method</h1>
 <p>We start by having dataset <span class="math inline">\(\mathcal{X}\)</span> and model <span class="math inline">\(f\)</span> built on this dataset. We would like to explain the prediction for the observation of interest <span class="math inline">\(x_*\)</span>.</p>
 <p>Before we can use the method, we need to group the explanatory variables into aspects. We can use two different approaches: we can built the aspect list arbitrarily by using domain expertise or we can use <code><a href="../reference/group_variables.html">group_variables()</a></code> function that will do the grouping for us by using variables correlations. In the second approach, we are going to get aspects where every absolute value of pair-wise correlation of explanatory variables is no smaller than a given level. It should be noted that <code><a href="../reference/group_variables.html">group_variables()</a></code> works only for numerical variables.</p>
-<p>The aspect importance function algorithm starts with sampling observations from the dataset <span class="math inline">\(\mathcal{X}\)</span> into matrix <span class="math inline">\(A\)</span>.</p>
+<p>The predict_aspects function algorithm starts with sampling observations from the dataset <span class="math inline">\(\mathcal{X}\)</span> into matrix <span class="math inline">\(A\)</span>.</p>
 <p>Afterwards, it creates binary matrix <span class="math inline">\(X'\)</span>. The number of rows of this matrix is equal to number of sampled observations in <span class="math inline">\(A\)</span>. The number of columns is equal to the number of aspects.</p>
 <p>In the next step, matrix <span class="math inline">\(A\)</span> is modified into matrix <span class="math inline">\(A'\)</span>. The binary matrix <span class="math inline">\(X'\)</span> directs how the modification will work: for given observation from <span class="math inline">\(A\)</span>, function checks in binary matrix <span class="math inline">\(X'\)</span> which aspects should be replaced by aspects from the observation of interest <span class="math inline">\(x_*\)</span>.</p>
 <p>In result, we obtain a modified matrix <span class="math inline">\(A'\)</span> where for every observation at least one aspect is replaced with the data from the observation of interest.</p>
 <p>Next, the method checks how the aspects replacement changed the prediction. In other words, it looks at the difference between predictions for modified matrix <span class="math inline">\(A'\)</span> and matrix <span class="math inline">\(A\)</span>.</p>
 <p>Finally, we use linear model on the binary matrix <span class="math inline">\(X'\)</span> where the difference in predictions is the dependent variable. Model’s coefficients are the results we are looking for - the values of aspects importance.</p>
 <p>We can interpret coefficient <span class="math inline">\(\beta_i\)</span> as the average change in prediction caused by replacing in <span class="math inline">\(A\)</span> the variables (grouped in aspect <span class="math inline">\(i\)</span>) by the variables from <span class="math inline">\(x_*\)</span>.</p>
-<p>Aspect importance algorithm:</p>
+<p>Predict aspects algorithm:</p>
 <ul>
 <li>
 <span class="math inline">\(f\)</span> - model<br>
@@ -196,7 +196,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 28.78676</code></pre>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">Boston_rf</span>, <span class="no">new_observation</span>)</pre></body></html></div>
 <pre><code>#&gt;        4 
-#&gt; 34.30117</code></pre>
+#&gt; 34.22496</code></pre>
 <p>As we observe that those two models’ predictions for the <code>new_observation</code> are different, we would like to understand which groups of the observation’s features contribute to this differences. For that, we will use <code>aspects_importance()</code>.</p>
 <p>In the beginning, we have to build an aspect list. Then we will call <code>aspects_importance()</code> for both of those models to check:</p>
 <ul>
@@ -250,13 +250,13 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 5         ptratio    -0.1824        ptratio</code></pre>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">Boston_ai_rf</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance       features
-#&gt; 3          wealth  11.522409      rm, lstat
-#&gt; 4       structure   0.961575 indus, age, zn
-#&gt; 7             tax   0.799075            tax
-#&gt; 2             geo   0.162817  dis, nox, rad
-#&gt; 5         ptratio   0.098488        ptratio
-#&gt; 6               b  -0.012545              b
-#&gt; 8            crim   0.008125           crim</code></pre>
+#&gt; 3          wealth  11.615697      rm, lstat
+#&gt; 7             tax   0.805698            tax
+#&gt; 4       structure   0.803321 indus, age, zn
+#&gt; 2             geo   0.153890  dis, nox, rad
+#&gt; 5         ptratio   0.104664        ptratio
+#&gt; 6               b  -0.011702              b
+#&gt; 8            crim   0.007786           crim</code></pre>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">Boston_ai_lm</span>, <span class="no">Boston_ai_rf</span>)</pre></body></html></div>
 <p><img src="vignette_aspect_importance_description_files/figure-html/aspect%20importance%20with%20manual%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>In some cases, manually grouping features into aspects may present some challenges. For that reason, we added function that can do that for us. Function <code><a href="../reference/group_variables.html">group_variables()</a></code> groups correlated features into aspects, given a correlation cut-off level.</p>
@@ -290,12 +290,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 7   aspect.group6     0.2445                          b</code></pre>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">Boston_ai_rf_2</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance                   features
-#&gt; 4   aspect.group3   11.49113                  rm, lstat
-#&gt; 2   aspect.group1    1.34097 crim, indus, nox, age, dis
-#&gt; 5   aspect.group4    0.71266                   rad, tax
-#&gt; 6   aspect.group5    0.15066                    ptratio
-#&gt; 3   aspect.group2    0.06588                         zn
-#&gt; 7   aspect.group6    0.02166                          b</code></pre>
+#&gt; 4   aspect.group3   11.49633                  rm, lstat
+#&gt; 2   aspect.group1    1.29901 crim, indus, nox, age, dis
+#&gt; 5   aspect.group4    0.74492                   rad, tax
+#&gt; 6   aspect.group5    0.17615                    ptratio
+#&gt; 3   aspect.group2    0.05740                         zn
+#&gt; 7   aspect.group6    0.02446                          b</code></pre>
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">Boston_ai_lm_2</span>, <span class="no">Boston_ai_rf_2</span>, <span class="kw">aspects_on_axis</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
 <p><img src="vignette_aspect_importance_description_files/figure-html/aspect%20importance%20with%20automated%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
@@ -346,9 +346,9 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">ai_Boston_rf</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">show_cor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance                   features   min_cor sign
-#&gt; 4   aspect.group3    11.2055                  rm, lstat 0.6408316  neg
-#&gt; 2   aspect.group1     0.8265 crim, indus, nox, age, dis 0.6794867  neg
-#&gt; 5   aspect.group4     0.3287                   rad, tax 0.7048757  pos
+#&gt; 4   aspect.group3    11.1340                  rm, lstat 0.6408316  neg
+#&gt; 2   aspect.group1     0.7093 crim, indus, nox, age, dis 0.6794867  neg
+#&gt; 5   aspect.group4     0.3110                   rad, tax 0.7048757  pos
 #&gt; 3   aspect.group2     0.0000                         zn        NA     
 #&gt; 6   aspect.group5     0.0000                    ptratio        NA     
 #&gt; 7   aspect.group6     0.0000                          b        NA</code></pre>
@@ -356,7 +356,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h1>
-<p>Aspect importance allow us to check how the level of prediction is influenced by the different groups of features. We added additional tools to this method that let us group features automatically, control how many nonzero values are in the method results or see how aspect importance values are changing while aspects are one by one increasing in size (hierarchical aspects importance).</p>
+<p>Predict aspects allow us to check how the level of prediction is influenced by the different groups of features. We added additional tools to this method that let us group features automatically, control how many nonzero values are in the method results or see how aspect importance values are changing while aspects are one by one increasing in size (hierarchical aspects importance).</p>
 <p>However, we still see place for experimenting with stability of the results (size of the subset used by the <code>predict_aspects</code>), clarity of triplot and with lasso regression as the method extensions.</p>
 </div>
 <div id="session-info" class="section level1">

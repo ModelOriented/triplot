@@ -123,13 +123,16 @@
 <p>Key functions:</p>
 <ul>
 <li>
-<code><a href="reference/aspect_importance.html">predict_aspects()</a></code> for calculating the feature groups importance (called aspects importance) for a selected observation,</li>
-<li>
 <code><a href="reference/calculate_triplot.html">predict_triplot()</a></code> and <code><a href="reference/calculate_triplot.html">model_triplot()</a></code> for instance- and data-level summary of automatic aspect importance grouping,</li>
+<li>
+<code><a href="reference/aspect_importance.html">predict_aspects()</a></code> for calculating the feature groups importance (called aspects importance) for a selected observation,</li>
 <li>
 <code><a href="reference/group_variables.html">group_variables()</a></code> for grouping of correlated numeric features into aspects.</li>
 </ul>
 <p>The <code>triplot</code> package is a part of <a href="http://DrWhy.AI">DrWhy.AI</a> universe. More information about analysis of machine learning models can be found in the <a href="https://pbiecek.github.io/ema/">Explanatory Model Analysis. Explore, Explain and Examine Predictive Models</a> e-book.</p>
+<center>
+<p><img src="README_files/triplot_explained.gif"></p>
+</center>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -177,10 +180,10 @@
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>) +
   <span class="kw pkg">patchwork</span><span class="kw ns">::</span><span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html">plot_annotation</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Global triplot for four variables in the linear model"</span>)</pre></div>
 <div class="figure" style="text-align: center">
-<p><img src="reference/figures/model-triplot-1.png" alt="The left panel shows the global importance of individual variables. Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the importance of groups of variables determined by the hierarchical clustering."></p>
+<p><img src="reference/figures/model-triplot-1.png" alt="The left panel shows the global importance of individual variables. Right panel shows global correlation structure visualized by hierarchical clustering. The middle panel shows the importance of groups of variables determined by the hierarchical clustering."></p>
 <p class="caption">
 </p>
-<p>The left panel shows the global importance of individual variables. Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the importance of groups of variables determined by the hierarchical clustering.</p>
+<p>The left panel shows the global importance of individual variables. Right panel shows global correlation structure visualized by hierarchical clustering. The middle panel shows the importance of groups of variables determined by the hierarchical clustering.</p>
 
 </div>
 <p>At the model level, <code>surface</code> and <code>floor</code> have the biggest contributions. But we also know that <code>Number of rooms</code> and <code>surface</code> are strongly correlated and together have strong influence on the model prediction.<code>Construction year</code> has small influence on the prediction, is not correlated with <code>number of rooms</code> nor <code>surface</code> variables. Adding <code>construction year</code> to them, only slightly increases the importance of this group.</p>
@@ -199,19 +202,19 @@
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_apartments</span>) +
   <span class="kw pkg">patchwork</span><span class="kw ns">::</span><span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_annotation.html">plot_annotation</a></span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"Local triplot for four variables in the linear model"</span>)</pre></div>
 <div class="figure" style="text-align: center">
-<p><img src="reference/figures/predict-triplot-1.png" alt="The left panel shows the local importance of individual variables (similar to LIME). Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the local importance of groups of variables (similar to LIME) determined by the hierarchical clustering."></p>
+<p><img src="reference/figures/predict-triplot-1.png" alt="The left panel shows the local importance of individual variables (similar to LIME). Right panel shows global correlation structure visualized by hierarchical clustering. The middle panel shows the local importance of groups of variables (similar to LIME) determined by the hierarchical clustering."></p>
 <p class="caption">
 </p>
-<p>The left panel shows the local importance of individual variables (similar to LIME). Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the local importance of groups of variables (similar to LIME) determined by the hierarchical clustering.</p>
+<p>The left panel shows the local importance of individual variables (similar to LIME). Right panel shows global correlation structure visualized by hierarchical clustering. The middle panel shows the local importance of groups of variables (similar to LIME) determined by the hierarchical clustering.</p>
 
 </div>
 <p>We can observe that for the given apartment <code>surface</code> has also significant, positive influence on the prediction. Adding <code>number of rooms</code>, increases its contribution. However, adding <code>construction year</code> to those two features, decreases the group importance.</p>
 <p>We can notice that <code>floor</code> has the small influence on the prediction of this observation, unlike in the model-level analysis.</p>
 </div>
 </div>
-<div id="basic-aspect-importance" class="section level2">
+<div id="aspect-importance-for-single-instance" class="section level2">
 <h2 class="hasAnchor">
-<a href="#basic-aspect-importance" class="anchor"></a>Basic aspect importance</h2>
+<a href="#aspect-importance-for-single-instance" class="anchor"></a>Aspect importance for single instance</h2>
 <p>For this example we use <code>titanic</code> dataset with a logistic regression model that predicts passenger survival. Features are combined into thematic aspects.</p>
 <div id="importing-dataset-and-building-a-logistic-regression-model" class="section level3">
 <h3 class="hasAnchor">
