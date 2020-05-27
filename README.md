@@ -35,6 +35,8 @@ More information about analysis of machine learning models can be found
 in the [Explanatory Model Analysis. Explore, Explain and Examine
 Predictive Models](https://pbiecek.github.io/ema/) e-book.
 
+![](README_files/triplot_explained.gif)
+
 ## Installation
 
 ``` r
@@ -96,13 +98,13 @@ plot(tri_apartments) +
 
 <div class="figure" style="text-align: center">
 
-<img src="man/figures/model-triplot-1.png" alt="The left panel shows the global importance of individual variables. Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the importance of groups of variables determined by the hierarchical clustering."  />
+<img src="man/figures/model-triplot-1.png" alt="The left panel shows the global importance of individual variables. Right panel shows global correlation structure visualized by hierarchical clustering. The middle panel shows the importance of groups of variables determined by the hierarchical clustering."  />
 
 <p class="caption">
 
 The left panel shows the global importance of individual variables.
 Right panel shows global correlation structure visualized by
-hierarchical clustering The middle panel shows the importance of groups
+hierarchical clustering. The middle panel shows the importance of groups
 of variables determined by the hierarchical clustering.
 
 </p>
@@ -139,13 +141,13 @@ plot(tri_apartments) +
 
 <div class="figure" style="text-align: center">
 
-<img src="man/figures/predict-triplot-1.png" alt="The left panel shows the local importance of individual variables (similar to LIME). Right panel shows global correlation structure visualized by hierarchical clustering The middle panel shows the local importance of groups of variables (similar to LIME) determined by the hierarchical clustering."  />
+<img src="man/figures/predict-triplot-1.png" alt="The left panel shows the local importance of individual variables (similar to LIME). Right panel shows global correlation structure visualized by hierarchical clustering. The middle panel shows the local importance of groups of variables (similar to LIME) determined by the hierarchical clustering."  />
 
 <p class="caption">
 
 The left panel shows the local importance of individual variables
 (similar to LIME). Right panel shows global correlation structure
-visualized by hierarchical clustering The middle panel shows the local
+visualized by hierarchical clustering. The middle panel shows the local
 importance of groups of variables (similar to LIME) determined by the
 hierarchical clustering.
 
