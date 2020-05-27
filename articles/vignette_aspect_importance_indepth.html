@@ -76,10 +76,10 @@
       <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+      <a href="../articles/vignette_aspect_importance_indepth.html">Description of predict_aspects method</a>
     </li>
   </ul>
 </li>
@@ -110,8 +110,8 @@
             
             <h4 class="date">2020-05-27</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_description.Rmd"><code>vignettes/vignette_aspect_importance_description.Rmd</code></a></small>
-      <div class="hidden name"><code>vignette_aspect_importance_description.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_indepth.Rmd"><code>vignettes/vignette_aspect_importance_indepth.Rmd</code></a></small>
+      <div class="hidden name"><code>vignette_aspect_importance_indepth.Rmd</code></div>
 
     </div>
 
@@ -196,7 +196,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 28.78676</code></pre>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">Boston_rf</span>, <span class="no">new_observation</span>)</pre></body></html></div>
 <pre><code>#&gt;        4 
-#&gt; 34.22496</code></pre>
+#&gt; 34.33817</code></pre>
 <p>As we observe that those two models’ predictions for the <code>new_observation</code> are different, we would like to understand which groups of the observation’s features contribute to this differences. For that, we will use <code>aspects_importance()</code>.</p>
 <p>In the beginning, we have to build an aspect list. Then we will call <code>aspects_importance()</code> for both of those models to check:</p>
 <ul>
@@ -250,15 +250,15 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 5         ptratio    -0.1824        ptratio</code></pre>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">Boston_ai_rf</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance       features
-#&gt; 3          wealth  11.615697      rm, lstat
-#&gt; 7             tax   0.805698            tax
-#&gt; 4       structure   0.803321 indus, age, zn
-#&gt; 2             geo   0.153890  dis, nox, rad
-#&gt; 5         ptratio   0.104664        ptratio
-#&gt; 6               b  -0.011702              b
-#&gt; 8            crim   0.007786           crim</code></pre>
+#&gt; 3          wealth   11.71841      rm, lstat
+#&gt; 4       structure    0.81784 indus, age, zn
+#&gt; 7             tax    0.74488            tax
+#&gt; 5         ptratio    0.21179        ptratio
+#&gt; 2             geo    0.20884  dis, nox, rad
+#&gt; 6               b   -0.03419              b
+#&gt; 8            crim    0.03278           crim</code></pre>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">Boston_ai_lm</span>, <span class="no">Boston_ai_rf</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_description_files/figure-html/aspect%20importance%20with%20manual%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="vignette_aspect_importance_indepth_files/figure-html/aspect%20importance%20with%20manual%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>In some cases, manually grouping features into aspects may present some challenges. For that reason, we added function that can do that for us. Function <code><a href="../reference/group_variables.html">group_variables()</a></code> groups correlated features into aspects, given a correlation cut-off level.</p>
 <p>Below we will use <code><a href="../reference/group_variables.html">group_variables()</a></code> function with a cut off level set on 0.6. As a result, we get a list of variables groups where absolute value of features’ pairwise correlation is at least at 0.6. Afterwards, we call <code>aspects_importance()</code> function again.</p>
 <p>Since <code><a href="../reference/group_variables.html">group_variables()</a></code> built different list that us, we can observe a little bit different results. However, the final image still allow us to see that what we established as geographical and structure features, in general, have negative contribution on the prediction in linear case, while positive in the random forest one.</p>
@@ -290,14 +290,14 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 7   aspect.group6     0.2445                          b</code></pre>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">Boston_ai_rf_2</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance                   features
-#&gt; 4   aspect.group3   11.49633                  rm, lstat
-#&gt; 2   aspect.group1    1.29901 crim, indus, nox, age, dis
-#&gt; 5   aspect.group4    0.74492                   rad, tax
-#&gt; 6   aspect.group5    0.17615                    ptratio
-#&gt; 3   aspect.group2    0.05740                         zn
-#&gt; 7   aspect.group6    0.02446                          b</code></pre>
+#&gt; 4   aspect.group3   11.61986                  rm, lstat
+#&gt; 2   aspect.group1    1.28921 crim, indus, nox, age, dis
+#&gt; 5   aspect.group4    0.72007                   rad, tax
+#&gt; 6   aspect.group5    0.30518                    ptratio
+#&gt; 3   aspect.group2    0.05810                         zn
+#&gt; 7   aspect.group6    0.01378                          b</code></pre>
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">Boston_ai_lm_2</span>, <span class="no">Boston_ai_rf_2</span>, <span class="kw">aspects_on_axis</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_description_files/figure-html/aspect%20importance%20with%20automated%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="vignette_aspect_importance_indepth_files/figure-html/aspect%20importance%20with%20automated%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="hierarchical-aspects-importance" class="section level1">
 <h1 class="hasAnchor">
@@ -320,7 +320,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">tri_lm</span>,
      <span class="kw">margin_mid</span> <span class="kw">=</span> <span class="fl">0.2</span>,
      <span class="kw">show_model_label</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_description_files/figure-html/triplot-1.png" width="1152" style="display: block; margin: auto;"></p>
+<p><img src="vignette_aspect_importance_indepth_files/figure-html/triplot-1.png" width="1152" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">tri_rf</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">predict_triplot</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">explain_Boston_rf</span>,
                             <span class="kw">new_observation</span> <span class="kw">=</span> <span class="no">new_observation</span>,
                             <span class="kw">N</span> <span class="kw">=</span> <span class="fl">10000</span>)
@@ -328,7 +328,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
      <span class="kw">margin_mid</span> <span class="kw">=</span> <span class="fl">0.2</span>,
      <span class="kw">add_last_group</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
      <span class="kw">show_model_label</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
-<p><img src="vignette_aspect_importance_description_files/figure-html/triplot-2.png" width="1152" style="display: block; margin: auto;"></p>
+<p><img src="vignette_aspect_importance_indepth_files/figure-html/triplot-2.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 <div id="lasso" class="section level1">
 <h1 class="hasAnchor">
@@ -346,12 +346,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">ai_Boston_rf</span>, <span class="kw">show_features</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">show_cor</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <pre><code>#&gt;   variable_groups importance                   features   min_cor sign
-#&gt; 4   aspect.group3    11.1340                  rm, lstat 0.6408316  neg
-#&gt; 2   aspect.group1     0.7093 crim, indus, nox, age, dis 0.6794867  neg
-#&gt; 5   aspect.group4     0.3110                   rad, tax 0.7048757  pos
-#&gt; 3   aspect.group2     0.0000                         zn        NA     
-#&gt; 6   aspect.group5     0.0000                    ptratio        NA     
-#&gt; 7   aspect.group6     0.0000                          b        NA</code></pre>
+#&gt; 4   aspect.group3   10.94915                  rm, lstat 0.6408316  neg
+#&gt; 2   aspect.group1    0.38654 crim, indus, nox, age, dis 0.6794867  neg
+#&gt; 7   aspect.group6   -0.01006                          b        NA     
+#&gt; 3   aspect.group2    0.00000                         zn        NA     
+#&gt; 5   aspect.group4    0.00000                   rad, tax 0.7048757  pos
+#&gt; 6   aspect.group5    0.00000                    ptratio        NA</code></pre>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
