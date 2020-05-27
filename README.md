@@ -23,10 +23,10 @@ depending on the size of aspects.
 
 Key functions:
 
-  - `predict_aspects()` for calculating the feature groups importance
-    (called aspects importance) for a selected observation,
   - `predict_triplot()` and `model_triplot()` for instance- and
     data-level summary of automatic aspect importance grouping,
+  - `predict_aspects()` for calculating the feature groups importance
+    (called aspects importance) for a selected observation,
   - `group_variables()` for grouping of correlated numeric features into
     aspects.
 
@@ -35,7 +35,11 @@ More information about analysis of machine learning models can be found
 in the [Explanatory Model Analysis. Explore, Explain and Examine
 Predictive Models](https://pbiecek.github.io/ema/) e-book.
 
+<center>
+
 ![](README_files/triplot_explained.gif)
+
+</center>
 
 ## Installation
 
@@ -163,7 +167,7 @@ to those two features, decreases the group importance.
 We can notice that `floor` has the small influence on the prediction of
 this observation, unlike in the model-level analysis.
 
-## Basic aspect importance
+## Aspect importance for single instance
 
 For this example we use `titanic` dataset with a logistic regression
 model that predicts passenger survival. Features are combined into

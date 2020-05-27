@@ -34,7 +34,14 @@ Key functions:
 The `triplot` package is a part of [DrWhy.AI](http://DrWhy.AI) universe. More information about analysis of machine learning models can be found in
 the [Explanatory Model Analysis. Explore, Explain and Examine Predictive Models](https://pbiecek.github.io/ema/) e-book.
 
+
+<center>
+
 ![](README_files/triplot_explained.gif)
+
+</center>
+
+
 
 ## Installation
 
