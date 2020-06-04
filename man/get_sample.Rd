@@ -29,5 +29,5 @@ have rows with only zeros.
 }
 \examples{
  get_sample(100,6,"binom",3)
- 
+
 }

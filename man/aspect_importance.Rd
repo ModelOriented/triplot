@@ -6,7 +6,7 @@
 \alias{aspect_importance.default}
 \alias{lime}
 \alias{predict_aspects}
-\title{Calculates importance of variable groups (called aspects) for a selected 
+\title{Calculates importance of variable groups (called aspects) for a selected
 observation}
 \usage{
 aspect_importance(x, ...)
@@ -106,6 +106,7 @@ predict_aspects(explain_titanic_glm,
 
 \donttest{
 library("randomForest")
+library("DALEX")
 model_titanic_rf <-
  randomForest(factor(survived) ~ class + gender + age + sibsp +
                 parch + fare + embarked,
