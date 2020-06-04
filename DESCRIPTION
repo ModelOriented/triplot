@@ -1,18 +1,19 @@
 Package: triplot
-Title: Tools for Explaining Correlated Features in Machine Learning Models 
+Title: Explaining Correlated Features in Machine Learning Models 
 Version: 1.2.0
 Authors@R:
     c(person("Katarzyna", "Pekala", email = "katarzyna.pekala@gmail.com", 
     role = c("aut", "cre")), 
     person("Przemyslaw", "Biecek", role = c("aut"), 
     comment = c(ORCID = "0000-0001-8423-1823")))
-Description: Tools for exploration and explanation of machine learning models. 
-    Triplots are focused on the effects of correlated features in predictive models. 
-    The predict_triplot() function delivers instance-level explanations that  
-    calculate the importance of the groups of explanatory variables. 
-    The model_triplot() function delivers data-level explanations. 
+Description: Triplots are focused on the effects of correlated features in 
+    predictive models. The predict_triplot() function delivers instance-level 
+    explanations that calculate the importance of the groups of explanatory 
+    variables. The model_triplot() function delivers data-level explanations. 
     The generic plot function visualises in a concise way importance of 
-    hierarchical groups of predictors.
+    hierarchical groups of predictors. All of the the tools are model agnostic, 
+    therefore works for any predictive machine learning models.
+    Find more details in Biecek (2018) <arXiv:1806.08915>.
 Depends: R (>= 3.6)
 License: GPL-3
 Encoding: UTF-8

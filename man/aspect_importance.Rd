@@ -104,7 +104,7 @@ predict_aspects(explain_titanic_glm,
                   new_observation = titanic_imputed[1,],
                   variable_groups = aspects)
 
-\dontrun{
+\donttest{
 library("randomForest")
 model_titanic_rf <-
  randomForest(factor(survived) ~ class + gender + age + sibsp +

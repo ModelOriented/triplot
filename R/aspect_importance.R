@@ -1,4 +1,4 @@
-#' Calculates importance of variable groups (called aspects) for a selected 
+#' Calculates importance of variable groups (called aspects) for a selected
 #' observation
 #'
 #' Predict aspects function takes a sample from a given dataset and modifies
@@ -57,9 +57,10 @@
 #'                   new_observation = titanic_imputed[1,],
 #'                   variable_groups = aspects)
 #'
-#' \dontrun{
+#' \donttest{
 #' library("randomForest")
-#'model_titanic_rf <-
+#' library("DALEX")
+#' model_titanic_rf <-
 #'  randomForest(factor(survived) ~ class + gender + age + sibsp +
 #'                 parch + fare + embarked,
 #'               data = titanic_imputed)
@@ -308,7 +309,7 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
   colnames(x)[ncol(x)] <- "label"
   x$a_sign <- ifelse(x$importance > 0, "positive", "negative")
   x$hjust <- ifelse(x$importance > 0, 1.1, -0.1)
-  
+
   if (all(x$importance > 0)) {
     vcol <- colors_discrete_drwhy(3)[c(3)]
   } else {
@@ -443,9 +444,8 @@ predict_aspects <- aspect_importance
 #' @importFrom stats rbinom
 #'
 #' @examples
-#'  \dontrun{
 #'  get_sample(100,6,"binom",3)
-#' }
+#'
 #' @export
 #'
 #' @rdname get_sample

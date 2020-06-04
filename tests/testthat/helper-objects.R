@@ -1,8 +1,8 @@
-library(DALEX)
+library("DALEX")
 
 # titanic -----------------------------------------------------------------
 
-titanic_data <- titanic_imputed
+titanic_data <- DALEX::titanic_imputed
 
 titanic_glm_model <- glm(survived == 1 ~ class + gender + age + sibsp + 
                            parch + fare + embarked,
@@ -28,13 +28,15 @@ titanic_aspects <- list(wealth = c("class", "fare"),
 
 # apartments --------------------------------------------------------------
 
-apartments_lm_model <- lm(m2.price ~ ., data = apartments)
+apartments_data <- DALEX::apartments
+
+apartments_lm_model <- lm(m2.price ~ ., data = apartments_data)
 apartments_aspects <- list(space = c("surface", "no.rooms"),
                            construction.year = "construction.year",
                            floor = "floor",
                            district = "district")
-apartments_new_observation <- apartments_test[30,]
-apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))]
+apartments_new_observation <- DALEX::apartments_test[30,]
+apartments_num <- apartments_data[,unlist(lapply(apartments_data, is.numeric))]
 apartments_num_lm_model <- lm(m2.price ~ ., data = apartments_num)
 apartments_num_new_observation <- apartments_num[30, ]
 apartments_explain <- explain(model = apartments_num_lm_model,

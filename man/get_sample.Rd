@@ -28,7 +28,6 @@ per row - average number of replaced zeros can be controlled by parameter
 have rows with only zeros.
 }
 \examples{
- \dontrun{
  get_sample(100,6,"binom",3)
-}
+ 
 }
