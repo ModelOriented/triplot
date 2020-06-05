@@ -195,7 +195,7 @@ test_that("check aliases for aspect_importance",{
 
 })
 
-test_that("plot for aspect_importance works",{
+test_that("check plot for aspect_importance",{
   library("DALEX")
   library("triplot")
 
@@ -214,6 +214,26 @@ test_that("plot for aspect_importance works",{
   expect_true(is.ggplot(p2))
   expect_identical(p1$labels$y, "Aspects importance")
   expect_error(plot.aspect_importance(apartments))
+})
+
+test_that("check plot for aspect_importance with positive numbers",{
+  library("DALEX")
+  library("triplot")
+  
+  set.seed(8)
+  
+  aspect_importance_apartments <-
+    aspect_importance(
+      apartments_lm_model,
+      apartments,
+      new_observation = apartments_new_observation,
+      variable_groups =  apartments_aspects
+    )
+  aspect_importance_apartments
+  
+  p1 <- plot(aspect_importance_apartments)
+  expect_true(is.ggplot(p1))
+  expect_true(all(p1$data$importance > 0))
 })
 
 
