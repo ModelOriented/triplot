@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculates importance of variable groups (called aspects importance) for a
-selected observation — aspect_importance • triplot</title>
+<title>Calculates importance of variable groups (called aspects) for a selected
+observation — aspect_importance • triplot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -46,14 +53,15 @@ selected observation — aspect_importance • triplot</title>
 
 
 
-<meta property="og:title" content="Calculates importance of variable groups (called aspects importance) for a
-selected observation — aspect_importance" />
-<meta property="og:description" content="Aspect Importance function takes a sample from a given dataset and modifies
+<meta property="og:title" content="Calculates importance of variable groups (called aspects) for a selected
+observation — aspect_importance" />
+<meta property="og:description" content="Predict aspects function takes a sample from a given dataset and modifies
 it. Modification is made by replacing part of its aspects by values from the
 observation. Then function is calculating the difference between the
 prediction made on modified sample and the original sample. Finally, it
 measures the impact of aspects on the change of prediction by using the
 linear model or lasso." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -123,10 +131,10 @@ linear model or lasso." />
       <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+      <a href="../articles/vignette_aspect_importance_indepth.html">Description of predict_aspects method</a>
     </li>
   </ul>
 </li>
@@ -152,14 +160,14 @@ linear model or lasso." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculates importance of variable groups (called aspects importance) for a
-selected observation</h1>
+    <h1>Calculates importance of variable groups (called aspects) for a selected
+observation</h1>
     <small class="dont-index">Source: <a href='https://github.com/ModelOriented/triplot/blob/master/R/aspect_importance.R'><code>R/aspect_importance.R</code></a></small>
     <div class="hidden name"><code>aspect_importance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Aspect Importance function takes a sample from a given dataset and modifies
+    <p>Predict aspects function takes a sample from a given dataset and modifies
 it. Modification is made by replacing part of its aspects by values from the
 observation. Then function is calculating the difference between the
 prediction made on modified sample and the original sample. Finally, it
@@ -175,8 +183,8 @@ linear model or lasso.</p>
   <span class='no'>new_observation</span>,
   <span class='no'>variable_groups</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='no'>...</span>
 )
@@ -190,8 +198,8 @@ linear model or lasso.</p>
   <span class='no'>new_observation</span>,
   <span class='no'>variable_groups</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='no'>...</span>
 )
@@ -227,17 +235,17 @@ variables used in the model</p></td>
 NOTE: Small <code>N</code> may cause unstable results.</p></td>
     </tr>
     <tr>
-      <th>sample_method</th>
-      <td><p>sampling method in <code><a href='get_sample.html'>get_sample</a></code></p></td>
-    </tr>
-    <tr>
       <th>n_var</th>
       <td><p>maximum number of non-zero coefficients after lasso fitting,
 if zero than linear regression is used</p></td>
     </tr>
     <tr>
+      <th>sample_method</th>
+      <td><p>sampling method in <code>get_sample</code></p></td>
+    </tr>
+    <tr>
       <th>f</th>
-      <td><p>frequency in <code><a href='get_sample.html'>get_sample</a></code></p></td>
+      <td><p>frequency in <code>get_sample</code></p></td>
     </tr>
     <tr>
       <th>data</th>
@@ -258,14 +266,12 @@ attribute of the model.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the class <code>aspect_importance</code>. Contains dataframe
+    <p>An object of the class <code>aspect_importance</code>. Contains data frame
   that describes aspects' importance.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DALEX"</span>)</div><div class='output co'>#&gt; <span class='message'>Welcome to DALEX (version: 1.2.1).</span>
-#&gt; <span class='message'>Find examples and detailed introduction at: https://pbiecek.github.io/ema/</span>
-#&gt; <span class='message'>Additional features will be available after installation of: ggpubr.</span>
-#&gt; <span class='message'>Use 'install_dependencies()' to get all suggested dependencies</span></div><div class='input'>
+#&gt; <span class='message'>Find examples and detailed introduction at: https://pbiecek.github.io/ema/</span></div><div class='input'>
 <span class='no'>model_titanic_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>survived</span> <span class='kw'>==</span> <span class='fl'>1</span> ~
                          <span class='no'>class</span>+<span class='no'>gender</span>+<span class='no'>age</span>+<span class='no'>sibsp</span>+<span class='no'>parch</span>+<span class='no'>fare</span>+<span class='no'>embarked</span>,
                          <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>,
@@ -288,8 +294,8 @@ attribute of the model.</p></td>
 #&gt; 2          wealth  -0.126134
 #&gt; 3          family   0.015840
 #&gt; 5        embarked  -0.006404</div><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)
+<span class='co'># \donttest{</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"randomForest"</span>)</div><div class='output co'>#&gt; <span class='message'>randomForest 4.6-14</span></div><div class='output co'>#&gt; <span class='message'>Type rfNews() to see new features/changes/bug fixes.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"DALEX"</span>)
 <span class='no'>model_titanic_rf</span> <span class='kw'>&lt;-</span>
  <span class='fu'><a href='https://rdrr.io/pkg/randomForest/man/randomForest.html'>randomForest</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>survived</span>) ~ <span class='no'>class</span> + <span class='no'>gender</span> + <span class='no'>age</span> + <span class='no'>sibsp</span> +
                 <span class='no'>parch</span> + <span class='no'>fare</span> + <span class='no'>embarked</span>,
@@ -302,9 +308,14 @@ attribute of the model.</p></td>
 
 <span class='fu'>predict_aspects</span>(<span class='no'>explain_titanic_rf</span>,
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
-                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)
+                  <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)</div><div class='output co'>#&gt;   variable_groups importance
+#&gt; 4        personal   -0.17347
+#&gt; 2          wealth   -0.11429
+#&gt; 5        embarked   -0.06191
+#&gt; 3          family   -0.06094</div><div class='input'>
+# }
 
-}</div></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

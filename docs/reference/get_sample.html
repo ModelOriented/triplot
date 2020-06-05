@@ -8,6 +8,13 @@
 
 <title>Function for getting binary matrix — get_sample • triplot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -47,12 +54,13 @@
 
 <meta property="og:title" content="Function for getting binary matrix — get_sample" />
 <meta property="og:description" content="Function creates binary matrix, to be used in aspect_importance method. It
-starts with a zero matrix. Then it replaces some zeros with ones. If 
-sample_method = &quot;default&quot; it randomly replaces one or two zeros per 
+starts with a zero matrix. Then it replaces some zeros with ones. If
+sample_method = &quot;default&quot; it randomly replaces one or two zeros per
 row. If sample_method = &quot;binom&quot; it replaces random number of zeros
-per row - average number of replaced zeros can be controlled by parameter 
-sample_method = &quot;f&quot;. Function doesn't allow the returned matrix to 
+per row - average number of replaced zeros can be controlled by parameter
+sample_method = &quot;f&quot;. Function doesn't allow the returned matrix to
 have rows with only zeros." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -122,10 +130,10 @@ have rows with only zeros." />
       <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+      <a href="../articles/vignette_aspect_importance_indepth.html">Description of predict_aspects method</a>
     </li>
   </ul>
 </li>
@@ -158,11 +166,11 @@ have rows with only zeros." />
 
     <div class="ref-description">
     <p>Function creates binary matrix, to be used in aspect_importance method. It
-starts with a zero matrix. Then it replaces some zeros with ones. If 
-<code>sample_method = "default"</code> it randomly replaces one or two zeros per 
+starts with a zero matrix. Then it replaces some zeros with ones. If
+<code>sample_method = "default"</code> it randomly replaces one or two zeros per
 row. If <code>sample_method = "binom"</code> it replaces random number of zeros
-per row - average number of replaced zeros can be controlled by parameter 
-<code>sample_method = "f"</code>. Function doesn't allow the returned matrix to 
+per row - average number of replaced zeros can be controlled by parameter
+<code>sample_method = "f"</code>. Function doesn't allow the returned matrix to
 have rows with only zeros.</p>
     </div>
 
@@ -194,9 +202,108 @@ have rows with only zeros.</p>
     <p>a binary matrix</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='fu'>get_sample</span>(<span class='fl'>100</span>,<span class='fl'>6</span>,<span class='st'>"binom"</span>,<span class='fl'>3</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'> <span class='fu'>get_sample</span>(<span class='fl'>100</span>,<span class='fl'>6</span>,<span class='st'>"binom"</span>,<span class='fl'>3</span>)</div><div class='output co'>#&gt;        [,1] [,2] [,3] [,4] [,5] [,6]
+#&gt;   [1,]    1    0    0    1    0    1
+#&gt;   [2,]    0    0    0    1    0    1
+#&gt;   [3,]    1    0    0    1    0    1
+#&gt;   [4,]    1    1    0    1    0    0
+#&gt;   [5,]    0    1    0    0    0    0
+#&gt;   [6,]    0    0    1    0    1    0
+#&gt;   [7,]    1    1    1    0    0    0
+#&gt;   [8,]    1    0    0    1    0    1
+#&gt;   [9,]    1    0    1    0    1    0
+#&gt;  [10,]    0    1    0    0    1    1
+#&gt;  [11,]    0    1    0    0    0    1
+#&gt;  [12,]    0    1    0    1    1    1
+#&gt;  [13,]    1    0    0    0    0    0
+#&gt;  [14,]    1    1    0    1    0    0
+#&gt;  [15,]    0    0    0    1    0    1
+#&gt;  [16,]    0    0    1    1    0    0
+#&gt;  [17,]    1    0    0    1    0    0
+#&gt;  [18,]    1    0    0    1    1    0
+#&gt;  [19,]    0    0    1    1    0    0
+#&gt;  [20,]    1    1    0    0    0    1
+#&gt;  [21,]    1    1    0    0    0    0
+#&gt;  [22,]    1    0    1    0    1    0
+#&gt;  [23,]    1    0    1    0    0    0
+#&gt;  [24,]    1    0    1    1    0    1
+#&gt;  [25,]    0    1    1    0    1    0
+#&gt;  [26,]    1    1    1    0    1    0
+#&gt;  [27,]    0    1    1    0    1    0
+#&gt;  [28,]    0    0    0    1    1    0
+#&gt;  [29,]    1    0    1    0    1    0
+#&gt;  [30,]    1    1    0    0    0    0
+#&gt;  [31,]    1    1    1    0    1    0
+#&gt;  [32,]    0    0    1    1    0    0
+#&gt;  [33,]    1    0    0    0    1    0
+#&gt;  [34,]    1    0    0    0    0    0
+#&gt;  [35,]    1    0    0    0    1    1
+#&gt;  [36,]    1    1    1    0    1    1
+#&gt;  [37,]    1    0    1    0    0    0
+#&gt;  [38,]    0    0    0    1    0    1
+#&gt;  [39,]    1    1    0    1    0    1
+#&gt;  [40,]    1    1    1    1    0    0
+#&gt;  [41,]    1    0    0    0    0    0
+#&gt;  [42,]    1    0    0    1    0    0
+#&gt;  [43,]    1    1    0    0    1    0
+#&gt;  [44,]    1    0    0    0    0    1
+#&gt;  [45,]    1    0    0    1    1    0
+#&gt;  [46,]    0    1    0    0    1    1
+#&gt;  [47,]    1    0    1    0    0    1
+#&gt;  [48,]    0    0    1    0    0    0
+#&gt;  [49,]    0    1    0    0    0    1
+#&gt;  [50,]    1    1    1    0    0    0
+#&gt;  [51,]    0    0    1    1    1    0
+#&gt;  [52,]    0    1    1    1    0    1
+#&gt;  [53,]    1    1    1    0    0    0
+#&gt;  [54,]    1    1    0    1    0    0
+#&gt;  [55,]    1    0    0    1    1    0
+#&gt;  [56,]    0    0    0    0    1    1
+#&gt;  [57,]    0    0    1    1    1    0
+#&gt;  [58,]    0    1    1    0    1    0
+#&gt;  [59,]    0    1    0    0    1    0
+#&gt;  [60,]    0    0    1    0    0    1
+#&gt;  [61,]    0    0    0    1    0    0
+#&gt;  [62,]    0    1    0    1    0    1
+#&gt;  [63,]    0    1    1    0    0    1
+#&gt;  [64,]    1    1    0    0    1    0
+#&gt;  [65,]    0    1    0    0    0    1
+#&gt;  [66,]    0    0    1    0    1    0
+#&gt;  [67,]    1    1    0    0    1    1
+#&gt;  [68,]    0    0    1    0    0    1
+#&gt;  [69,]    1    0    0    0    1    0
+#&gt;  [70,]    0    0    0    0    0    1
+#&gt;  [71,]    0    0    1    0    0    0
+#&gt;  [72,]    0    0    1    0    0    0
+#&gt;  [73,]    0    0    1    1    0    0
+#&gt;  [74,]    0    0    0    1    0    1
+#&gt;  [75,]    0    0    1    1    0    0
+#&gt;  [76,]    0    1    0    1    1    0
+#&gt;  [77,]    0    1    1    0    0    1
+#&gt;  [78,]    0    0    1    1    1    0
+#&gt;  [79,]    0    0    0    1    0    1
+#&gt;  [80,]    1    1    0    0    0    1
+#&gt;  [81,]    0    0    0    0    0    1
+#&gt;  [82,]    0    0    0    1    0    1
+#&gt;  [83,]    0    0    1    0    0    1
+#&gt;  [84,]    1    0    1    0    0    1
+#&gt;  [85,]    0    0    1    1    1    0
+#&gt;  [86,]    1    0    0    0    1    0
+#&gt;  [87,]    1    1    0    0    0    1
+#&gt;  [88,]    1    1    0    0    0    1
+#&gt;  [89,]    0    1    0    1    0    1
+#&gt;  [90,]    1    0    0    0    0    1
+#&gt;  [91,]    0    0    0    1    0    1
+#&gt;  [92,]    0    1    1    0    1    0
+#&gt;  [93,]    1    0    1    0    0    0
+#&gt;  [94,]    1    1    0    1    0    0
+#&gt;  [95,]    1    1    0    1    0    1
+#&gt;  [96,]    1    1    1    0    0    0
+#&gt;  [97,]    1    0    1    0    1    0
+#&gt;  [98,]    0    1    0    1    0    0
+#&gt;  [99,]    1    0    0    0    1    0
+#&gt; [100,]    1    0    0    0    1    1</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -8,6 +8,13 @@
 
 <title>Calculate triplot that sums up automatic aspect/feature importance grouping — calculate_triplot • triplot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -52,6 +59,7 @@ tree that shows importance for every newly expanded group of variables,
 clustering tree.
 
 " />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -121,10 +129,10 @@ clustering tree.
       <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+      <a href="../articles/vignette_aspect_importance_indepth.html">Description of predict_aspects method</a>
     </li>
   </ul>
 </li>
@@ -290,7 +298,14 @@ attribute of the model.</p></td>
                                 <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>apartments_tri</span> <span class='kw'>&lt;-</span> <span class='fu'>calculate_triplot</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>explainer_apartments</span>,
                                     <span class='kw'>new_observation</span> <span class='kw'>=</span>
-                                      <span class='no'>apartments_num_new_observation</span>[-<span class='fl'>1</span>])</div></pre>
+                                      <span class='no'>apartments_num_new_observation</span>[-<span class='fl'>1</span>])
+<span class='no'>apartments_tri</span></div><div class='output co'>#&gt; Triplot object for model: lm 
+#&gt; 
+#&gt; Triplot is calculated for single prediction:
+#&gt;    construction.year surface floor no.rooms
+#&gt; 30              2002      88     6        3</div><div class='input'>                                   
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

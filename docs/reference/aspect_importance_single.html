@@ -8,6 +8,13 @@
 
 <title>Aspects importance for single aspects — aspect_importance_single • triplot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -48,6 +55,7 @@
 <meta property="og:title" content="Aspects importance for single aspects — aspect_importance_single" />
 <meta property="og:description" content="Calculates aspect_importance for single aspects (every aspect contains only
 one feature)." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -117,10 +125,10 @@ one feature)." />
       <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+      <a href="../articles/vignette_aspect_importance_indepth.html">Description of predict_aspects method</a>
     </li>
   </ul>
 </li>
@@ -163,8 +171,8 @@ one feature).</p>
   <span class='no'>x</span>,
   <span class='no'>new_observation</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='no'>...</span>
 )
@@ -177,8 +185,8 @@ one feature).</p>
   <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)[<span class='fl'>1</span>],
   <span class='no'>new_observation</span>,
   <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>n_var</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>sample_method</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
   <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='no'>...</span>
 )</pre>
@@ -206,17 +214,17 @@ variables used in the model, should be without target variable</p></td>
 NOTE: Small <code>N</code> may cause unstable results.</p></td>
     </tr>
     <tr>
-      <th>sample_method</th>
-      <td><p>sampling method in <code><a href='get_sample.html'>get_sample</a></code></p></td>
-    </tr>
-    <tr>
       <th>n_var</th>
       <td><p>how many non-zero coefficients for lasso fitting, if zero than
 linear regression is used</p></td>
     </tr>
     <tr>
+      <th>sample_method</th>
+      <td><p>sampling method in <code>get_sample</code></p></td>
+    </tr>
+    <tr>
       <th>f</th>
-      <td><p>frequency in in <code><a href='get_sample.html'>get_sample</a></code></p></td>
+      <td><p>frequency in in <code>get_sample</code></p></td>
     </tr>
     <tr>
       <th>data</th>
@@ -252,13 +260,13 @@ attribute of the model.</p></td>
                              <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='fu'>aspect_importance_single</span>(<span class='no'>explainer_titanic</span>,
                          <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,-<span class='fl'>8</span>])</div><div class='output co'>#&gt;   variable_groups importance
-#&gt; 4           class -0.1538073
-#&gt; 2          gender -0.1512352
-#&gt; 3             age -0.1162595
-#&gt; 7           sibsp -0.0811137
-#&gt; 6            fare -0.0276569
-#&gt; 8           parch -0.0233301
-#&gt; 5        embarked  0.0003598</div><div class='input'>
+#&gt; 4           class  -0.113828
+#&gt; 2          gender  -0.113547
+#&gt; 3             age  -0.056240
+#&gt; 7           sibsp   0.021169
+#&gt; 5        embarked  -0.008320
+#&gt; 8           parch  -0.006068
+#&gt; 6            fare  -0.005075</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

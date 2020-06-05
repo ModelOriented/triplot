@@ -8,6 +8,13 @@
 
 <title>Function for printing aspect_importance results — print.aspect_importance • triplot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -47,6 +54,7 @@
 
 <meta property="og:title" content="Function for printing aspect_importance results — print.aspect_importance" />
 <meta property="og:description" content="This function prints the results of aspect_importance." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -116,10 +124,10 @@
       <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+      <a href="../articles/vignette_aspect_importance_indepth.html">Description of predict_aspects method</a>
     </li>
   </ul>
 </li>
@@ -198,7 +206,7 @@ correlated (for numeric features only)</p></td>
                 <span class='kw'>personal</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gender"</span>, <span class='st'>"age"</span>),
                 <span class='kw'>embarked</span> <span class='kw'>=</span> <span class='st'>"embarked"</span>)
 
-<span class='no'>titanic_ai</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aspect_importance.html'>predict_aspects</a></span>(<span class='no'>explain_titanic_glm</span>,
+<span class='no'>titanic_ai</span> <span class='kw'>&lt;-</span> <span class='fu'>predict_aspects</span>(<span class='no'>explain_titanic_glm</span>,
                   <span class='kw'>new_observation</span> <span class='kw'>=</span> <span class='no'>titanic_imputed</span>[<span class='fl'>1</span>,],
                   <span class='kw'>variable_groups</span> <span class='kw'>=</span> <span class='no'>aspects</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>titanic_ai</span>)</div><div class='output co'>#&gt;   variable_groups importance

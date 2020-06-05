@@ -8,6 +8,13 @@
 
 <title>Calculates importance of hierarchically grouped aspects — hierarchical_importance • triplot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -46,8 +53,9 @@
 
 
 <meta property="og:title" content="Calculates importance of hierarchically grouped aspects — hierarchical_importance" />
-<meta property="og:description" content="This function preapres a tree that shows order of feature grouping and
+<meta property="og:description" content="This function creates a tree that shows order of feature grouping and
 calculates importance of every newly created aspect." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -117,10 +125,10 @@ calculates importance of every newly created aspect." />
       <a href="../articles/vignette_aspect_importance.html">Triplot overview</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_description.html">Description of predict_aspects method</a>
+      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
     </li>
     <li>
-      <a href="../articles/vignette_aspect_importance_fifa.html">Usecase with FIFA 20 dataset</a>
+      <a href="../articles/vignette_aspect_importance_indepth.html">Description of predict_aspects method</a>
     </li>
   </ul>
 </li>
@@ -152,7 +160,7 @@ calculates importance of every newly created aspect." />
     </div>
 
     <div class="ref-description">
-    <p>This function preapres a tree that shows order of feature grouping and
+    <p>This function creates a tree that shows order of feature grouping and
 calculates importance of every newly created aspect.</p>
     </div>
 
@@ -241,6 +249,28 @@ dropout loss, if <code>type = model</code>. "raw" results raw drop losses,
     <tr>
       <th>...</th>
       <td><p>other parameters</p></td>
+    </tr>
+    <tr>
+      <th>absolute_value</th>
+      <td><p>if TRUE, aspects importance values will be drawn as
+absolute values</p></td>
+    </tr>
+    <tr>
+      <th>show_labels</th>
+      <td><p>if TRUE, plot will have annotated axis Y</p></td>
+    </tr>
+    <tr>
+      <th>add_last_group</th>
+      <td><p>if TRUE, plot will draw connecting line between last
+two groups</p></td>
+    </tr>
+    <tr>
+      <th>axis_lab_size</th>
+      <td><p>size of labels on axis Y, if applicable</p></td>
+    </tr>
+    <tr>
+      <th>text_size</th>
+      <td><p>size of labels annotating values of aspects importance</p></td>
     </tr>
     </table>
 
