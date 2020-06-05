@@ -31,8 +31,7 @@ Suggests:
     randomForest,
     mlbench,
     ranger,
-    gbm, 
-    rms,
+    gbm,
     covr
 URL: https://github.com/ModelOriented/triplot
 BugReports: https://github.com/ModelOriented/triplot/issues
