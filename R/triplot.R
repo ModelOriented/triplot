@@ -157,7 +157,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
                          verbose = FALSE)
     
     importance_leaves <- feature_importance(explainer = explainer,
-                                            n_sample = N,
+                                            N = N,
                                             loss_function = loss_function,
                                             B = B,
                                             type = fi_type)

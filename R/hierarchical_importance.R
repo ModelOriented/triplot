@@ -101,7 +101,7 @@ hierarchical_importance <- function(x, data, y = NULL,
                            verbose = FALSE)
       res_ai <- feature_importance(explainer = explainer,
                                    variable_groups = aspects_list_current,
-                                   n_sample = N,
+                                   N = N,
                                    loss_function = loss_function,
                                    B = B,
                                    type = fi_type)
@@ -126,7 +126,7 @@ hierarchical_importance <- function(x, data, y = NULL,
   if (type != "predict") {
     res <- feature_importance(explainer = explainer,
                               variable_groups = list_variables(x_hc, 0),
-                              n_sample = N,
+                              N = N,
                               loss_function = loss_function,
                               B = B)
     res <- res[res$permutation == "0", ]
