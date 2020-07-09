@@ -8,6 +8,7 @@
   x,
   ...,
   bar_width = 10,
+  show_features = aspects_on_axis,
   aspects_on_axis = TRUE,
   add_importance = FALSE,
   digits_to_round = 2,
@@ -21,8 +22,11 @@
 
 \item{bar_width}{bar width}
 
-\item{aspects_on_axis}{if TRUE, labels on axis Y show aspect names, otherwise
+\item{show_features}{if TRUE, labels on axis Y show aspect names, otherwise
 they show features names}
+
+\item{aspects_on_axis}{alias for \code{show_features} held for backwards 
+compatibility}
 
 \item{add_importance}{if TRUE, plot is annotated with values of aspects
 importance}

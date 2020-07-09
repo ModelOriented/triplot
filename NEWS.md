@@ -6,7 +6,8 @@ patchwork 1.0.1
 to change in DALEX 1.2.1)
 * added parameter to change correlation method in group_variables, 
 cluster_variables, triplot
-
+* deprecated aspects_on_axis argument in plot.aspect_importance (now it’s 
+show_features) (#14)
 
 # triplot 1.2
 

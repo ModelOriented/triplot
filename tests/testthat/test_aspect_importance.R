@@ -164,7 +164,7 @@ test_that("check plot (facets) for aspects importance",{
   
   expect_is(plot(aspect_importance_apartments1, aspect_importance_apartments2,
                  aspect_importance_apartments3, add_importance = TRUE,
-                 aspects_on_axis = FALSE, digits_to_round = 0), "gg")
+                 show_features = FALSE, digits_to_round = 0), "gg")
 })
 
 

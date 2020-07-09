@@ -189,7 +189,7 @@ print(Boston_ai_lm_2, show_features = TRUE)
 
 print(Boston_ai_rf_2, show_features = TRUE)
 
-plot(Boston_ai_lm_2, Boston_ai_rf_2, aspects_on_axis = FALSE)
+plot(Boston_ai_lm_2, Boston_ai_rf_2, show_features = FALSE)
 
 ```
 

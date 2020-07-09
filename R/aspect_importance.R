@@ -234,8 +234,10 @@ aspect_importance.default <- function(x, data,
 #'
 #' @param x object of aspect_importance class
 #' @param bar_width bar width
-#' @param aspects_on_axis if TRUE, labels on axis Y show aspect names, otherwise
+#' @param show_features if TRUE, labels on axis Y show aspect names, otherwise
 #'   they show features names
+#' @param aspects_on_axis alias for \code{show_features} held for backwards 
+#'   compatibility
 #' @param add_importance if TRUE, plot is annotated with values of aspects
 #'   importance
 #' @param digits_to_round integer indicating the number of decimal places used
@@ -278,6 +280,7 @@ aspect_importance.default <- function(x, data,
 
 
 plot.aspect_importance <- function(x, ..., bar_width = 10,
+                                   show_features = aspects_on_axis,
                                    aspects_on_axis = TRUE,
                                    add_importance = FALSE,
                                    digits_to_round = 2,
@@ -300,7 +303,7 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 
 # reformat features list --------------------------------------------------
 
-  if (!aspects_on_axis) {
+  if (!show_features) {
     x$features <- sapply(x$features, paste0, collapse = ", ")
   }
 
@@ -318,7 +321,7 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
 
 # prep plot ---------------------------------------------------------------
 
-  if (aspects_on_axis) {
+  if (show_features) {
     p <- ggplot(x, aes(variable_groups, ymin = 0, ymax = importance,
                        color = a_sign)) +
       geom_linerange(size = bar_width) +
@@ -330,12 +333,12 @@ plot.aspect_importance <- function(x, ..., bar_width = 10,
       facet_wrap(~label, scales = "free_y", nrow = 1)
   }
 
-  if (add_importance & aspects_on_axis) {
+  if (add_importance & show_features) {
     p <- p + geom_text(aes(x = variable_groups, y = importance,
                            label = round(importance, digits_to_round),
                            hjust = hjust), vjust = 0.5, color = "#371ea3",
                        size = text_size)
-  } else if (add_importance & !aspects_on_axis) {
+  } else if (add_importance & !show_features) {
     p <- p + geom_text(aes(x = features, y = importance,
                            label = round(importance, digits_to_round),
                            hjust = hjust),
