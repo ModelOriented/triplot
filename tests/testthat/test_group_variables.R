@@ -20,6 +20,8 @@ test_that("check plot.cluster_variables function",{
   p <- plot(cv, p = 0.5)
 
   expect_true("ggplot" %in% class(p))
+  expect_error(plot(p), NA)
+  
 })
 
 test_that("check list_variables function",{

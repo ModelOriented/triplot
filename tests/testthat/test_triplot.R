@@ -99,6 +99,8 @@ test_that("check plot.calculate_triplot function",{
   expect_true("patchwork" %in% class(p))
   expect_true("gg" %in% class(p))
   expect_true("ggplot" %in% class(p2))
+  expect_error(plot(p), NA)
+  expect_error(plot(p2), NA)
 })
 
 test_that("check plot.calculate_triplot function for FI",{
@@ -117,6 +119,8 @@ test_that("check plot.calculate_triplot function for FI",{
   expect_true("patchwork" %in% class(p))
   expect_true("gg" %in% class(p))
   expect_true("ggplot" %in% class(p2))
+  expect_error(plot(p), NA)
+  expect_error(plot(p2), NA)
   
 })
 
