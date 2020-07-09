@@ -315,11 +315,12 @@ plot.triplot <- function(x,
     p1 <- p1 + theme(axis.text = element_text(size = axis_lab_size),
                      axis.title = element_text(size = axis_lab_size),
                      strip.background = element_blank(),
-                     strip.text.x = element_blank(),
                      panel.grid.major = element_blank(),
                      panel.grid.minor = element_blank(),
                     plot.title = element_blank()) 
 
+    p1 <- p1 + facet_null()
+    
     order_mod <-
       attr(p3, "labels")[reorder(attr(p3, "labels"), attr(p3, "order"))]
     order_mod <-  match(order_mod, p1$data$variable)
