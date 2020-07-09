@@ -7,7 +7,7 @@
 \usage{
 cluster_variables(x, ...)
 
-\method{cluster_variables}{default}(x, clust_method = "complete", ...)
+\method{cluster_variables}{default}(x, clust_method = "complete", cor_method = "spearman", ...)
 }
 \arguments{
 \item{x}{dataframe with only numeric columns}
@@ -16,6 +16,9 @@ cluster_variables(x, ...)
 
 \item{clust_method}{the agglomeration method to be used
 see \code{\link[stats]{hclust}} methods}
+
+\item{cor_method}{the correlation method to be used
+see \code{\link[stats]{cor}} methods}
 }
 \value{
 an hclust object

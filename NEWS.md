@@ -1,3 +1,13 @@
+# triplot 1.3
+
+* changed the way plot(model_triplot) is build, so it works correctly with 
+patchwork 1.0.1
+* changed parameter in DALEX::feature_importance call from n_sample to N (due 
+to change in DALEX 1.2.1)
+* added parameter to change correlation method in group_variables, 
+cluster_variables, triplot
+
+
 # triplot 1.2
 
 * last vertical line in hierarchical_importance() plot of model_triplot() shows 

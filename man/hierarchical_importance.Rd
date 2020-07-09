@@ -17,6 +17,7 @@ hierarchical_importance(
   B = 10,
   fi_type = c("raw", "ratio", "difference"),
   clust_method = "complete",
+  cor_method = "spearman",
   ...
 )
 
@@ -61,6 +62,9 @@ dropout loss, if \code{type = model}. "raw" results raw drop losses,
 
 \item{clust_method}{the agglomeration method to be used, see
 \code{\link[stats]{hclust}} methods}
+
+\item{cor_method}{the correlation method to be used see 
+\code{\link[stats]{cor}} methods}
 
 \item{...}{other parameters}
 

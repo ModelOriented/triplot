@@ -20,6 +20,7 @@ calculate_triplot(x, ...)
   B = 10,
   fi_type = c("raw", "ratio", "difference"),
   clust_method = "complete",
+  cor_method = "spearman",
   ...
 )
 
@@ -36,6 +37,7 @@ calculate_triplot(x, ...)
   B = 10,
   fi_type = c("raw", "ratio", "difference"),
   clust_method = "complete",
+  cor_method = "spearman",
   ...
 )
 
@@ -72,6 +74,9 @@ dropout loss, if \code{type = model}. "raw" results raw drop losses,
 
 \item{clust_method}{the agglomeration method to be used, see
 \code{\link[stats]{hclust}} methods}
+
+\item{cor_method}{the correlation method to be used see 
+\code{\link[stats]{cor}} methods}
 
 \item{data}{dataset, it will be extracted from \code{x} if it's an explainer
 NOTE: Target variable shouldn't be present in the \code{data}}

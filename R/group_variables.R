@@ -5,6 +5,8 @@
 #' @param x dataframe with only numeric columns
 #' @param clust_method the agglomeration method to be used
 #' see \code{\link[stats]{hclust}} methods
+#' @param cor_method the correlation method to be used
+#' see \code{\link[stats]{cor}} methods
 #'
 #' @return an hclust object
 #'
@@ -26,13 +28,14 @@ cluster_variables <- function(x, ...)
 #' @export
 #' @rdname cluster_variables
 
-cluster_variables.default <- function(x, clust_method = "complete", ...) {
+cluster_variables.default <- function(x, clust_method = "complete", 
+                                      cor_method = "spearman", ...) {
 
   stopifnot(all(sapply(x, is.numeric)))
 
 # build clustering tree ---------------------------------------------------
 
-  x_hc <- hclust(as.dist(1 - abs(cor(x, method = "spearman"))),
+  x_hc <- hclust(as.dist(1 - abs(cor(x, method = cor_method))),
                  method = clust_method)
 
   class(x_hc) <- c("cluster_variables", "hclust")
@@ -186,6 +189,8 @@ list_variables <- function(x, h) {
 #' @param h correlation value for tree cutting
 #' @param clust_method the agglomeration method to be used
 #' see \code{\link[stats]{hclust}} methods
+#' @param cor_method the correlation method to be used
+#' see \code{\link[stats]{cor}} methods
 #'
 #' @examples
 #' library("DALEX")
@@ -196,11 +201,13 @@ list_variables <- function(x, h) {
 #' @export
 
 
-group_variables <- function(x, h, clust_method = "complete") {
+group_variables <- function(x, h, clust_method = "complete", 
+                            cor_method = "spearman") {
 
 # make a tree and prepare a list with aspects grouping --------------------
 
-  cv <- cluster_variables(x, clust_method = clust_method)
+  cv <- cluster_variables(x, clust_method = clust_method, 
+                          cor_method = cor_method)
   res <- list_variables(cv, h)
 
   return(res)

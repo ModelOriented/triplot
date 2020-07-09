@@ -4,7 +4,7 @@
 \alias{group_variables}
 \title{Helper function that combines clustering variables and creating aspect list}
 \usage{
-group_variables(x, h, clust_method = "complete")
+group_variables(x, h, clust_method = "complete", cor_method = "spearman")
 }
 \arguments{
 \item{x}{hclust object}
@@ -13,6 +13,9 @@ group_variables(x, h, clust_method = "complete")
 
 \item{clust_method}{the agglomeration method to be used
 see \code{\link[stats]{hclust}} methods}
+
+\item{cor_method}{the correlation method to be used
+see \code{\link[stats]{cor}} methods}
 }
 \value{
 list with aspect

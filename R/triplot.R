@@ -30,6 +30,8 @@
 #'   "ratio" returns \code{drop_loss/drop_loss_full_model}.
 #' @param clust_method the agglomeration method to be used, see
 #'   \code{\link[stats]{hclust}} methods
+#' @param cor_method the correlation method to be used see 
+#'   \code{\link[stats]{cor}} methods
 #' @param ... other parameters
 #'
 #' @import stats
@@ -73,6 +75,7 @@ calculate_triplot.explainer <- function(x,
                                         fi_type =
                                           c("raw", "ratio", "difference"),
                                         clust_method = "complete",
+                                        cor_method = "spearman",
                                         ...) {
   
   type <- match.arg(type)
@@ -109,6 +112,7 @@ calculate_triplot.explainer <- function(x,
                             B = B,
                             fi_type = fi_type,
                             clust_method = clust_method,
+                            cor_method = cor_method,
                             label = label)
 }
 
@@ -126,6 +130,7 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                       B = 10,
                                       fi_type = c("raw", "ratio", "difference"),
                                       clust_method = "complete",
+                                      cor_method = "spearman",
                                       ...) {
   
   type <- match.arg(type)
@@ -142,11 +147,13 @@ calculate_triplot.default <- function(x, data, y = NULL,
                                 loss_function = loss_function,
                                 B = B,
                                 fi_type = fi_type,
-                                clust_method = clust_method)
+                                clust_method = clust_method,
+                                cor_method = cor_method)
   
   # Calculations for third plot -----------------------------------------------
   
-  cv <- cluster_variables(data, clust_method)
+  cv <- cluster_variables(data, clust_method = clust_method, 
+                          cor_method = cor_method)
   
   # Calculations for first plot -----------------------------------------------
   
