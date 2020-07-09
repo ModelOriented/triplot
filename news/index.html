@@ -97,7 +97,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.2.0</span>
+          <span class="version version-default">1.3.0</span>
         </div>
       </div>
     </div>
@@ -156,9 +156,21 @@
       <small>Source: <a href='https://github.com/ModelOriented/triplot/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="triplot-13" class="section level1">
+<h1 class="page-header" data-toc-text="1.3">
+<a href="#triplot-13" class="anchor"></a>triplot 1.3<small> Unreleased </small>
+</h1>
+<ul>
+<li>changed the way plot(model_triplot) is build, so it works correctly with patchwork 1.0.1</li>
+<li>changed parameter in DALEX::feature_importance call from n_sample to N (due to change in DALEX 1.2.1)</li>
+<li>added parameter to change correlation method in group_variables, cluster_variables, triplot</li>
+<li>deprecated aspects_on_axis argument in plot.aspect_importance (now it’s show_features) (<a href='https://github.com/ModelOriented/triplot/issues/14'>#14</a>)</li>
+</ul>
+</div>
     <div id="triplot-12" class="section level1">
 <h1 class="page-header" data-toc-text="1.2">
-<a href="#triplot-12" class="anchor"></a>triplot 1.2</h1>
+<a href="#triplot-12" class="anchor"></a>triplot 1.2<small> Unreleased </small>
+</h1>
 <ul>
 <li>last vertical line in hierarchical_importance() plot of model_triplot() shows baseline value</li>
 <li>left margin of middle panel in triplot can be set with “margin_mid”</li>
@@ -169,7 +181,8 @@
 </div>
     <div id="triplot-112" class="section level1">
 <h1 class="page-header" data-toc-text="1.1.2">
-<a href="#triplot-112" class="anchor"></a>triplot 1.1.2</h1>
+<a href="#triplot-112" class="anchor"></a>triplot 1.1.2<small> Unreleased </small>
+</h1>
 <ul>
 <li>modified triplot object and methods</li>
 <li>removed ingredients dependency</li>
@@ -177,7 +190,8 @@
 </div>
     <div id="triplot-111" class="section level1">
 <h1 class="page-header" data-toc-text="1.1.1">
-<a href="#triplot-111" class="anchor"></a>triplot 1.1.1</h1>
+<a href="#triplot-111" class="anchor"></a>triplot 1.1.1<small> Unreleased </small>
+</h1>
 <ul>
 <li>switched from GridExtra to Patchwork</li>
 <li>improved plotting of triplot object</li>
@@ -185,7 +199,8 @@
 </div>
     <div id="triplot-110" class="section level1">
 <h1 class="page-header" data-toc-text="1.1.0">
-<a href="#triplot-110" class="anchor"></a>triplot 1.1.0</h1>
+<a href="#triplot-110" class="anchor"></a>triplot 1.1.0<small> Unreleased </small>
+</h1>
 <ul>
 <li>renamed prediction_aspect() to predict_aspects()</li>
 <li>added aliases predict_triplot() and model_triplot()</li>
@@ -197,7 +212,8 @@
 </div>
     <div id="triplot-104" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.4">
-<a href="#triplot-104" class="anchor"></a>triplot 1.0.4</h1>
+<a href="#triplot-104" class="anchor"></a>triplot 1.0.4<small> Unreleased </small>
+</h1>
 <ul>
 <li>restructured group_variables() and triplot objects</li>
 <li>added hierarchical_importance object (instead of plot_aspects_importance_grouping)</li>
@@ -207,7 +223,8 @@
 </div>
     <div id="triplot-103" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.3">
-<a href="#triplot-103" class="anchor"></a>triplot 1.0.3</h1>
+<a href="#triplot-103" class="anchor"></a>triplot 1.0.3<small> Unreleased </small>
+</h1>
 <ul>
 <li>updated plot_aspects_importance_grouping so it can draw last clusters connection</li>
 <li>add_importance_labels parameter set to FALSE by default</li>
@@ -215,14 +232,16 @@
 </div>
     <div id="triplot-102" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.2">
-<a href="#triplot-102" class="anchor"></a>triplot 1.0.2</h1>
+<a href="#triplot-102" class="anchor"></a>triplot 1.0.2<small> Unreleased </small>
+</h1>
 <ul>
 <li>new feature: triplot can present both: automatic aspect and feature importance grouping (by using ingredients::feature_importance())</li>
 </ul>
 </div>
     <div id="triplot-101" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.1">
-<a href="#triplot-101" class="anchor"></a>triplot 1.0.1</h1>
+<a href="#triplot-101" class="anchor"></a>triplot 1.0.1<small> Unreleased </small>
+</h1>
 <ul>
 <li>aspectImportance is renamed to triplot</li>
 <li>added second vignette</li>
@@ -230,7 +249,8 @@
 </div>
     <div id="aspectimportance-10" class="section level1">
 <h1 class="page-header" data-toc-text="1.0">
-<a href="#aspectimportance-10" class="anchor"></a>aspectImportance 1.0</h1>
+<a href="#aspectimportance-10" class="anchor"></a>aspectImportance 1.0<small> Unreleased </small>
+</h1>
 <ul>
 <li>aspect_importance is moved out of <code>DALEXtra</code> into standalone package</li>
 </ul>
