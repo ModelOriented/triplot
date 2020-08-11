@@ -1,30 +1,32 @@
 library(DALEX)
 library(triplot)
 
-
 # prepare data ------------------------------------------------------------
 
-#excluding non numeric features
+# excluding non numeric features and building model
+
 apartments_num <- apartments[,unlist(lapply(apartments, is.numeric))] 
-model <- lm(m2.price ~ ., data = apartments_num)
 apartments_no_target <- apartments_num[,-1]
+model_ap <- lm(m2.price ~ ., data = apartments_num)
 
 # predict aspects ---------------------------------------------------------
 
-explain <- explain(model, data = apartments_num)
+set.seed(200)
+
+explainer <- explain(model_ap, data = apartments_num)
 
 aspects <- list(
   living.area = c("surface", "no.rooms"), 
   construction.year = "construction.year",
   floor = "floor")
 
-new_apartment <- data.frame(construction.year = 1983, 
+new_apartment <- data.frame(construction.year = 1985, 
                             surface = 25, 
                             floor = 3, 
                             no.rooms = 1)
 
 pa <- predict_aspects(
-  x = explain,
+  x = explainer,
   new_observation = new_apartment,
   variable_groups = aspects)
 
@@ -34,17 +36,19 @@ plot(pa)
 
 # triplots ----------------------------------------------------------------
 
-explain <- explain(model, 
+set.seed(200)
+
+explainer <- explain(model_ap, 
                    data = apartments_no_target,
                    y = apartments_num$m2.price)
 
-triplot <- model_triplot(explain)
-plot(triplot) 
-
-triplot <- predict_triplot(
-  explain,
-  new_observation = new_apartment)
+triplot <- model_triplot(explainer)
 plot(triplot)
+
+triplot <- predict_triplot(explainer,
+                           new_observation = new_apartment)
+plot(triplot)
+
 
 # group variables ---------------------------------------------------------
 
