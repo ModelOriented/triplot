@@ -265,6 +265,10 @@ feature has very small, negative contribution to the prediction.
     set](https://modeloriented.github.io/triplot/articles/vignette_aspect_importance_fifa.html)
   - [description of predict aspects
     method](https://modeloriented.github.io/triplot/articles/vignette_aspect_importance_indepth.html)
+  - [triplot 
+    cheatsheet](https://raw.githubusercontent.com/ModelOriented/triplot/master/misc/triplot_cheatsheet.pdf)    
+    
+    
 
 ## Acknowledgments
 
