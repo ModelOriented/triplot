@@ -108,7 +108,7 @@
       <h1 data-toc-skip>Description of predict_aspects method</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-07-09</h4>
+            <h4 class="date">2020-08-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_indepth.Rmd"><code>vignettes/vignette_aspect_importance_indepth.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance_indepth.Rmd</code></div>
@@ -199,8 +199,8 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="kw">Boston_rf</span>, <span class="kw">new_observation</span>)
 </pre></div>
-<pre><code>#&gt;        4 
-#&gt; 34.44557</code></pre>
+<pre><code>#&gt;       4 
+#&gt; 34.6071</code></pre>
 <p>As we observe that those two models’ predictions for the <code>new_observation</code> are different, we would like to understand which groups of the observation’s features contribute to this differences. For that, we will use <code>aspects_importance()</code>.</p>
 <p>In the beginning, we have to build an aspect list. Then we will call <code>aspects_importance()</code> for both of those models to check:</p>
 <ul>
@@ -258,13 +258,13 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">Boston_ai_rf</span>, show_features = <span class="fl">TRUE</span>)
 </pre></div>
 <pre><code>#&gt;   variable_groups importance       features
-#&gt; 3          wealth  11.621290      rm, lstat
-#&gt; 4       structure   0.850603 indus, age, zn
-#&gt; 7             tax   0.772869            tax
-#&gt; 5         ptratio   0.171737        ptratio
-#&gt; 2             geo   0.140364  dis, nox, rad
-#&gt; 8            crim  -0.018248           crim
-#&gt; 6               b  -0.005236              b</code></pre>
+#&gt; 3          wealth   11.82725      rm, lstat
+#&gt; 4       structure    0.87494 indus, age, zn
+#&gt; 7             tax    0.81050            tax
+#&gt; 2             geo    0.18356  dis, nox, rad
+#&gt; 5         ptratio    0.03998        ptratio
+#&gt; 8            crim   -0.03891           crim
+#&gt; 6               b   -0.02114              b</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">Boston_ai_lm</span>, <span class="kw">Boston_ai_rf</span>)
 </pre></div>
@@ -304,12 +304,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">Boston_ai_rf_2</span>, show_features = <span class="fl">TRUE</span>)
 </pre></div>
 <pre><code>#&gt;   variable_groups importance                   features
-#&gt; 4   aspect.group3   11.56068                  rm, lstat
-#&gt; 2   aspect.group1    1.32343 crim, indus, nox, age, dis
-#&gt; 5   aspect.group4    0.70501                   rad, tax
-#&gt; 6   aspect.group5    0.25662                    ptratio
-#&gt; 3   aspect.group2    0.06751                         zn
-#&gt; 7   aspect.group6    0.03224                          b</code></pre>
+#&gt; 4   aspect.group3   11.77552                  rm, lstat
+#&gt; 2   aspect.group1    1.32413 crim, indus, nox, age, dis
+#&gt; 5   aspect.group4    0.77896                   rad, tax
+#&gt; 6   aspect.group5    0.12217                    ptratio
+#&gt; 3   aspect.group2    0.06551                         zn
+#&gt; 7   aspect.group6    0.02413                          b</code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">Boston_ai_lm_2</span>, <span class="kw">Boston_ai_rf_2</span>, show_features = <span class="fl">FALSE</span>)
 </pre></div>
@@ -368,12 +368,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">ai_Boston_rf</span>, show_features = <span class="fl">TRUE</span>, show_cor = <span class="fl">TRUE</span>)
 </pre></div>
 <pre><code>#&gt;   variable_groups importance                   features   min_cor sign
-#&gt; 4   aspect.group3  1.095e+01                  rm, lstat 0.6408316  neg
-#&gt; 2   aspect.group1  4.714e-01 crim, indus, nox, age, dis 0.6794867  neg
-#&gt; 5   aspect.group4  4.381e-04                   rad, tax 0.7048757  pos
-#&gt; 3   aspect.group2  0.000e+00                         zn        NA     
-#&gt; 6   aspect.group5  0.000e+00                    ptratio        NA     
-#&gt; 7   aspect.group6  0.000e+00                          b        NA</code></pre>
+#&gt; 4   aspect.group3    11.4263                  rm, lstat 0.6408316  neg
+#&gt; 2   aspect.group1     0.7412 crim, indus, nox, age, dis 0.6794867  neg
+#&gt; 5   aspect.group4     0.3339                   rad, tax 0.7048757  pos
+#&gt; 3   aspect.group2     0.0000                         zn        NA     
+#&gt; 6   aspect.group5     0.0000                    ptratio        NA     
+#&gt; 7   aspect.group6     0.0000                          b        NA</code></pre>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
@@ -389,7 +389,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 </pre></div>
 <pre><code>#&gt; R version 4.0.2 (2020-06-22)
 #&gt; Platform: x86_64-apple-darwin17.0 (64-bit)
-#&gt; Running under: macOS Catalina 10.15.5
+#&gt; Running under: macOS Catalina 10.15.6
 #&gt; 
 #&gt; Matrix products: default
 #&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
@@ -402,18 +402,18 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] DALEX_1.3.0         randomForest_4.6-14 mlbench_2.1-1      
+#&gt; [1] DALEX_1.3.1.1       randomForest_4.6-14 mlbench_2.1-1      
 #&gt; [4] triplot_1.3.0      
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] compiler_4.0.2     pillar_1.4.4       iterators_1.0.12   tools_4.0.2       
+#&gt;  [1] compiler_4.0.2     pillar_1.4.6       iterators_1.0.12   tools_4.0.2       
 #&gt;  [5] digest_0.6.25      evaluate_0.14      memoise_1.1.0      lifecycle_0.2.0   
-#&gt;  [9] tibble_3.0.2       gtable_0.3.0       lattice_0.20-41    pkgconfig_2.0.3   
-#&gt; [13] rlang_0.4.6        Matrix_1.2-18      foreach_1.5.0      patchwork_1.0.1   
-#&gt; [17] yaml_2.2.1         pkgdown_1.5.1.9000 xfun_0.15          ggdendro_0.1-20   
-#&gt; [21] stringr_1.4.0      knitr_1.29         desc_1.2.0         fs_1.4.2          
-#&gt; [25] vctrs_0.3.1        rprojroot_1.3-2    grid_4.0.2         glmnet_4.0-2      
-#&gt; [29] glue_1.4.1         R6_2.4.1           survival_3.1-12    rmarkdown_2.3.2   
+#&gt;  [9] tibble_3.0.3       gtable_0.3.0       lattice_0.20-41    pkgconfig_2.0.3   
+#&gt; [13] rlang_0.4.7        Matrix_1.2-18      foreach_1.5.0      patchwork_1.0.1   
+#&gt; [17] yaml_2.2.1         pkgdown_1.5.1.9000 xfun_0.16          ggdendro_0.1.21   
+#&gt; [21] stringr_1.4.0      knitr_1.29         desc_1.2.0         fs_1.5.0          
+#&gt; [25] vctrs_0.3.2        rprojroot_1.3-2    grid_4.0.2         glmnet_4.0-2      
+#&gt; [29] glue_1.4.1         R6_2.4.1           survival_3.1-12    rmarkdown_2.3     
 #&gt; [33] farver_2.0.3       ggplot2_3.3.2      magrittr_1.5       splines_4.0.2     
 #&gt; [37] codetools_0.2-16   backports_1.1.8    scales_1.1.1       htmltools_0.5.0   
 #&gt; [41] ellipsis_0.3.1     MASS_7.3-51.6      assertthat_0.2.1   shape_1.4.4       

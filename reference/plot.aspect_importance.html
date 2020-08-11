@@ -238,7 +238,7 @@ if applicable</p></td>
                 personal = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gender"</span>, <span class='st'>"age"</span>),
                 embarked = <span class='st'>"embarked"</span>)
 
-<span class='kw'>titanic_ai</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/triplot/man/aspect_importance.html'>predict_aspects</a></span>(<span class='kw'>explain_titanic_glm</span>,
+<span class='kw'>titanic_ai</span> <span class='op'>&lt;-</span> <span class='fu'><a href='aspect_importance.html'>predict_aspects</a></span>(<span class='kw'>explain_titanic_glm</span>,
                   new_observation = <span class='kw'>titanic_imputed</span>[<span class='fl'>1</span>,],
                   variable_groups = <span class='kw'>aspects</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>titanic_ai</span>)

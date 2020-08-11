@@ -202,7 +202,7 @@ be drawn</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://ModelOriented.github.io/DALEX'>"DALEX"</a></span>)
 <span class='kw'>dragons_data</span> <span class='op'>&lt;-</span> <span class='kw'>dragons</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>7</span>,<span class='fl'>8</span>)]
-<span class='kw'>cv</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/triplot/man/cluster_variables.html'>cluster_variables</a></span>(<span class='kw'>dragons_data</span>, clust_method = <span class='st'>"complete"</span>)
+<span class='kw'>cv</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cluster_variables.html'>cluster_variables</a></span>(<span class='kw'>dragons_data</span>, clust_method = <span class='st'>"complete"</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cv</span>, p = <span class='fl'>0.7</span>)
 </pre>
   </div>

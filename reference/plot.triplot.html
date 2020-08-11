@@ -247,7 +247,7 @@ correlations</p></td>
                                 data = <span class='kw'>apartments_num</span>[,<span class='op'>-</span><span class='fl'>1</span>],
                                 y = <span class='kw'>apartments_num</span>[, <span class='fl'>1</span>],
                                 verbose = <span class='fl'>FALSE</span>)
-<span class='kw'>apartments_tri</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/triplot/man/calculate_triplot.html'>calculate_triplot</a></span>(x = <span class='kw'>explainer_apartments</span>,
+<span class='kw'>apartments_tri</span> <span class='op'>&lt;-</span> <span class='fu'><a href='calculate_triplot.html'>calculate_triplot</a></span>(x = <span class='kw'>explainer_apartments</span>,
  new_observation = <span class='kw'>apartments_num_new_observation</span>[<span class='op'>-</span><span class='fl'>1</span>])
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>apartments_tri</span>)
 </pre>
