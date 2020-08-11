@@ -1,3 +1,7 @@
+# triplot 1.3.1
+
+* extended documentation (cheatsheet)
+
 # triplot 1.3
 
 * changed the way plot(model_triplot) is build, so it works correctly with 
