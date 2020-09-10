@@ -200,7 +200,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="kw">Boston_rf</span>, <span class="kw">new_observation</span>)
 </pre></div>
 <pre><code>#&gt;        4 
-#&gt; 34.35626</code></pre>
+#&gt; 34.56878</code></pre>
 <p>As we observe that those two models’ predictions for the <code>new_observation</code> are different, we would like to understand which groups of the observation’s features contribute to this differences. For that, we will use <code>aspects_importance()</code>.</p>
 <p>In the beginning, we have to build an aspect list. Then we will call <code>aspects_importance()</code> for both of those models to check:</p>
 <ul>
@@ -258,13 +258,13 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">Boston_ai_rf</span>, show_features = <span class="fl">TRUE</span>)
 </pre></div>
 <pre><code>#&gt;   variable_groups importance       features
-#&gt; 3          wealth  11.518215      rm, lstat
-#&gt; 4       structure   0.879664 indus, age, zn
-#&gt; 7             tax   0.736115            tax
-#&gt; 5         ptratio   0.178906        ptratio
-#&gt; 2             geo   0.172197  dis, nox, rad
-#&gt; 6               b  -0.021284              b
-#&gt; 8            crim  -0.004243           crim</code></pre>
+#&gt; 3          wealth   11.92859      rm, lstat
+#&gt; 4       structure    0.82730 indus, age, zn
+#&gt; 7             tax    0.74006            tax
+#&gt; 2             geo    0.23417  dis, nox, rad
+#&gt; 5         ptratio    0.14913        ptratio
+#&gt; 8            crim   -0.02169           crim
+#&gt; 6               b    0.01875              b</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">Boston_ai_lm</span>, <span class="kw">Boston_ai_rf</span>)
 </pre></div>
@@ -304,12 +304,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">Boston_ai_rf_2</span>, show_features = <span class="fl">TRUE</span>)
 </pre></div>
 <pre><code>#&gt;   variable_groups importance                   features
-#&gt; 4   aspect.group3  11.454795                  rm, lstat
-#&gt; 2   aspect.group1   1.213717 crim, indus, nox, age, dis
-#&gt; 5   aspect.group4   0.672105                   rad, tax
-#&gt; 6   aspect.group5   0.243172                    ptratio
-#&gt; 3   aspect.group2   0.065660                         zn
-#&gt; 7   aspect.group6   0.004465                          b</code></pre>
+#&gt; 4   aspect.group3   11.81364                  rm, lstat
+#&gt; 2   aspect.group1    1.27092 crim, indus, nox, age, dis
+#&gt; 5   aspect.group4    0.63294                   rad, tax
+#&gt; 6   aspect.group5    0.19639                    ptratio
+#&gt; 3   aspect.group2    0.07235                         zn
+#&gt; 7   aspect.group6    0.05398                          b</code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">Boston_ai_lm_2</span>, <span class="kw">Boston_ai_rf_2</span>, show_features = <span class="fl">FALSE</span>)
 </pre></div>
@@ -368,12 +368,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">ai_Boston_rf</span>, show_features = <span class="fl">TRUE</span>, show_cor = <span class="fl">TRUE</span>)
 </pre></div>
 <pre><code>#&gt;   variable_groups importance                   features   min_cor sign
-#&gt; 4   aspect.group3   10.86647                  rm, lstat 0.6408316  neg
-#&gt; 2   aspect.group1    0.38560 crim, indus, nox, age, dis 0.6794867  neg
-#&gt; 7   aspect.group6   -0.01419                          b        NA     
-#&gt; 3   aspect.group2    0.00000                         zn        NA     
-#&gt; 5   aspect.group4    0.00000                   rad, tax 0.7048757  pos
-#&gt; 6   aspect.group5    0.00000                    ptratio        NA</code></pre>
+#&gt; 4   aspect.group3    11.4636                  rm, lstat 0.6408316  neg
+#&gt; 2   aspect.group1     0.7012 crim, indus, nox, age, dis 0.6794867  neg
+#&gt; 5   aspect.group4     0.2014                   rad, tax 0.7048757  pos
+#&gt; 3   aspect.group2     0.0000                         zn        NA     
+#&gt; 6   aspect.group5     0.0000                    ptratio        NA     
+#&gt; 7   aspect.group6     0.0000                          b        NA</code></pre>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
