@@ -108,7 +108,7 @@
       <h1 data-toc-skip>Description of predict_aspects method</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-08-11</h4>
+            <h4 class="date">2020-09-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_indepth.Rmd"><code>vignettes/vignette_aspect_importance_indepth.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance_indepth.Rmd</code></div>
@@ -200,7 +200,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="kw">Boston_rf</span>, <span class="kw">new_observation</span>)
 </pre></div>
 <pre><code>#&gt;        4 
-#&gt; 34.31894</code></pre>
+#&gt; 34.35626</code></pre>
 <p>As we observe that those two models’ predictions for the <code>new_observation</code> are different, we would like to understand which groups of the observation’s features contribute to this differences. For that, we will use <code>aspects_importance()</code>.</p>
 <p>In the beginning, we have to build an aspect list. Then we will call <code>aspects_importance()</code> for both of those models to check:</p>
 <ul>
@@ -258,13 +258,13 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">Boston_ai_rf</span>, show_features = <span class="fl">TRUE</span>)
 </pre></div>
 <pre><code>#&gt;   variable_groups importance       features
-#&gt; 3          wealth 11.8398676      rm, lstat
-#&gt; 7             tax  0.7295737            tax
-#&gt; 4       structure  0.7233115 indus, age, zn
-#&gt; 2             geo  0.2251071  dis, nox, rad
-#&gt; 5         ptratio  0.1428745        ptratio
-#&gt; 8            crim -0.0253882           crim
-#&gt; 6               b -0.0007532              b</code></pre>
+#&gt; 3          wealth  11.518215      rm, lstat
+#&gt; 4       structure   0.879664 indus, age, zn
+#&gt; 7             tax   0.736115            tax
+#&gt; 5         ptratio   0.178906        ptratio
+#&gt; 2             geo   0.172197  dis, nox, rad
+#&gt; 6               b  -0.021284              b
+#&gt; 8            crim  -0.004243           crim</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">Boston_ai_lm</span>, <span class="kw">Boston_ai_rf</span>)
 </pre></div>
@@ -304,12 +304,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">Boston_ai_rf_2</span>, show_features = <span class="fl">TRUE</span>)
 </pre></div>
 <pre><code>#&gt;   variable_groups importance                   features
-#&gt; 4   aspect.group3   11.77045                  rm, lstat
-#&gt; 2   aspect.group1    1.18903 crim, indus, nox, age, dis
-#&gt; 5   aspect.group4    0.65095                   rad, tax
-#&gt; 6   aspect.group5    0.20530                    ptratio
-#&gt; 3   aspect.group2    0.07309                         zn
-#&gt; 7   aspect.group6    0.02782                          b</code></pre>
+#&gt; 4   aspect.group3  11.454795                  rm, lstat
+#&gt; 2   aspect.group1   1.213717 crim, indus, nox, age, dis
+#&gt; 5   aspect.group4   0.672105                   rad, tax
+#&gt; 6   aspect.group5   0.243172                    ptratio
+#&gt; 3   aspect.group2   0.065660                         zn
+#&gt; 7   aspect.group6   0.004465                          b</code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">Boston_ai_lm_2</span>, <span class="kw">Boston_ai_rf_2</span>, show_features = <span class="fl">FALSE</span>)
 </pre></div>
@@ -368,12 +368,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">ai_Boston_rf</span>, show_features = <span class="fl">TRUE</span>, show_cor = <span class="fl">TRUE</span>)
 </pre></div>
 <pre><code>#&gt;   variable_groups importance                   features   min_cor sign
-#&gt; 4   aspect.group3     11.223                  rm, lstat 0.6408316  neg
-#&gt; 2   aspect.group1      0.406 crim, indus, nox, age, dis 0.6794867  neg
-#&gt; 3   aspect.group2      0.000                         zn        NA     
-#&gt; 5   aspect.group4      0.000                   rad, tax 0.7048757  pos
-#&gt; 6   aspect.group5      0.000                    ptratio        NA     
-#&gt; 7   aspect.group6      0.000                          b        NA</code></pre>
+#&gt; 4   aspect.group3   10.86647                  rm, lstat 0.6408316  neg
+#&gt; 2   aspect.group1    0.38560 crim, indus, nox, age, dis 0.6794867  neg
+#&gt; 7   aspect.group6   -0.01419                          b        NA     
+#&gt; 3   aspect.group2    0.00000                         zn        NA     
+#&gt; 5   aspect.group4    0.00000                   rad, tax 0.7048757  pos
+#&gt; 6   aspect.group5    0.00000                    ptratio        NA</code></pre>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
@@ -402,23 +402,23 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] DALEX_1.3.1.1       randomForest_4.6-14 mlbench_2.1-1      
+#&gt; [1] DALEX_2.0           randomForest_4.6-14 mlbench_2.1-1      
 #&gt; [4] triplot_1.3.1      
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] compiler_4.0.2     pillar_1.4.6       iterators_1.0.12   tools_4.0.2       
-#&gt;  [5] digest_0.6.25      evaluate_0.14      memoise_1.1.0      lifecycle_0.2.0   
-#&gt;  [9] tibble_3.0.3       gtable_0.3.0       lattice_0.20-41    pkgconfig_2.0.3   
-#&gt; [13] rlang_0.4.7        Matrix_1.2-18      foreach_1.5.0      patchwork_1.0.1   
-#&gt; [17] yaml_2.2.1         pkgdown_1.5.1.9000 xfun_0.16          ggdendro_0.1.21   
-#&gt; [21] stringr_1.4.0      knitr_1.29         desc_1.2.0         fs_1.5.0          
-#&gt; [25] vctrs_0.3.2        rprojroot_1.3-2    grid_4.0.2         glmnet_4.0-2      
-#&gt; [29] glue_1.4.1         R6_2.4.1           survival_3.1-12    rmarkdown_2.3     
-#&gt; [33] farver_2.0.3       ggplot2_3.3.2      magrittr_1.5       splines_4.0.2     
-#&gt; [37] codetools_0.2-16   backports_1.1.8    scales_1.1.1       htmltools_0.5.0   
-#&gt; [41] ellipsis_0.3.1     MASS_7.3-51.6      assertthat_0.2.1   shape_1.4.4       
-#&gt; [45] colorspace_1.4-1   labeling_0.3       stringi_1.4.6      munsell_0.5.0     
-#&gt; [49] crayon_1.3.4</code></pre>
+#&gt;  [1] cpp11_0.2.1        compiler_4.0.2     pillar_1.4.6       iterators_1.0.12  
+#&gt;  [5] tools_4.0.2        digest_0.6.25      lattice_0.20-41    evaluate_0.14     
+#&gt;  [9] memoise_1.1.0      lifecycle_0.2.0    tibble_3.0.3       gtable_0.3.0      
+#&gt; [13] pkgconfig_2.0.3    rlang_0.4.7        foreach_1.5.0      Matrix_1.2-18     
+#&gt; [17] patchwork_1.0.1    yaml_2.2.1         pkgdown_1.6.0.9000 xfun_0.17         
+#&gt; [21] ggdendro_0.1.21    stringr_1.4.0      knitr_1.29         desc_1.2.0        
+#&gt; [25] fs_1.5.0           vctrs_0.3.4        systemfonts_0.3.1  rprojroot_1.3-2   
+#&gt; [29] grid_4.0.2         glmnet_4.0-2       glue_1.4.2         R6_2.4.1          
+#&gt; [33] survival_3.1-12    rmarkdown_2.3      farver_2.0.3       ggplot2_3.3.2     
+#&gt; [37] magrittr_1.5       splines_4.0.2      codetools_0.2-16   backports_1.1.9   
+#&gt; [41] scales_1.1.1       htmltools_0.5.0    ellipsis_0.3.1     MASS_7.3-51.6     
+#&gt; [45] assertthat_0.2.1   shape_1.4.4        colorspace_1.4-1   labeling_0.3      
+#&gt; [49] ragg_0.3.1         stringi_1.5.3      munsell_0.5.0      crayon_1.3.4</code></pre>
 </div>
   </div>
 
