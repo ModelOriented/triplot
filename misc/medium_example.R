@@ -6,7 +6,7 @@ fifa[, c("nationality", "overall", "potential",
 
 library("dplyr")
 fifa_subset <- fifa %>% 
-  select(matches('goalkeeping|defending|mentality'))
+  select(matches('goalkeeping|skill'))
 
 library("corrplot")
 corrplot(cor(fifa_subset), 
@@ -28,3 +28,4 @@ fifa_triplot_global <- model_triplot(fifa_explainer,
                                      N = 5000, 
                                      cor_method = "pearson")
 plot(fifa_triplot_global, margin_mid = 0)
+
