@@ -106,12 +106,6 @@ calculates importance of every newly created aspect." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -164,32 +158,32 @@ calculates importance of every newly created aspect." />
 calculates importance of every newly created aspect.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>hierarchical_importance</span>(
-  <span class='kw'>x</span>,
-  <span class='kw'>data</span>,
-  y = <span class='kw'>NULL</span>,
-  predict_function = <span class='kw'>predict</span>,
-  type = <span class='st'>"predict"</span>,
-  new_observation = <span class='kw'>NULL</span>,
-  N = <span class='fl'>1000</span>,
-  loss_function = <span class='kw'>DALEX</span>::<span class='kw'><a href='https://rdrr.io/pkg/DALEX/man/loss_functions.html'>loss_root_mean_square</a></span>,
-  B = <span class='fl'>10</span>,
-  fi_type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"raw"</span>, <span class='st'>"ratio"</span>, <span class='st'>"difference"</span>),
-  clust_method = <span class='st'>"complete"</span>,
-  cor_method = <span class='st'>"spearman"</span>,
-  <span class='kw'>...</span>
-)
+    <pre class="usage"><span class='fu'>hierarchical_importance</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>data</span>,
+  y <span class='op'>=</span> <span class='cn'>NULL</span>,
+  predict_function <span class='op'>=</span> <span class='va'>predict</span>,
+  type <span class='op'>=</span> <span class='st'>"predict"</span>,
+  new_observation <span class='op'>=</span> <span class='cn'>NULL</span>,
+  N <span class='op'>=</span> <span class='fl'>1000</span>,
+  loss_function <span class='op'>=</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='va'><a href='https://ModelOriented.github.io/DALEX/reference/loss_functions.html'>loss_root_mean_square</a></span>,
+  B <span class='op'>=</span> <span class='fl'>10</span>,
+  fi_type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"raw"</span>, <span class='st'>"ratio"</span>, <span class='st'>"difference"</span><span class='op'>)</span>,
+  clust_method <span class='op'>=</span> <span class='st'>"complete"</span>,
+  cor_method <span class='op'>=</span> <span class='st'>"spearman"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for hierarchical_importance</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(
-  <span class='kw'>x</span>,
-  absolute_value = <span class='fl'>FALSE</span>,
-  show_labels = <span class='fl'>TRUE</span>,
-  add_last_group = <span class='fl'>TRUE</span>,
-  axis_lab_size = <span class='fl'>10</span>,
-  text_size = <span class='fl'>3</span>,
-  <span class='kw'>...</span>
-)</pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  absolute_value <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show_labels <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  add_last_group <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  axis_lab_size <span class='op'>=</span> <span class='fl'>10</span>,
+  text_size <span class='op'>=</span> <span class='fl'>3</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -285,14 +279,14 @@ two groups</p></td>
     <p>ggplot</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://ModelOriented.github.io/DALEX'>DALEX</a></span>)
-<span class='kw'>apartments_num</span> <span class='op'>&lt;-</span> <span class='kw'>apartments</span>[,<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='kw'>apartments</span>, <span class='kw'>is.numeric</span>))]
-<span class='kw'>apartments_num_lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>m2.price</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>apartments_num</span>)
-<span class='kw'>hi</span> <span class='op'>&lt;-</span> <span class='fu'>hierarchical_importance</span>(x = <span class='kw'>apartments_num_lm_model</span>,
- data = <span class='kw'>apartments_num</span>[,<span class='op'>-</span><span class='fl'>1</span>],
- y = <span class='kw'>apartments_num</span>[,<span class='fl'>1</span>],
- type = <span class='st'>"model"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>hi</span>, add_last_group = <span class='fl'>TRUE</span>, absolute_value = <span class='fl'>TRUE</span>)
+    <pre class="examples"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ModelOriented.github.io/DALEX/'>DALEX</a></span><span class='op'>)</span>
+<span class='va'>apartments_num</span> <span class='op'>&lt;-</span> <span class='va'>apartments</span><span class='op'>[</span>,<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>apartments</span>, <span class='va'>is.numeric</span><span class='op'>)</span><span class='op'>)</span><span class='op'>]</span>
+<span class='va'>apartments_num_lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>m2.price</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>apartments_num</span><span class='op'>)</span>
+<span class='va'>hi</span> <span class='op'>&lt;-</span> <span class='fu'>hierarchical_importance</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>apartments_num_lm_model</span>,
+ data <span class='op'>=</span> <span class='va'>apartments_num</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,
+ y <span class='op'>=</span> <span class='va'>apartments_num</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>,
+ type <span class='op'>=</span> <span class='st'>"model"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>hi</span>, add_last_group <span class='op'>=</span> <span class='cn'>TRUE</span>, absolute_value <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 </pre>
   </div>

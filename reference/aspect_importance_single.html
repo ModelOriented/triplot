@@ -106,12 +106,6 @@ one feature)." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -164,39 +158,39 @@ one feature)." />
 one feature).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>aspect_importance_single</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>aspect_importance_single</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for explainer</span>
-<span class='fu'>aspect_importance_single</span>(
-  <span class='kw'>x</span>,
-  <span class='kw'>new_observation</span>,
-  N = <span class='fl'>1000</span>,
-  n_var = <span class='fl'>0</span>,
-  sample_method = <span class='st'>"default"</span>,
-  f = <span class='fl'>2</span>,
-  <span class='kw'>...</span>
-)
+<span class='fu'>aspect_importance_single</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>new_observation</span>,
+  N <span class='op'>=</span> <span class='fl'>1000</span>,
+  n_var <span class='op'>=</span> <span class='fl'>0</span>,
+  sample_method <span class='op'>=</span> <span class='st'>"default"</span>,
+  f <span class='op'>=</span> <span class='fl'>2</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>aspect_importance_single</span>(
-  <span class='kw'>x</span>,
-  <span class='kw'>data</span>,
-  predict_function = <span class='kw'>predict</span>,
-  label = <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>x</span>)[<span class='fl'>1</span>],
-  <span class='kw'>new_observation</span>,
-  N = <span class='fl'>1000</span>,
-  n_var = <span class='fl'>0</span>,
-  sample_method = <span class='st'>"default"</span>,
-  f = <span class='fl'>2</span>,
-  <span class='kw'>...</span>
-)</pre>
+<span class='fu'>aspect_importance_single</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>data</span>,
+  predict_function <span class='op'>=</span> <span class='va'>predict</span>,
+  label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
+  <span class='va'>new_observation</span>,
+  N <span class='op'>=</span> <span class='fl'>1000</span>,
+  n_var <span class='op'>=</span> <span class='fl'>0</span>,
+  sample_method <span class='op'>=</span> <span class='st'>"default"</span>,
+  f <span class='op'>=</span> <span class='fl'>2</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>an explainer created with the <code><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>DALEX::explain()</a></code> function
+      <td><p>an explainer created with the <code><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>DALEX::explain()</a></code> function
 or a model to be explained.</p></td>
     </tr>
     <tr>
@@ -249,17 +243,17 @@ attribute of the model.</p></td>
   describes aspects' importance.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'><a href='https://ModelOriented.github.io/DALEX'>"DALEX"</a></span>)
-<span class='kw'>model_titanic_glm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>survived</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>~</span> <span class='kw'>class</span> <span class='op'>+</span> <span class='kw'>gender</span> <span class='op'>+</span> <span class='kw'>age</span> <span class='op'>+</span>
-                         <span class='kw'>sibsp</span> <span class='op'>+</span> <span class='kw'>parch</span> <span class='op'>+</span> <span class='kw'>fare</span> <span class='op'>+</span> <span class='kw'>embarked</span>,
-                         data = <span class='kw'>titanic_imputed</span>,
-                         family = <span class='st'>"binomial"</span>)
+    <pre class="examples"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ModelOriented.github.io/DALEX/'>"DALEX"</a></span><span class='op'>)</span>
+<span class='va'>model_titanic_glm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>survived</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>~</span> <span class='va'>class</span> <span class='op'>+</span> <span class='va'>gender</span> <span class='op'>+</span> <span class='va'>age</span> <span class='op'>+</span>
+                         <span class='va'>sibsp</span> <span class='op'>+</span> <span class='va'>parch</span> <span class='op'>+</span> <span class='va'>fare</span> <span class='op'>+</span> <span class='va'>embarked</span>,
+                         data <span class='op'>=</span> <span class='va'>titanic_imputed</span>,
+                         family <span class='op'>=</span> <span class='st'>"binomial"</span><span class='op'>)</span>
 
-<span class='kw'>explainer_titanic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>model_titanic_glm</span>,
-                             data = <span class='kw'>titanic_imputed</span>[,<span class='op'>-</span><span class='fl'>8</span>],
-                             verbose = <span class='fl'>FALSE</span>)
-<span class='fu'>aspect_importance_single</span>(<span class='kw'>explainer_titanic</span>,
-                         new_observation = <span class='kw'>titanic_imputed</span>[<span class='fl'>1</span>,<span class='op'>-</span><span class='fl'>8</span>])
+<span class='va'>explainer_titanic</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>model_titanic_glm</span>,
+                             data <span class='op'>=</span> <span class='va'>titanic_imputed</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>8</span><span class='op'>]</span>,
+                             verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'>aspect_importance_single</span><span class='op'>(</span><span class='va'>explainer_titanic</span>,
+                         new_observation <span class='op'>=</span> <span class='va'>titanic_imputed</span><span class='op'>[</span><span class='fl'>1</span>,<span class='op'>-</span><span class='fl'>8</span><span class='op'>]</span><span class='op'>)</span>
 
 </pre>
   </div>
