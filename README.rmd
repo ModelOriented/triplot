@@ -46,6 +46,11 @@ the [Explanatory Model Analysis. Explore, Explain and Examine Predictive Models]
 ## Installation
 
 ```{r eval = FALSE}
+# from CRAN:
+install.packages("triplot")
+
+# from GitHub (development version):
+# install.packages("devtools")
 devtools::install_github("ModelOriented/triplot")
 ```
 
