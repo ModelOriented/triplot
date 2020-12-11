@@ -96,14 +96,13 @@
 
       
 
-      </header><script src="vignette_aspect_importance_indepth_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="vignette_aspect_importance_indepth_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="vignette_aspect_importance_indepth_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="vignette_aspect_importance_indepth_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Description of predict_aspects method</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-10-26</h4>
+            <h4 class="date">2020-12-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_indepth.Rmd"><code>vignettes/vignette_aspect_importance_indepth.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance_indepth.Rmd</code></div>
@@ -169,8 +168,8 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <a href="#example" class="anchor"></a>Example</h1>
 <p>To illustrate how the method works, we will use <code>Boston Housing</code> dataset from <code>mlbench</code> package. This well known dataset contains housing data for 506 census tracts of Boston. We will be predicting <strong>cmedv</strong> - corrected median value of owner-occupied homes (in USD 1000’s).</p>
 <p>We are going to build two models: linear regression model and random forest. Those models will be built only on numerical variables. Then we will check the predictions for the observation called <code>new_observation</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ModelOriented/triplot">triplot</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ModelOriented/triplot">triplot</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">mlbench</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.stat.berkeley.edu/~breiman/RandomForests/">randomForest</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ModelOriented.github.io/DALEX/">DALEX</a></span><span class="op">)</span>
@@ -187,13 +186,13 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 
 <span class="va">Boston_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/randomForest/man/randomForest.html">randomForest</a></span><span class="op">(</span><span class="va">cmedv</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">Boston</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Boston_lm</span>, <span class="va">new_observation</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Boston_lm</span>, <span class="va">new_observation</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;        4 
 #&gt; 28.78676</code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Boston_rf</span>, <span class="va">new_observation</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Boston_rf</span>, <span class="va">new_observation</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;        4 
-#&gt; 34.37003</code></pre>
+#&gt; 34.37196</code></pre>
 <p>As we observe that those two models’ predictions for the <code>new_observation</code> are different, we would like to understand which groups of the observation’s features contribute to this differences. For that, we will use <code>aspects_importance()</code>.</p>
 <p>In the beginning, we have to build an aspect list. Then we will call <code>aspects_importance()</code> for both of those models to check:</p>
 <ul>
@@ -203,8 +202,8 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 </ul>
 <p>Finally, we will plot <code>aspects_importance()</code> results for both models.</p>
 <p>We can notice that in random forest model, almost every group of features (except <code>b</code> and <code>crim</code>) have positive influence on the prediction. <code>Wealth</code> (<code>rm</code> and <code>lstat</code>) has the most important contribution, it’s significantly bigger than the rest. On the other hand, in linear model we can observe that some features have negative impact (<code>geo</code>, <code>structure</code>, <code>ptartio</code>). Nonetheless, positive contribution of <code>wealth</code> is still the most important, as in random forest model. After seeing this results, we can now understand why the prediction in linear model case is smaller than in random forest one.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 
 <span class="va">Boston_aspects_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>geo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dis"</span>, <span class="st">"nox"</span>, <span class="st">"rad"</span><span class="op">)</span>,
                          wealth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"rm"</span>, <span class="st">"lstat"</span><span class="op">)</span>,
@@ -237,7 +236,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
                                   label <span class="op">=</span> <span class="st">"RF"</span><span class="op">)</span>
 
 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Boston_ai_lm</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Boston_ai_lm</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;   variable_groups importance       features
 #&gt; 3          wealth     7.8766      rm, lstat
 #&gt; 2             geo    -3.8938  dis, nox, rad
@@ -246,24 +245,24 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 8            crim     0.5362           crim
 #&gt; 6               b     0.2783              b
 #&gt; 5         ptratio    -0.1824        ptratio</code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Boston_ai_rf</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Boston_ai_rf</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;   variable_groups importance       features
-#&gt; 3          wealth   11.53308      rm, lstat
-#&gt; 7             tax    0.77045            tax
-#&gt; 4       structure    0.76650 indus, age, zn
-#&gt; 2             geo    0.20775  dis, nox, rad
-#&gt; 5         ptratio    0.09771        ptratio
-#&gt; 6               b   -0.04391              b
-#&gt; 8            crim    0.03095           crim</code></pre>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Boston_ai_lm</span>, <span class="va">Boston_ai_rf</span><span class="op">)</span></pre></div>
+#&gt; 3          wealth 11.7376273      rm, lstat
+#&gt; 4       structure  0.8443416 indus, age, zn
+#&gt; 7             tax  0.8104542            tax
+#&gt; 2             geo  0.1966776  dis, nox, rad
+#&gt; 5         ptratio  0.1156134        ptratio
+#&gt; 6               b  0.0169215              b
+#&gt; 8            crim -0.0008031           crim</code></pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Boston_ai_lm</span>, <span class="va">Boston_ai_rf</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_indepth_files/figure-html/aspect%20importance%20with%20manual%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>In some cases, manually grouping features into aspects may present some challenges. For that reason, we added function that can do that for us. Function <code><a href="../reference/group_variables.html">group_variables()</a></code> groups correlated features into aspects, given a correlation cut-off level.</p>
 <p>Below we will use <code><a href="../reference/group_variables.html">group_variables()</a></code> function with a cut off level set on 0.6. As a result, we get a list of variables groups where absolute value of features’ pairwise correlation is at least at 0.6. Afterwards, we call <code>aspects_importance()</code> function again.</p>
 <p>Since <code><a href="../reference/group_variables.html">group_variables()</a></code> built different list that us, we can observe a little bit different results. However, the final image still allow us to see that what we established as geographical and structure features, in general, have negative contribution on the prediction in linear case, while positive in the random forest one.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 
 <span class="va">Boston_aspects_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_variables.html">group_variables</a></span><span class="op">(</span><span class="va">Boston_no_target</span>, <span class="fl">0.6</span><span class="op">)</span>
 
@@ -281,7 +280,7 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
                                     show_cor <span class="op">=</span> <span class="cn">TRUE</span>, 
                                     label <span class="op">=</span> <span class="st">"RF"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Boston_ai_lm_2</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Boston_ai_lm_2</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;   variable_groups importance                   features
 #&gt; 4   aspect.group3     8.0082                  rm, lstat
 #&gt; 2   aspect.group1    -1.8763 crim, indus, nox, age, dis
@@ -289,17 +288,17 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; 5   aspect.group4     0.4270                   rad, tax
 #&gt; 6   aspect.group5    -0.2934                    ptratio
 #&gt; 7   aspect.group6     0.2445                          b</code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Boston_ai_rf_2</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Boston_ai_rf_2</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;   variable_groups importance                   features
-#&gt; 4   aspect.group3   11.43101                  rm, lstat
-#&gt; 2   aspect.group1    1.27899 crim, indus, nox, age, dis
-#&gt; 5   aspect.group4    0.73650                   rad, tax
-#&gt; 6   aspect.group5    0.16073                    ptratio
-#&gt; 3   aspect.group2    0.06498                         zn
-#&gt; 7   aspect.group6   -0.01466                          b</code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Boston_ai_lm_2</span>, <span class="va">Boston_ai_rf_2</span>, show_features <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
+#&gt; 4   aspect.group3   11.67141                  rm, lstat
+#&gt; 2   aspect.group1    1.23352 crim, indus, nox, age, dis
+#&gt; 5   aspect.group4    0.78047                   rad, tax
+#&gt; 6   aspect.group5    0.16777                    ptratio
+#&gt; 3   aspect.group2    0.04900                         zn
+#&gt; 7   aspect.group6    0.04485                          b</code></pre>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Boston_ai_lm_2</span>, <span class="va">Boston_ai_rf_2</span>, show_features <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_indepth_files/figure-html/aspect%20importance%20with%20automated%20aspects-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div id="hierarchical-aspects-importance" class="section level1">
@@ -314,8 +313,8 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 </ul>
 <p>Hierarchical aspects importance allows us to check the values of aspects importance for the different levels of variables grouping. Method starts with looking at the aspect importance where every aspect has one, single variable. Afterwards, it iteratively creates bigger aspects by merging the ones with the highest level of absolute correlation into one aspect and calculating it’s contribution to the prediction.</p>
 <p>It should be noted that similarly to <code><a href="../reference/group_variables.html">group_variables()</a></code>, <code><a href="../reference/calculate_triplot.html">calculate_triplot()</a></code> works for the datasets with only numerical variables.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 
 <span class="va">tri_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">predict_triplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">explain_Boston_lm</span>, 
                             new_observation <span class="op">=</span> <span class="va">new_observation</span>, 
@@ -323,16 +322,16 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">tri_lm</span>,
      margin_mid <span class="op">=</span> <span class="fl">0.2</span>, 
-     show_model_label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+     show_model_label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_indepth_files/figure-html/triplot-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="va">tri_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">predict_triplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">explain_Boston_rf</span>, 
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tri_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">predict_triplot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">explain_Boston_rf</span>, 
                             new_observation <span class="op">=</span> <span class="va">new_observation</span>, 
                             N <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">tri_rf</span>,
      margin_mid <span class="op">=</span> <span class="fl">0.2</span>,
      add_last_group <span class="op">=</span> <span class="cn">TRUE</span>,
-     show_model_label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+     show_model_label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_indepth_files/figure-html/triplot-2.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 <div id="lasso" class="section level1">
@@ -341,8 +340,8 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <p>Behind the scenes, aspect importance numbers are really linear model coefficients. That allowed us to add one more tool to control the method result. By using lasso regression, we can control how many nonzero coefficients (nonzero aspects importance values) are present in the final explanation. To use <code><a href="../reference/aspect_importance.html">predict_aspects()</a></code> with lasso, we have to provide <code>n_var</code> parameter, which declares how many aspects importance values we would like to get in <code><a href="../reference/aspect_importance.html">predict_aspects()</a></code> results.</p>
 <p>Suppose that in our last example (random forest model with aspect list build by <code>group_variables</code>), we would like to calculate the importance of variables’ aspects, while controlling that three of them should be equal to 0. We will call <code><a href="../reference/aspect_importance.html">predict_aspects()</a></code> on this model, with <code>n_var</code> parameter set to 3.</p>
 <p>In result, we get what we expected - three nonzero aspect importance values. We can observe that there exists significant difference between the level of contribution of aspect containing <code>rm</code> and <code>lstat</code> features and the other two groups.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 
 <span class="va">ai_Boston_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">explain_Boston_rf</span>, 
                                 new_observation <span class="op">=</span> <span class="va">new_observation</span>,
@@ -350,12 +349,12 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
                                 N <span class="op">=</span> <span class="fl">10000</span>,
                                 n_var <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">ai_Boston_rf</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span>, show_cor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">ai_Boston_rf</span>, show_features <span class="op">=</span> <span class="cn">TRUE</span>, show_cor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;   variable_groups importance                   features   min_cor sign
-#&gt; 4   aspect.group3    10.7535                  rm, lstat 0.6408316  neg
-#&gt; 2   aspect.group1     0.3646 crim, indus, nox, age, dis 0.6794867  neg
+#&gt; 4   aspect.group3    11.5046                  rm, lstat 0.6408316  neg
+#&gt; 2   aspect.group1     0.8275 crim, indus, nox, age, dis 0.6794867  neg
+#&gt; 5   aspect.group4     0.5035                   rad, tax 0.7048757  pos
 #&gt; 3   aspect.group2     0.0000                         zn        NA     
-#&gt; 5   aspect.group4     0.0000                   rad, tax 0.7048757  pos
 #&gt; 6   aspect.group5     0.0000                    ptratio        NA     
 #&gt; 7   aspect.group6     0.0000                          b        NA</code></pre>
 </div>
@@ -368,8 +367,8 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; R version 4.0.3 (2020-10-10)
 #&gt; Platform: x86_64-apple-darwin17.0 (64-bit)
 #&gt; Running under: macOS Catalina 10.15.7
@@ -389,19 +388,19 @@ sample binary matrix of size <span class="math inline">\(b \times m\)</span></p>
 #&gt; [4] triplot_1.3.1      
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] compiler_4.0.3     pillar_1.4.6       iterators_1.0.13   tools_4.0.3       
+#&gt;  [1] compiler_4.0.3     pillar_1.4.7       iterators_1.0.13   tools_4.0.3       
 #&gt;  [5] digest_0.6.27      lattice_0.20-41    evaluate_0.14      memoise_1.1.0     
 #&gt;  [9] lifecycle_0.2.0    tibble_3.0.4       gtable_0.3.0       pkgconfig_2.0.3   
-#&gt; [13] rlang_0.4.8        foreach_1.5.1      Matrix_1.2-18      patchwork_1.0.1   
-#&gt; [17] yaml_2.2.1         pkgdown_1.6.1.9000 xfun_0.18          ggdendro_0.1.22   
+#&gt; [13] rlang_0.4.9        foreach_1.5.1      Matrix_1.2-18      patchwork_1.1.0   
+#&gt; [17] yaml_2.2.1         pkgdown_1.6.1.9000 xfun_0.19          ggdendro_0.1.22   
 #&gt; [21] stringr_1.4.0      knitr_1.30         desc_1.2.0         fs_1.5.0          
-#&gt; [25] vctrs_0.3.4        systemfonts_0.3.2  rprojroot_1.3-2    grid_4.0.3        
-#&gt; [29] glmnet_4.0-2       glue_1.4.2         R6_2.4.1           textshaping_0.1.2 
+#&gt; [25] vctrs_0.3.5        systemfonts_0.3.2  rprojroot_2.0.2    grid_4.0.3        
+#&gt; [29] glmnet_4.0-2       glue_1.4.2         R6_2.5.0           textshaping_0.2.1 
 #&gt; [33] survival_3.2-7     rmarkdown_2.5      farver_2.0.3       ggplot2_3.3.2     
-#&gt; [37] magrittr_1.5       splines_4.0.3      codetools_0.2-16   backports_1.1.10  
-#&gt; [41] scales_1.1.1       htmltools_0.5.0    ellipsis_0.3.1     MASS_7.3-53       
-#&gt; [45] assertthat_0.2.1   shape_1.4.5        colorspace_1.4-1   labeling_0.4.2    
-#&gt; [49] ragg_0.4.0         stringi_1.5.3      munsell_0.5.0      crayon_1.3.4</code></pre>
+#&gt; [37] magrittr_2.0.1     splines_4.0.3      codetools_0.2-16   scales_1.1.1      
+#&gt; [41] htmltools_0.5.0    ellipsis_0.3.1     MASS_7.3-53        assertthat_0.2.1  
+#&gt; [45] shape_1.4.5        colorspace_2.0-0   labeling_0.4.2     ragg_0.4.0        
+#&gt; [49] stringi_1.5.3      munsell_0.5.0      crayon_1.3.4</code></pre>
 </div>
   </div>
 

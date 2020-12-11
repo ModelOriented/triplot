@@ -96,14 +96,13 @@
 
       
 
-      </header><script src="vignette_aspect_importance_fifa_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="vignette_aspect_importance_fifa_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="vignette_aspect_importance_fifa_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="vignette_aspect_importance_fifa_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Usecase with FIFA 20 dataset</h1>
                         <h4 class="author">Katarzyna Pękala</h4>
             
-            <h4 class="date">2020-10-26</h4>
+            <h4 class="date">2020-12-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ModelOriented/triplot/blob/master/vignettes/vignette_aspect_importance_fifa.Rmd"><code>vignettes/vignette_aspect_importance_fifa.Rmd</code></a></small>
       <div class="hidden name"><code>vignette_aspect_importance_fifa.Rmd</code></div>
@@ -117,8 +116,8 @@
 <a href="#data" class="anchor"></a>Data</h1>
 <p>This vignette demonstrates the use of the triplot package on Fifa20 dataset. Dataset was downloaded from the Kaggle website, preprocessed and made available in DALEX package.</p>
 <p>Dataset contains 37 features that describe each player performance. We will be exploring models that are predicting players value in Euro (in millions).</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ModelOriented.github.io/DALEX/">"DALEX"</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ModelOriented.github.io/DALEX/">"DALEX"</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/ModelOriented/triplot">"triplot"</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">fifa</span><span class="op">)</span>
@@ -128,7 +127,7 @@
 <span class="va">fifa</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"nationality"</span>, <span class="st">"overall"</span>, <span class="st">"potential"</span>, 
          <span class="st">"wage_eur"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">fifa</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">fifa</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;                   value_eur age height_cm weight_kg attacking_crossing
 #&gt; L. Messi               95.5  32       170        72                 88
 #&gt; Cristiano Ronaldo      58.5  34       187        83                 84
@@ -153,8 +152,8 @@
 <li>tuned random forest,</li>
 <li>gradient boosting machine.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger">"ranger"</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/imbs-hl/ranger">"ranger"</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/gbm-developers/gbm">"gbm"</a></span><span class="op">)</span>
 
 <span class="va">fifa_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span><span class="op">(</span><span class="va">value_eur</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">fifa</span><span class="op">)</span>
@@ -163,14 +162,14 @@
                       mtry <span class="op">=</span> <span class="fl">18</span>, splitrule <span class="op">=</span> <span class="st">"variance"</span>, min.node.size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
 
 <span class="va">fifa_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span><span class="op">(</span><span class="va">value_eur</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">fifa</span>, n.trees <span class="op">=</span> <span class="fl">250</span>,
-                     interaction.depth <span class="op">=</span> <span class="fl">4</span>, distribution <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span></pre></div>
+                     interaction.depth <span class="op">=</span> <span class="fl">4</span>, distribution <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="build-explainers" class="section level1">
 <h1 class="hasAnchor">
 <a href="#build-explainers" class="anchor"></a>Build explainers</h1>
 <p>For each of those models, we build DALEX explainer. Using explainers, simplifies further models analysis.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">fifa_rf_exp</span> <span class="op">&lt;-</span> <span class="fu">DALEX</span><span class="fu">::</span><span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/explain.html">explain</a></span><span class="op">(</span><span class="va">fifa_rf</span>,
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fifa_rf_exp</span> <span class="op">&lt;-</span> <span class="fu">DALEX</span><span class="fu">::</span><span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/explain.html">explain</a></span><span class="op">(</span><span class="va">fifa_rf</span>,
                               data <span class="op">=</span> <span class="va">fifa</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="co">#without target coulmn</span>
                               y <span class="op">=</span> <span class="va">fifa</span><span class="op">$</span><span class="va">value_eur</span>,
                               label <span class="op">=</span> <span class="st">"RF"</span>, 
@@ -189,29 +188,29 @@
                                  <span class="kw">function</span><span class="op">(</span><span class="va">m</span>, <span class="va">x</span><span class="op">)</span>
                                    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="va">x</span>, n.trees <span class="op">=</span> <span class="fl">250</span><span class="op">)</span>,
                                label <span class="op">=</span> <span class="st">"GBM"</span>,
-                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
+                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="triplot-for-model" class="section level1">
 <h1 class="hasAnchor">
 <a href="#triplot-for-model" class="anchor"></a>Triplot for model</h1>
 <p>‘Triplot’ objects allow us to investigate the importance of each feature (plot on the left), features correlation (plot on the right) as well as the change hierarchical aspects importance (plot in the middle).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">fifa_rf_tri</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">model_triplot</a></span><span class="op">(</span><span class="va">fifa_rf_exp</span>, B <span class="op">=</span> <span class="fl">1</span>, N <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fifa_rf_tri</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">model_triplot</a></span><span class="op">(</span><span class="va">fifa_rf_exp</span>, B <span class="op">=</span> <span class="fl">1</span>, N <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span>
 
 <span class="va">fifa_rf_m_tri</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">model_triplot</a></span><span class="op">(</span><span class="va">fifa_rf_m_exp</span>, B <span class="op">=</span> <span class="fl">1</span>, N <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span>
 
 <span class="va">fifa_gbm_tri</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">model_triplot</a></span><span class="op">(</span><span class="va">fifa_gbm_exp</span>, B <span class="op">=</span> <span class="fl">1</span>, N <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fifa_rf_tri</span>, show_model_label <span class="op">=</span> <span class="cn">TRUE</span>, margin_mid <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fifa_rf_tri</span>, show_model_label <span class="op">=</span> <span class="cn">TRUE</span>, margin_mid <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-4-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fifa_rf_m_tri</span>, show_model_label <span class="op">=</span> <span class="cn">TRUE</span>, margin_mid <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fifa_rf_m_tri</span>, show_model_label <span class="op">=</span> <span class="cn">TRUE</span>, margin_mid <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-4-2.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fifa_gbm_tri</span>, show_model_label <span class="op">=</span> <span class="cn">TRUE</span>, margin_mid <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fifa_gbm_tri</span>, show_model_label <span class="op">=</span> <span class="cn">TRUE</span>, margin_mid <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-4-3.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">fifa_vg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fifa_vg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="st">"age"</span> <span class="op">=</span> <span class="st">"age"</span>,
   <span class="st">"body"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"height_cm"</span>, <span class="st">"weight_kg"</span><span class="op">)</span>,
   <span class="st">"attacking"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"attacking_crossing"</span>,
@@ -231,18 +230,18 @@
                 <span class="st">"defending_sliding_tackle"</span><span class="op">)</span>,
   <span class="st">"goalkeeping"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"goalkeeping_diving"</span>,
                    <span class="st">"goalkeeping_handling"</span>, <span class="st">"goalkeeping_kicking"</span>,
-                   <span class="st">"goalkeeping_positioning"</span>, <span class="st">"goalkeeping_reflexes"</span><span class="op">)</span><span class="op">)</span></pre></div>
+                   <span class="st">"goalkeeping_positioning"</span>, <span class="st">"goalkeeping_reflexes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="investigate-models-for-chosen-instances-players" class="section level1">
 <h1 class="hasAnchor">
 <a href="#investigate-models-for-chosen-instances-players" class="anchor"></a>Investigate models for chosen instances (players)</h1>
 <p>For the instance level model analysis, we choose top player (value wise).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 
 <span class="va">top_player</span> <span class="op">&lt;-</span> <span class="va">fifa</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">fifa</span><span class="op">$</span><span class="va">value_eur</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,<span class="op">]</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">top_player</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">top_player</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;           value_eur age height_cm weight_kg attacking_crossing
 #&gt; Neymar Jr     105.5  27       175        68                 87
 #&gt;           attacking_finishing attacking_heading_accuracy
@@ -267,8 +266,8 @@
 #&gt; Neymar Jr                    9                  15                      15
 #&gt;           goalkeeping_reflexes
 #&gt; Neymar Jr                   11</code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="va">aspects_top_player_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span><span class="op">(</span><span class="va">fifa_rf_exp</span>, 
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">aspects_top_player_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span><span class="op">(</span><span class="va">fifa_rf_exp</span>, 
                 new_observation <span class="op">=</span> <span class="va">top_player</span>, 
                 variable_groups <span class="op">=</span> <span class="va">fifa_vg</span><span class="op">)</span>
 
@@ -282,20 +281,20 @@
 
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">aspects_top_player_rf</span>,
       <span class="va">aspects_top_player_rf_m</span>,
-      <span class="va">aspects_top_player_gbm</span><span class="op">)</span></pre></div>
+      <span class="va">aspects_top_player_gbm</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="va">fifa_rf_m_tri_player</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">predict_triplot</a></span><span class="op">(</span><span class="va">fifa_rf_m_exp</span>, <span class="va">top_player</span><span class="op">)</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fifa_rf_m_tri_player</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_triplot.html">predict_triplot</a></span><span class="op">(</span><span class="va">fifa_rf_m_exp</span>, <span class="va">top_player</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fifa_rf_m_tri_player</span>, show_model_label <span class="op">=</span> <span class="cn">TRUE</span>, margin_mid <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fifa_rf_m_tri_player</span>, show_model_label <span class="op">=</span> <span class="cn">TRUE</span>, margin_mid <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;"></p>
 <p>For comparison, for next analysis we pick one of the goal keeper’s prediction to be explained.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 
 <span class="va">player_gk</span> <span class="op">&lt;-</span> <span class="va">fifa</span><span class="op">[</span><span class="st">"J. Oblak"</span>,<span class="op">]</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">player_gk</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">player_gk</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;          value_eur age height_cm weight_kg attacking_crossing
 #&gt; J. Oblak      77.5  26       188        87                 13
 #&gt;          attacking_finishing attacking_heading_accuracy attacking_short_passing
@@ -320,8 +319,8 @@
 #&gt; J. Oblak                   92                  78                      90
 #&gt;          goalkeeping_reflexes
 #&gt; J. Oblak                   89</code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="va">aspects_gk_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span><span class="op">(</span><span class="va">fifa_rf_exp</span>, 
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">aspects_gk_rf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span><span class="op">(</span><span class="va">fifa_rf_exp</span>, 
                 new_observation <span class="op">=</span> <span class="va">player_gk</span>, 
                 variable_groups <span class="op">=</span> <span class="va">fifa_vg</span><span class="op">)</span>
 
@@ -331,18 +330,18 @@
 
 <span class="va">aspects_gk_gbm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aspect_importance.html">predict_aspects</a></span><span class="op">(</span><span class="va">fifa_gbm_exp</span>, 
                 new_observation <span class="op">=</span> <span class="va">player_gk</span>, 
-                variable_groups <span class="op">=</span> <span class="va">fifa_vg</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">aspects_gk_rf</span>,
+                variable_groups <span class="op">=</span> <span class="va">fifa_vg</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">aspects_gk_rf</span>,
       <span class="va">aspects_gk_rf_m</span>,
-      <span class="va">aspects_gk_gbm</span><span class="op">)</span></pre></div>
+      <span class="va">aspects_gk_gbm</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_aspect_importance_fifa_files/figure-html/unnamed-chunk-9-1.png" width="1152" style="display: block; margin: auto;"></p>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; R version 4.0.3 (2020-10-10)
 #&gt; Platform: x86_64-apple-darwin17.0 (64-bit)
 #&gt; Running under: macOS Catalina 10.15.7
@@ -361,20 +360,20 @@
 #&gt; [1] gbm_2.1.8     ranger_0.12.1 triplot_1.3.1 DALEX_2.0.1  
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.5         compiler_4.0.3     pillar_1.4.6       ingredients_2.0   
+#&gt;  [1] Rcpp_1.0.5         compiler_4.0.3     pillar_1.4.7       ingredients_2.0   
 #&gt;  [5] iterators_1.0.13   tools_4.0.3        digest_0.6.27      lattice_0.20-41   
 #&gt;  [9] evaluate_0.14      memoise_1.1.0      lifecycle_0.2.0    tibble_3.0.4      
-#&gt; [13] gtable_0.3.0       pkgconfig_2.0.3    rlang_0.4.8        foreach_1.5.1     
-#&gt; [17] Matrix_1.2-18      patchwork_1.0.1    yaml_2.2.1         pkgdown_1.6.1.9000
-#&gt; [21] xfun_0.18          ggdendro_0.1.22    stringr_1.4.0      knitr_1.30        
-#&gt; [25] desc_1.2.0         fs_1.5.0           vctrs_0.3.4        systemfonts_0.3.2 
-#&gt; [29] rprojroot_1.3-2    grid_4.0.3         glmnet_4.0-2       glue_1.4.2        
-#&gt; [33] R6_2.4.1           textshaping_0.1.2  survival_3.2-7     rmarkdown_2.5     
-#&gt; [37] farver_2.0.3       ggplot2_3.3.2      magrittr_1.5       splines_4.0.3     
-#&gt; [41] codetools_0.2-16   backports_1.1.10   scales_1.1.1       htmltools_0.5.0   
-#&gt; [45] ellipsis_0.3.1     MASS_7.3-53        assertthat_0.2.1   shape_1.4.5       
-#&gt; [49] colorspace_1.4-1   labeling_0.4.2     ragg_0.4.0         stringi_1.5.3     
-#&gt; [53] munsell_0.5.0      crayon_1.3.4</code></pre>
+#&gt; [13] gtable_0.3.0       pkgconfig_2.0.3    rlang_0.4.9        foreach_1.5.1     
+#&gt; [17] Matrix_1.2-18      patchwork_1.1.0    yaml_2.2.1         pkgdown_1.6.1.9000
+#&gt; [21] xfun_0.19          ggdendro_0.1.22    stringr_1.4.0      knitr_1.30        
+#&gt; [25] desc_1.2.0         fs_1.5.0           vctrs_0.3.5        systemfonts_0.3.2 
+#&gt; [29] rprojroot_2.0.2    grid_4.0.3         glmnet_4.0-2       glue_1.4.2        
+#&gt; [33] R6_2.5.0           textshaping_0.2.1  survival_3.2-7     rmarkdown_2.5     
+#&gt; [37] farver_2.0.3       ggplot2_3.3.2      magrittr_2.0.1     splines_4.0.3     
+#&gt; [41] codetools_0.2-16   scales_1.1.1       htmltools_0.5.0    ellipsis_0.3.1    
+#&gt; [45] MASS_7.3-53        assertthat_0.2.1   shape_1.4.5        colorspace_2.0-0  
+#&gt; [49] labeling_0.4.2     ragg_0.4.0         stringi_1.5.3      munsell_0.5.0     
+#&gt; [53] crayon_1.3.4</code></pre>
 </div>
   </div>
 
