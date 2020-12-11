@@ -48,7 +48,8 @@ Predictive Models](https://pbiecek.github.io/ema/) e-book.
 install.packages("triplot")
 # from GitHub (development version):
 # install.packages("devtools")
-devtools::install_github("ModelOriented/triplot")```
+devtools::install_github("ModelOriented/triplot")
+```
 
 ## Overview
 
