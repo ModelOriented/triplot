@@ -277,4 +277,5 @@ feature has very small, negative contribution to the prediction.
 ## Acknowledgments
 
 Work on this package was financially supported by the NCBR Grant
-POIR.01.01.01-00-0328/17.
+POIR.01.01.01-00-0328/17 and the NCN Opus grant 2017/27/B/ST6/01307.
+
